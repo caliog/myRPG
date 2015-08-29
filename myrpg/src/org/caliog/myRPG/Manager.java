@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.Villagers.Chat.ChatManager;
-import org.caliog.Villagers.Guards.GManager;
+import org.caliog.Villagers.NPC.Guards.GManager;
 import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;

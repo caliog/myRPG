@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
-import org.caliog.Villagers.Guards.CPMoveable;
+import org.caliog.Villagers.NPC.Guards.CPMoveable;
 import org.caliog.Villagers.nms.NMS;
 import org.caliog.myRPG.Manager;
 

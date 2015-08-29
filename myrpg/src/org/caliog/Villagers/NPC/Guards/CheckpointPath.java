@@ -1,4 +1,4 @@
-package org.caliog.Villagers.Guards;
+package org.caliog.Villagers.NPC.Guards;
 
 import java.io.File;
 import java.io.IOException;
