@@ -1,0 +1,36 @@
+name: myRPG
+author: caliog
+website: caliog.org
+main: org.caliog.myRPG.myPlugin
+version: 0.1.1
+
+commands:
+    myrpg:
+        usage: /myrpg
+        description: shows information about the plugin!
+    msz:
+        usage: /msz create|remove|info <mob> <radius> <amount>
+        aliases: mobspawnzone
+        description: Creates a spawn zone around you.
+    level:
+        usage: /level set <player> <level>
+        description: Set level of a player.
+    item:
+        usage: /item <name> <level/amount> [tradeable]
+        description: Gives a myrpg custom item!
+    trader:
+        usage: /trader create
+        description: Creates a trader!
+    vg:
+        usage: /vg create
+        description: Creates a Villager!
+        aliases: villager
+    path:
+        usage: /path create
+        description: Creates a Path!
+    guard:
+        usage: /guard create
+        description: Creates a Guard!
+    group:
+        usage: /group create|invite|leave|join <player>
+        description: Lets you manage groups.
