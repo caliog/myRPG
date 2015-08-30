@@ -126,17 +126,17 @@ public class CheckpointPath {
 			Block b1 = l1.getBlock();
 			Location l2 = checkpoints[currentCP];
 			Block b2 = l2.getBlock();
-			if (l1 != null && l2 != null && (b1.getLocation().distance(b2.getLocation()) == 0)) {
+			if (l1 != null && l2 != null && (b1.getLocation().distance(b2.getLocation()) <= 0.001)) {
 			    float delay;
 			    if (currentCP == 0)
-				delay = initDelay * 1000;
+				delay = initDelay;
 			    else
-				delay = cpDelay * 1000;
+				delay = cpDelay;
 
 			    if (!stopSleeping) {
 				sleepRound++;
 
-				if (sleepRound * ((sleep * 1000 / 20)) >= delay)
+				if (sleepRound * ((sleep / 20F)) >= delay)
 				    stopSleeping = true;
 
 			    } else {
@@ -148,14 +148,17 @@ public class CheckpointPath {
 				if (currentCP > maxCheckpoints - 1 || checkpoints[currentCP] == null
 					|| currentCP > loadedCP)
 				    currentCP = 0;
+
 				abstractNPC.walkTo(checkpoints[currentCP], 13000);
 			    }
 
 			} else {
 			    //waiting
+
 			}
-		    } else
+		    } else {
 			currentCP = 0;
+		    }
 		else if (!run) {
 		    abstractNPC.moveTo(checkpoints[0]);
 		    Bukkit.getScheduler().cancelTask(taskID);

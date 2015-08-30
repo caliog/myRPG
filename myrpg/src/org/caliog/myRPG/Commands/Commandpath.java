@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.caliog.Villagers.NPC.Guards.CheckpointPath;
 import org.caliog.Villagers.NPC.Guards.PathUtil;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
@@ -28,7 +27,10 @@ public class Commandpath extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		PathUtil.setPath(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), player.getLocation());
+		int cpdelay = 0;
+		if (args.length >= 4)
+		    cpdelay = Integer.parseInt(args[3]);
+		PathUtil.createPath(args[1], Integer.parseInt(args[2]), cpdelay, player.getLocation());
 		player.sendMessage(ChatColor.GRAY + "Created path!");
 	    }
 	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED),
@@ -47,7 +49,8 @@ public class Commandpath extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		PathUtil.setPath(args[0], Integer.parseInt(args[1]), 0, player.getLocation());
+
+		PathUtil.setPath(args[1], Integer.parseInt(args[2]), player.getLocation());
 		player.sendMessage(ChatColor.GRAY + "Set path!");
 	    }
 	}, new CommandField("set", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED),
@@ -65,8 +68,7 @@ public class Commandpath extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		CheckpointPath p = PathUtil.getPath(args[1]);
-		p.removePath();
+		PathUtil.removePath(args[1]);
 		player.sendMessage(ChatColor.GRAY + "Deleted path!");
 	    }
 	}, new CommandField("delete", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));

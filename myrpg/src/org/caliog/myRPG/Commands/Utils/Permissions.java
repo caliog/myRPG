@@ -37,7 +37,7 @@ public class Permissions {
 	permissions.add("myrpg.villager.talk");
 	permissions.add("myrpg.villager.quest");
 	permissions.add("myrpg.villager.toggle");
-	permissions.add("myrpg.villager.strolling");
+	permissions.add("myrpg.villager.path");
 
 	permissions.add("myrpg.trader.create");
 	permissions.add("myrpg.trader.recipe");

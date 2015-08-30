@@ -5,6 +5,8 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Villager;
+import org.caliog.Villagers.NPC.Guards.CheckpointPath;
+import org.caliog.Villagers.NPC.Guards.PathUtil;
 import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
@@ -184,7 +186,36 @@ public class Commandvg extends Commands {
 	    }
 	}, new CommandField("toggle", FieldProperty.IDENTIFIER)));
 
-	//TODO add paths
+	/*
+	 * Name: vg
+	 * SubName: path
+	 * 
+	 * Permission: myrpg.villager.path
+	 * 
+	 * Usage: /vg path <name>
+	 */
+	cmds.add(new Command("vg", "myrpg.villager.path", new CommandExecutable() {
+
+	    @Override
+	    public void execute(String[] args, Player player) {
+		Villager v = VManager.getClosestVillager(player.getLocation());
+		if (v == null) {
+		    player.sendMessage(CmdMessage.noVillager);
+		    return;
+		}
+		if (args[1].equals("remove")) {
+		    v.removePath();
+		    player.sendMessage(ChatColor.GRAY + "The villager won't walk this path anymore!");
+		}
+		CheckpointPath path = PathUtil.getPath(args[1]);
+		if (path != null && path.isLoaded()) {
+		    v.setPath(path);
+		    player.sendMessage(ChatColor.GRAY + "The villager will walk this line!");
+		} else
+		    player.sendMessage(ChatColor.GRAY + "This path does not exist!");
+
+	    }
+	}, new CommandField("path", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
 	return cmds;
     }

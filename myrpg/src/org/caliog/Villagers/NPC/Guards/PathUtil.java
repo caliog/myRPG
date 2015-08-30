@@ -1,30 +1,25 @@
 package org.caliog.Villagers.NPC.Guards;
 
-import java.util.HashMap;
-
 import org.bukkit.Location;
 
 public class PathUtil {
 
-    private static HashMap<String, CheckpointPath> paths = new HashMap<String, CheckpointPath>();
+    public static void createPath(String name, int startdelay, int cpdelay, Location loc) {
+	new CheckpointPath(name, startdelay, cpdelay, loc);
+    }
 
-    public static void setPath(String name, int cp, int delay, Location loc) {
-	CheckpointPath path = null;
-	if (paths.containsKey(name)) {
-	    path = paths.get(name);
+    public static void setPath(String name, int cp, Location loc) {
+	CheckpointPath path = getPath(name);
+	if (path != null && path.isLoaded())
 	    path.setCheckpoint(loc, cp);
-	} else {
-	    path = new CheckpointPath(name);
-	    if (!path.isLoaded())
-		path = new CheckpointPath(name, cp, delay, loc);
-	    paths.put(name, path);
-	}
-
     }
 
     public static CheckpointPath getPath(String string) {
-	CheckpointPath path = paths.get(string);
-	paths.remove(string);
-	return path;
+	return new CheckpointPath(string);
     }
+
+    public static void removePath(String string) {
+	getPath(string).removePath();
+    }
+
 }

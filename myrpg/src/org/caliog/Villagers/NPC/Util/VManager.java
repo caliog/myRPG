@@ -19,6 +19,7 @@ import org.bukkit.entity.Villager.Profession;
 import org.caliog.Villagers.NPC.Trader;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
+import org.caliog.Villagers.NPC.Guards.CheckpointPath;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.Quest;
 import org.caliog.Villagers.Utils.DataSaver;
@@ -130,10 +131,11 @@ public class VManager {
 	    List<String> list = DataSaver.getStringList(a[3]);
 	    List<String> quests = DataSaver.getStringList(a[4]);
 	    Profession prof = Profession.valueOf(a[5]);
+	    String path = a[6];
 	    Villager v = null;
 	    if (type.equals(VillagerType.TRADER)) {
-		if (a.length > 6)
-		    recipe = Recipe.fromString(a[6]);
+		if (a.length > 7)
+		    recipe = Recipe.fromString(a[7]);
 		v = spawnTrader(location, name, recipe);
 	    } else
 		v = spawnVillager(location, name);
@@ -145,6 +147,9 @@ public class VManager {
 		v.addQuest(q);
 
 	    v.setProfession(prof);
+
+	    if (path != null && !path.equals("null"))
+		v.setPath(new CheckpointPath(path));
 
 	}
 
@@ -174,15 +179,6 @@ public class VManager {
 	}
     }
 
-    public static void moveVillagers() {
-	for (Villager v : villagers) {
-	    if (v.getVillager().getLocation().distance(v.getLocation()) > 30 && !v.isRunning()) {
-		v.walkTo(v.getLocation());
-	    }
-	}
-
-    }
-
     private static void searchQuests() {
 	for (Villager v : villagers) {
 	    for (Entity e : v.getVillager().getNearbyEntities(50, 25, 50)) {
@@ -201,7 +197,6 @@ public class VManager {
     }
 
     public static void doLogics() {
-	moveVillagers();
 	searchQuests();
     }
 

@@ -51,8 +51,13 @@ public class Commandguard extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
+		if (args[1].equalsIgnoreCase("remove")) {
+		    g.removePath();
+		    player.sendMessage(ChatColor.GRAY + "The guard won't walk this path anymore!");
+		    return;
+		}
 		if (new CheckpointPath(args[1]).isLoaded()) {
-		    g.setPath(PathUtil.getPath(args[2]));
+		    g.setPath(PathUtil.getPath(args[1]));
 		    player.sendMessage(ChatColor.GRAY + "Added path!");
 		} else
 		    player.sendMessage(ChatColor.RED + "This path doesn't exist!");
