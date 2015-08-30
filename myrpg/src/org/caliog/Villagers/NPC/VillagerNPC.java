@@ -14,7 +14,6 @@ public class VillagerNPC extends CPMoveable {
     private float interactionRadius = 4F;
     private String name;
     protected Profession profession;
-    private boolean strolling;
 
     public VillagerNPC(org.bukkit.entity.Villager entity, Location loc, String name) {
 	super(loc);
@@ -84,14 +83,6 @@ public class VillagerNPC extends CPMoveable {
 
     protected void init() {
 	NMS.getUtil().initVillager(this);
-    }
-
-    public boolean isStrolling() {
-	return strolling;
-    }
-
-    public void setStrolling(boolean s) {
-	this.strolling = s;
     }
 
     public void despawn() {

@@ -127,19 +127,16 @@ public class VManager {
 	    String name = a[0];
 	    Location location = LocationUtil.fromString(a[1]);
 	    VillagerType type = VillagerType.valueOf(a[2]);
-	    boolean isStrolling = Boolean.valueOf(a[3]);
-	    List<String> list = DataSaver.getStringList(a[4]);
-	    List<String> quests = DataSaver.getStringList(a[5]);
-	    Profession prof = Profession.valueOf(a[6]);
+	    List<String> list = DataSaver.getStringList(a[3]);
+	    List<String> quests = DataSaver.getStringList(a[4]);
+	    Profession prof = Profession.valueOf(a[5]);
 	    Villager v = null;
 	    if (type.equals(VillagerType.TRADER)) {
-		if (a.length > 7)
-		    recipe = Recipe.fromString(a[7]);
+		if (a.length > 6)
+		    recipe = Recipe.fromString(a[6]);
 		v = spawnTrader(location, name, recipe);
 	    } else
 		v = spawnVillager(location, name);
-
-	    v.setStrolling(isStrolling);
 
 	    for (String text : list)
 		v.addText(Integer.parseInt(text.split(":")[0]), text.split(":")[1]);

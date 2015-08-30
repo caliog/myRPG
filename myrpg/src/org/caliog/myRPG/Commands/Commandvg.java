@@ -184,29 +184,6 @@ public class Commandvg extends Commands {
 	    }
 	}, new CommandField("toggle", FieldProperty.IDENTIFIER)));
 
-	/*
-	 * Name: vg
-	 * SubName: strolling
-	 * 
-	 * Permission: myrpg.villager.strolling
-	 * 
-	 * Usage: /vg strolling
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.strolling", new CommandExecutable() {
-
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		v.setStrolling(!v.isStrolling());
-		player.sendMessage(ChatColor.GRAY + "The villager is" + (v.isStrolling() ? " " : " not ")
-			+ "strolling!");
-	    }
-	}, new CommandField("strolling", FieldProperty.IDENTIFIER)));
-
 	//TODO add paths
 
 	return cmds;
