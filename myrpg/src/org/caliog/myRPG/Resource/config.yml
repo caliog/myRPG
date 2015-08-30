@@ -2,3 +2,4 @@ currency: GOLD_NUGGET
 standard-class: Warrior
 world: world
 linear-experience: false
+remove-item-on-ground: 120

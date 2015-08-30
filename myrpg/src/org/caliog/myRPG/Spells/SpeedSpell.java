@@ -2,6 +2,7 @@ package org.caliog.myRPG.Spells;
 
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Utils.ParticleEffect;
 
 public class SpeedSpell extends Spell {
     public SpeedSpell(myClass player) {
@@ -16,11 +17,23 @@ public class SpeedSpell extends Spell {
 	if (p > 5.0F) {
 	    p = 5.0F;
 	}
+	final int power = (int) p;
+	final float speed = getPlayer().getPlayer().getWalkSpeed();
 	getPlayer().getPlayer().setWalkSpeed(p);
+
+	Manager.scheduleRepeatingTask(new Runnable() {
+
+	    @Override
+	    public void run() {
+		ParticleEffect.VILLAGER_HAPPY.display(0.1F, 0.2F, 0.1F, 0.2F, power * 2, getPlayer().getPlayer()
+			.getLocation(), 20D);
+
+	    }
+	}, 20L, 1L, 600L);
 
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
-		SpeedSpell.this.getPlayer().getPlayer().setWalkSpeed(0.2F);
+		SpeedSpell.this.getPlayer().getPlayer().setWalkSpeed(speed);
 	    }
 	}, 600L);
 	activate(600L);

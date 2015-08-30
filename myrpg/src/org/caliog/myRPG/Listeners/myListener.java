@@ -217,7 +217,7 @@ public class myListener implements Listener {
 	boolean shooterisplayer = false;
 	if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
 		&& (((Projectile) event.getDamager()).getShooter() != null)
-		&& (((Projectile) event.getDamager()).getShooter() instanceof Player)) {//TODO DANGER; because of ProjectileSource is not LivingEntity
+		&& (((Projectile) event.getDamager()).getShooter() instanceof Player)) {
 	    shooterisplayer = true;
 	}
 	if ((!(event.getDamager() instanceof Player)) && (!shooterisplayer)) {
@@ -425,7 +425,7 @@ public class myListener implements Listener {
 	}
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void spellEvent(final PlayerInteractEvent event) {
 	boolean useable = ItemUtils.checkForUse(event.getPlayer(), event.getItem());
 	final myClass c = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
@@ -443,11 +443,9 @@ public class myListener implements Listener {
 	if ((useable)
 		|| ((displayName != null) && (c.getSpellItemName() != null) && (displayName
 			.equals(c.getSpellItemName()[1])))) {
-	    Manager.scheduleTask(new Runnable() {
-		public void run() {
-		    c.register(event.getAction());
-		}
-	    });
+
+	    c.register(event.getAction());
+
 	} else {
 	    event.setCancelled(true);
 	    return;

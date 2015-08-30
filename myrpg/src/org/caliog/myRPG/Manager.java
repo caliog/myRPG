@@ -20,6 +20,7 @@ import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Mobs.MobSpawner;
+import org.caliog.myRPG.Spells.SpellLoader;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.npclib.NMS;
 import org.caliog.npclib.NPCManager;
@@ -83,6 +84,9 @@ public class Manager {
 	    QuestKill.load();
 
 	    //Villager END
+
+	    //Spells
+	    SpellLoader.init();
 
 	    MobSpawner.loadZones();
 	    VolatileEntities.load();

@@ -165,7 +165,7 @@ public class Playerface {
 		    item.remove();
 		}
 	    }
-	}, 20L * 60 * 5);
+	}, 20L * myConfig.getRemoveItemTime());
     }
 
     public static boolean isAccessible(Player player, Item item) {
@@ -192,9 +192,9 @@ public class Playerface {
 	    if (i == -1) {
 		break;
 	    }
-	    String n = ChatColor.RED + "•";
+	    String n = ChatColor.RED + "X";
 	    if (i == 0) {
-		n = ChatColor.BLUE + "♦";
+		n = ChatColor.BLUE + "O";
 	    }
 	    newDisplayName = newDisplayName + n + ChatColor.RESET + " - ";
 	}

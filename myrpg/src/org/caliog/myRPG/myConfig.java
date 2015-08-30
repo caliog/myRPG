@@ -28,4 +28,8 @@ public class myConfig {
     public static boolean isLevelLinear() {
 	return config.getBoolean("linear-experience");
     }
+
+    public static int getRemoveItemTime() {
+	return config.getInt("remove-item-on-ground");
+    }
 }

@@ -12,8 +12,8 @@ import org.bukkit.event.block.Action;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Items.ItemEffect;
-import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Items.ItemEffect.ItemEffectType;
+import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Spells.InvisibleSpell;
 import org.caliog.myRPG.Spells.Spell;
 import org.caliog.myRPG.Utils.FilePath;
@@ -289,7 +289,12 @@ public class myClass extends myPlayer {
     }
 
     protected void castSpell() {
-
+	for (String id : spells.keySet())
+	    if (id.equals(String.valueOf(spell[0]) + String.valueOf(spell[1]) + String.valueOf(spell[2]))) {
+		Spell spell = spells.get(id);
+		if (spell != null)
+		    spell.execute();
+	    }
     }
 
     public String[] getSpellItemName() {

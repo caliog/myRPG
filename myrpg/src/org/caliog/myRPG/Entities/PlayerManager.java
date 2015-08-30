@@ -136,6 +136,13 @@ public class PlayerManager {
 	}
     }
 
+    public static void changeClass(Player player, String clazz) {
+	logout(player);
+	register(player, clazz);
+	if (player.getLevel() <= 0)
+	    player.setLevel(1);
+    }
+
     public static void respawn(Player player) {
 	myPlayer p = getPlayer(player.getUniqueId());
 	if (p == null) {
