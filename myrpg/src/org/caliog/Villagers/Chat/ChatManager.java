@@ -2,10 +2,9 @@ package org.caliog.Villagers.Chat;
 
 import java.util.HashMap;
 
+import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.myRPG.Manager;
-
-import org.bukkit.entity.Player;
 
 public class ChatManager {
 
@@ -18,6 +17,7 @@ public class ChatManager {
 
     public static void interaction(final Player player, Villager vil, boolean b) {
 	final String id = player.getName() + "+" + vil.getName();
+
 	if (playerChats.containsKey(id)) {
 	    Chat chat = playerChats.get(id);
 	    if (!chat.isEnded()) {
@@ -34,7 +34,7 @@ public class ChatManager {
 			    taskIds.remove(id);
 
 			}
-		    }, 20L * 10));
+		    }, 20L * 2));
 
 	    }
 	} else {
@@ -50,5 +50,12 @@ public class ChatManager {
 	Chat c = new Chat(player, vil);
 	if (!c.isEnded())
 	    playerChats.put(player.getName() + "+" + vil.getName(), c);
+    }
+
+    public static void end(Chat chat) {
+	for (String id : playerChats.keySet())
+	    if (playerChats.get(id).equals(chat))
+		playerChats.remove(id);
+
     }
 }

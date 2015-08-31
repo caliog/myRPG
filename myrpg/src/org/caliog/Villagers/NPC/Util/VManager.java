@@ -27,8 +27,10 @@ import org.caliog.Villagers.Utils.LocationUtil;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
+import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.ParticleEffect;
+import org.caliog.myRPG.Utils.QuestStatus;
 
 public class VManager {
 
@@ -183,11 +185,19 @@ public class VManager {
 	for (Villager v : villagers) {
 	    for (Entity e : v.getVillager().getNearbyEntities(50, 25, 50)) {
 		if (e instanceof Player) {
+		    myClass player = PlayerManager.getPlayer(e.getUniqueId());
 		    Quest q = QManager.searchFittingQuest(PlayerManager.getPlayer(e.getUniqueId()), v);
 		    if (q != null) {
-			Location l = v.getVillager().getEyeLocation();
-			l.setY(l.getY() + 1);
-			ParticleEffect.VILLAGER_HAPPY.display(0.1F, 0.2F, 0.1F, 0.3F, 1, l, (Player) e);
+			Location l = q.getTargetLocation(PlayerManager.getPlayer(e.getUniqueId()));
+			if (l == null) {
+			    if (player.getQuestStatus(q.getName()).equals(QuestStatus.UNACCEPTED)
+				    || q.couldComplete(player))
+				l = v.getEntityLocation();
+			    else
+				continue;
+			}
+			l.setY(l.getY() + 2.65);
+			ParticleEffect.VILLAGER_HAPPY.display(0.1F, 0.35F, 0.1F, 0.3F, 7, l, (Player) e);
 
 		    }
 		}

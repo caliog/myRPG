@@ -62,7 +62,7 @@ public class SpellLoader {
 	String mainC = null;
 	if (name == null)
 	    return null;
-	if (!name.endsWith("Spell"))
+	if ((name.equals("Speed") || name.equals("Invisible")) && !name.endsWith("Spell"))
 	    name += "Spell";
 	for (String path : paths) {
 	    if (path.endsWith(name))

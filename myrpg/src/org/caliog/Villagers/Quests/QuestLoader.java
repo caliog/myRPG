@@ -1,35 +1,52 @@
 package org.caliog.Villagers.Quests;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Utils.FilePath;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 public class QuestLoader {
 
-    public static YamlConfiguration quests;
-
     protected static ClassLoader classLoader;
+    private static Set<String> paths = new HashSet<String>();
 
-    public static void init() {
+    public static void init() throws IOException {
 	File dir = new File(FilePath.quests);
 
 	List<URL> urls = new ArrayList<URL>();
 	for (String file : dir.list()) {
-	    if (file.endsWith("Quest.jar")) {
+	    if (file.endsWith(".jar")) {
 		File f = new File(dir, file);
-		try {
-		    urls.add(f.toURI().toURL());
-		} catch (MalformedURLException e) {
-		    e.printStackTrace();
+
+		JarFile jar = new JarFile(f);
+		Enumeration<JarEntry> entries = jar.entries();
+		while (entries.hasMoreElements()) {
+		    JarEntry e = entries.nextElement();
+		    if (e.getName().equalsIgnoreCase("quest.info")) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(jar.getInputStream(e)));
+			String line;
+			while ((line = reader.readLine()) != null) {
+			    paths.add(line.replaceAll(".java", ""));
+			}
+
+		    }
 		}
+		urls.add(f.toURI().toURL());
+		jar.close();
+
 	    }
 	}
 
@@ -39,31 +56,41 @@ public class QuestLoader {
     }
 
     public static Quest load(String name) {
-	if (!isJarQuest(name))
+	String mainC = null;
+	if (name == null)
+	    return null;
+	for (String path : paths) {
+	    if (path.endsWith(name))
+		mainC = path;
+	}
+	if (mainC == null)
 	    return null;
 	try {
-	    String mainC = "src/main/" + name;
-	    Class<?> c = Class.forName(mainC, true, classLoader);
+	    Class<?> c = classLoader.loadClass(mainC);
 	    Class<? extends Quest> questC = c.asSubclass(Quest.class);
-	    Quest quest = questC.getConstructor(name.getClass()).newInstance(name);
+	    Quest quest = questC.getConstructor("".getClass()).newInstance(name);
 	    return quest;
 	} catch (Exception e) {
+	    Manager.plugin.getLogger().warning("Failed to load Quest: " + name);
 	    e.printStackTrace();
-	    Manager.plugin.getLogger().warning("Failed to load Quest:" + name);
+
 	}
 	return null;
     }
 
     public static boolean isJarQuest(String name) {
-	return new File(FilePath.quests + name + "Quest.jar").exists();
+	for (String p : paths)
+	    if (p.endsWith(name))
+		return true;
+	return false;
     }
 
     public static boolean isYmlQuest(String name) {
-	return new File(FilePath.quests + name + "Quest.yml").exists();
+	return new File(FilePath.quests + name + ".yml").exists();
     }
 
-    public static Quest loadByFile(String name) {
-	File file = new File(FilePath.quests + name + ".Quest.yml");
+    public static Quest loadYMLQuest(String name) {
+	File file = new File(FilePath.quests + name + ".yml");
 	if (file.exists()) {
 	    YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 	    return new YmlQuest(name, config);

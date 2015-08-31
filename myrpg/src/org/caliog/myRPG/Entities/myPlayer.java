@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.caliog.Villagers.Quests.QManager;
+import org.caliog.Villagers.Quests.Quest;
 import org.caliog.myRPG.Commands.Utils.Permissions;
 import org.caliog.myRPG.Items.Armor;
 import org.caliog.myRPG.Items.CustomItem;
@@ -87,6 +89,11 @@ public abstract class myPlayer extends Fighter {
     }
 
     public void completeQuest(String name) {
+	Quest q = QManager.getQuest(name);
+	if (q == null)
+	    return;
+	giveExp(q.getExp());
+	Playerface.giveItem(getPlayer(), q.getRewards());
 	this.quests.put(name, QuestStatus.COMPLETED);
     }
 
@@ -128,6 +135,8 @@ public abstract class myPlayer extends Fighter {
 
     public String getQString() {
 	String r = "";
+	if (quests.isEmpty())
+	    return null;
 	for (String q : quests.keySet())
 	    r = r + q + ":" + quests.get(q).getInt() + ";";
 
@@ -135,6 +144,8 @@ public abstract class myPlayer extends Fighter {
     }
 
     public void setQuest(String a) {
+	if (a == null)
+	    return;
 	String[] es = a.split(";");
 	for (String e : es) {
 	    this.quests.put(e.split(":")[0], QuestStatus.fromInt(Integer.parseInt(e.split(":")[1])));

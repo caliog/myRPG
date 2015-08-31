@@ -33,7 +33,7 @@ public class VillagerListener implements Listener {
     /*
      * @Name: Interact
      * 
-     * @Listen TO: Villager
+     * @Listen TO: Trader
      * 
      * @Cancel: true
      * 
@@ -66,7 +66,7 @@ public class VillagerListener implements Listener {
      * 
      * @Cancel: false
      * 
-     * @Category: Trader interaction
+     * @Category: Villager interaction
      * 
      */
     @EventHandler(priority = EventPriority.LOWEST)

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.caliog.Villagers.Chat.CMessage;
-import org.caliog.myRPG.Entities.myClass;
-import org.caliog.myRPG.Utils.QuestStatus;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.caliog.Villagers.Chat.CMessage;
+import org.caliog.myRPG.Classes.ClazzLoader;
+import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Utils.QuestStatus;
 
 public abstract class Quest {
 
@@ -40,7 +41,7 @@ public abstract class Quest {
     public abstract String getClazz();
 
     public boolean hasClazz() {
-	return getClazz() != null;
+	return getClazz() != null && ClazzLoader.isClass(getClazz());
     }
 
     public abstract int getMinLevel();
@@ -58,7 +59,7 @@ public abstract class Quest {
     public abstract String getChainQuest();
 
     public boolean isChainQuest() {
-	return getChainQuest() != null;
+	return getChainQuest() != null && QManager.getQuest(getChainQuest()) != null;
     }
 
     public abstract QuestStatus hasToReach();

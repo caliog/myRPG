@@ -59,7 +59,7 @@ public class Villager extends VillagerNPC {
     }
 
     public void addText(int i, String text) {
-	this.texts.put(i, CMessage.fromString(text));
+	this.texts.put(i, CMessage.fromString(text, i));
     }
 
     public void removeText(int id) {

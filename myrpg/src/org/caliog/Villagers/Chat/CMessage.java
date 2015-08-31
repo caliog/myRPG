@@ -44,11 +44,12 @@ public class CMessage {
 	return message + "#" + type.name() + "#" + target;
     }
 
-    public static CMessage fromString(String text) {
+    public static CMessage fromString(String text, int id) {
 	if (text.contains("#") && text.split("#").length == 3) {
 	    return new CMessage(text.split("#")[0], MessageType.valueOf(text.split("#")[1]), Integer.parseInt(text
 		    .split("#")[2]));
-	}
+	} else if (text.contains("#") && text.split("#").length == 2)
+	    return new CMessage(text.split("#")[0], MessageType.valueOf(text.split("#")[1]), id + 1);
 	return null;
     }
 

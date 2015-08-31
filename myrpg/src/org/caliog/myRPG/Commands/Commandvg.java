@@ -206,6 +206,7 @@ public class Commandvg extends Commands {
 		if (args[1].equals("remove")) {
 		    v.removePath();
 		    player.sendMessage(ChatColor.GRAY + "The villager won't walk this path anymore!");
+		    return;
 		}
 		CheckpointPath path = PathUtil.getPath(args[1]);
 		if (path != null && path.isLoaded()) {

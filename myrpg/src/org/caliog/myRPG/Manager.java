@@ -11,7 +11,6 @@ import org.caliog.Villagers.NPC.Guards.GManager;
 import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;
-import org.caliog.Villagers.Quests.QuestLoader;
 import org.caliog.Villagers.Utils.DataSaver;
 import org.caliog.myRPG.Classes.ClazzLoader;
 import org.caliog.myRPG.Commands.Utils.Permissions;
@@ -43,8 +42,10 @@ public class Manager {
 		    MobSpawner.getTask().run();
 		}
 		PlayerManager.task(Manager.seconds);
-		VManager.doLogics();
-		GManager.doLogics();
+		if (Manager.timer % 20L == 0L) {
+		    VManager.doLogics();
+		    GManager.doLogics();
+		}
 	    }
 	};
     }
@@ -71,25 +72,24 @@ public class Manager {
     public static void load() {
 	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
 	ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
-	QuestLoader.quests = YamlConfiguration.loadConfiguration(new File(FilePath.quests));
 	Permissions.declare();
 
-	//Villager
-	NPCManager.npcManager = NMS.getNPCManager();
-	QManager.init();
 	try {
-	    VManager.load();
-	    GManager.load();
-
+	    //Quests
+	    QManager.init();
 	    QuestKill.load();
 
-	    //Villager END
+	    //Villagers
+	    NPCManager.npcManager = NMS.getNPCManager();
+	    VManager.load();
+	    GManager.load();
 
 	    //Spells
 	    SpellLoader.init();
 
 	    MobSpawner.loadZones();
 	    VolatileEntities.load();
+
 	    PlayerManager.load();
 
 	    DataSaver.clean();//this has to be the last thing to do

@@ -322,6 +322,7 @@ public class myClass extends myPlayer {
 	config.set("vit", Integer.valueOf(getVitality()));
 	config.set("str", Integer.valueOf(getStrength()));
 	config.set("dex", Integer.valueOf(getDexterity()));
+	config.set("quests", getQString());
 	config.save(file);
     }
 
@@ -343,6 +344,7 @@ public class myClass extends myPlayer {
 	    setVitality(config.getInt("vit"));
 	    setStrength(config.getInt("str"));
 	    setDexterity(config.getInt("dex"));
+	    setQuest(config.getString("quests"));
 
 	    return true;
 	} else

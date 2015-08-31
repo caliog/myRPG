@@ -2,6 +2,8 @@ package org.caliog.Villagers.Chat;
 
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.caliog.Villagers.Chat.CMessage.MessageType;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.Quests.QManager;
@@ -9,9 +11,6 @@ import org.caliog.Villagers.Quests.Quest;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.myClass;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 public class Chat {
 
@@ -36,13 +35,13 @@ public class Chat {
 	} else
 	    messages = villager.getMessages();
 	if (messages.isEmpty())
-	    ended = true;
+	    end();
     }
 
     public void chat() {
 	current++;
 	if (getCurrent() == null) {
-	    ended = true;
+	    end();
 	    return;
 	}
 	String name = villager.getName();
@@ -64,7 +63,7 @@ public class Chat {
 	});
 
 	if (getCurrent().getType().equals(MessageType.END))
-	    ended = true;
+	    end();
 	else if (getCurrent().getType().equals(MessageType.TEXT)) {
 	    Manager.scheduleTask(new Runnable() {
 
@@ -83,7 +82,7 @@ public class Chat {
 
 		@Override
 		public void run() {
-		    ended = true;
+		    end();
 		}
 	    }, 20L * 10);
 	}
@@ -107,6 +106,11 @@ public class Chat {
 
     public boolean isEnded() {
 	return ended;
+    }
+
+    private void end() {
+	ended = true;
+	ChatManager.end(this);
     }
 
 }

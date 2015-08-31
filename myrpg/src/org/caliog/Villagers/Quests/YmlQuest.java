@@ -13,6 +13,7 @@ import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.Chat.ChatTask;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Utils.QuestStatus;
@@ -28,13 +29,15 @@ public class YmlQuest extends Quest {
 
     @Override
     public Location getTargetLocation(myClass player) {
-	if (config.isString("target-villager")) {
-	    String name = config.getString("target-villager");
-	    Villager v = VManager.getVillager(name);
-	    if (v != null) {
-		return v.getLocation();
+	if (player.getQuestStatus(getName()).equals(QuestStatus.FIRST))
+	    if (config.isString("target-villager")) {
+		String name = config.getString("target-villager");
+		Villager v = VManager.getVillager(name);
+
+		if (v != null) {
+		    return v.getEntityLocation();
+		}
 	    }
-	}
 
 	return null;
     }
@@ -44,14 +47,34 @@ public class YmlQuest extends Quest {
 	HashMap<Integer, CMessage> map = new HashMap<Integer, CMessage>();
 
 	for (String id : config.getConfigurationSection("messages").getKeys(false)) {
-	    CMessage msg = CMessage.fromString(config.getConfigurationSection("messages").getString(id));
+	    CMessage msg = CMessage.fromString(config.getConfigurationSection("messages").getString(id),
+		    Integer.parseInt(id));
 	    if (msg != null) {
-		if (id.equals("0"))//id:0 is reserved for the "accept-quest" message; default start with id:1
+		if (id.equals("1")) {//id:1 is reserved for the "accept-quest" message; default start with id:1
+
+		    msg.setTask(new ChatTask(this) {
+
+			@Override
+			public void execute(myClass player, Villager villager) {
+			    player.newQuest(quest.getName());
+			    ItemStack stack = getReceive();
+			    if (!config.getBoolean("target-villager-give"))
+				if (stack != null)
+				    Playerface.giveItem(player.getPlayer(), stack);
+			}
+		    });
+		} else if (id.equals(config.getString("target-villager-message")))
 		    msg.setTask(new ChatTask(this) {
 
 			@Override
 			public void execute(myClass player, Villager villager) {
 			    player.raiseQuestStatus(this.quest.getName());
+			    if (config.getBoolean("target-villager-take"))
+				Playerface.takeItem(player.getPlayer(), getCollects());
+			    else if (config.getBoolean("target-villager-give")) {
+				Playerface.giveItem(player.getPlayer(), getReceive());
+			    }
+
 			}
 		    });
 
@@ -64,13 +87,17 @@ public class YmlQuest extends Quest {
 
     @Override
     public int getMessageStart(myClass p) {
-	if (this.couldComplete(p)) {
+	if (getTargetLocation(p) != null) {
+	    return config.getInt("target-villager-message");
+	} else if (this.couldComplete(p)) {
 	    p.completeQuest(getName());
-	    return config.getInt("completed-message:");
-	} else if (p.getQuestStatus(this.getName()).isLowerThan(QuestStatus.COMPLETED))
-	    return config.getInt("not-completed-message:");
-	else {
-	    return 1;//default start with id 1
+	    return config.getInt("completed-message");
+	} else if (!p.getQuestStatus(getName()).equals(QuestStatus.UNACCEPTED)
+		&& p.getQuestStatus(this.getName()).isLowerThan(QuestStatus.COMPLETED)) {
+	    return config.getInt("uncompleted-message");
+	} else {
+
+	    return 0;//default start with id 0
 	}
     }
 
@@ -96,7 +123,7 @@ public class YmlQuest extends Quest {
 
     @Override
     public ItemStack getReceive() {
-	return null;
+	return ItemUtils.getItem(config.getString("receive-item"));
     }
 
     @Override
@@ -115,7 +142,15 @@ public class YmlQuest extends Quest {
 
     @Override
     public int getExp() {
-	return config.getInt("exp-reward");
+	String expr = config.getString("exp-reward");
+	int e = 0;
+	if (expr.contains("%")) {
+	    e = (int) (Playerface.getExpDifference(Integer.parseInt(expr.split("%")[1].split("-")[0]),
+		    Integer.parseInt(expr.split("%")[1].split("-")[1])) * (Integer.parseInt(expr.split("%")[0]) / 100.0F));
+	} else {
+	    e = Integer.parseInt(expr);
+	}
+	return e;
     }
 
     @Override

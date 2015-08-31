@@ -1,34 +1,41 @@
 package org.caliog.Villagers.Quests;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Utils.FilePath;
 
-import org.bukkit.inventory.ItemStack;
-
 public class QManager {
 
     private static List<Quest> quests = new ArrayList<Quest>();
 
-    public static void init() {
+    public static void init() throws IOException {
 	quests.clear();
+	QuestLoader.init();
 	File dir = new File(FilePath.quests);
-	for (String n : dir.list())
+	for (String n : dir.list()) {
+	    n = n.replaceAll(".jar", "").replaceAll(".yml", "");
 	    if (QuestLoader.isJarQuest(n))
 		quests.add(QuestLoader.load(n));
+	    else if (QuestLoader.isYmlQuest(n)) {
+		quests.add(QuestLoader.loadYMLQuest(n));
+	    }
+	}
 	while (quests.contains(null))
 	    quests.remove(null);
     }
 
     public static Quest getQuest(String id) {
-	for (Quest quest : quests)
+	for (Quest quest : quests) {
 	    if (quest.getName().equals(id))
 		return quest;
+	}
 	return null;
     }
 
@@ -38,9 +45,13 @@ public class QManager {
 
 	for (String q : player.getUnCompletedQuests()) {
 	    Quest quest = getQuest(q);
-	    if (quest != null && quest.getTargetLocation(player) != null)
-		if (quest.getTargetLocation(player).distance(villager.getLocation()) < 3.2)
+	    if (quest != null && quest.getTargetLocation(player) != null) {
+
+		if (quest.getTargetLocation(player).distanceSquared(villager.getLocation()) < 10) {
+
 		    return quest;
+		}
+	    }
 	}
 
 	for (String id : villager.getQuests()) {

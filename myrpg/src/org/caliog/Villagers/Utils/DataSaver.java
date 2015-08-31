@@ -15,23 +15,6 @@ public class DataSaver {
 
     private static YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
 
-    public static long save(ItemStack s) {
-	if (s == null)
-	    return 0;
-	long id = 1;
-	while (config.isSet(String.valueOf(id)))
-	    id++;
-
-	config.set(String.valueOf(id), s);
-
-	try {
-	    config.save(f);
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return id;
-    }
-
     public static long save(Object s) {
 	if (s == null)
 	    return 0;
@@ -50,6 +33,8 @@ public class DataSaver {
     }
 
     public static List<String> getStringList(String id) {
+	if (Integer.valueOf(id) == 0)
+	    return null;
 	List<String> r = config.getStringList(id);
 	if (r == null)
 	    return new ArrayList<String>();
@@ -71,5 +56,14 @@ public class DataSaver {
 	f.delete();
 	f.createNewFile();
 	config = YamlConfiguration.loadConfiguration(f);
+    }
+
+    public static String getString(String id) {
+	if (Integer.valueOf(id) == 0)
+	    return null;
+	if (id == null)
+	    return null;
+	else
+	    return config.getString(id);
     }
 }
