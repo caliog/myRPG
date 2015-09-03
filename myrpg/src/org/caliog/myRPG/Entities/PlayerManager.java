@@ -85,6 +85,8 @@ public class PlayerManager {
     }
 
     private static void register(myClass p) {
+	if (p == null)
+	    return;
 	players.put(p.getPlayer().getUniqueId(), p);
     }
 

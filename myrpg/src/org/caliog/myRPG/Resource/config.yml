@@ -1,5 +1,11 @@
-currency: GOLD_NUGGET
-standard-class: Warrior
-world: world
+currency: EMERALD
+default-class: Warrior
 linear-experience: false
-remove-item-on-ground: 120
+remove-item-delay: 120
+disable-worlds:
+  - world_nether
+  - world_the_end
+firework: true
+exp-loss-on-death: 25
+enable-spells: true
+mob-spawn-time: 15

@@ -2,9 +2,12 @@ package org.caliog.myRPG;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.Villagers.Chat.ChatManager;
 import org.caliog.Villagers.NPC.Guards.GManager;
@@ -131,5 +134,15 @@ public class Manager {
 	for (myClass p : PlayerManager.getPlayers())
 	    p.getPlayer().sendMessage(string);
 
+    }
+
+    public static List<World> getWorlds() {
+	List<World> list = Bukkit.getWorlds();
+	List<World> r = new ArrayList<World>();
+	List<String> disabled = myConfig.getDisabledWorlds();
+	for (World w : list)
+	    if (!disabled.contains(w.getName()))
+		r.add(w);
+	return r;
     }
 }

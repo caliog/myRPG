@@ -119,44 +119,44 @@ public abstract class Mob extends Fighter {
     public abstract boolean isBoss();
 
     public void addAttacker(final UUID uniqueId) {
-	this.attackers.add(uniqueId);
+	attackers.add(uniqueId);
 	start();
-	if (this.map.containsKey(uniqueId)) {
-	    Manager.cancelTask((Integer) this.map.get(uniqueId));
+	if (map.containsKey(uniqueId)) {
+	    Manager.cancelTask((Integer) map.get(uniqueId));
 	}
-	this.map.put(uniqueId, Integer.valueOf(Manager.scheduleTask(new Runnable() {
+	map.put(uniqueId, Integer.valueOf(Manager.scheduleTask(new Runnable() {
 	    public void run() {
 		PlayerManager.getPlayer(uniqueId).setBossId(null);
-		Mob.this.removeAttacker(uniqueId);
+		removeAttacker(uniqueId);
 	    }
 	}, 1200L)));
     }
 
     public void removeAttacker(UUID uniqueId) {
-	this.attackers.remove(uniqueId);
+	attackers.remove(uniqueId);
 	BarAPI.removeBar(Utils.getPlayer(uniqueId));
     }
 
     public void cancel() {
-	Manager.cancelTask(Integer.valueOf(this.taskId));
-	this.taskId = -1;
+	Manager.cancelTask(Integer.valueOf(taskId));
+	taskId = -1;
     }
 
     private void start() {
-	if (this.taskId >= 0) {
+	if (taskId >= 0) {
 	    return;
 	}
-	this.taskId = Manager.scheduleRepeatingTask(new Runnable() {
+	taskId = Manager.scheduleRepeatingTask(new Runnable() {
 	    public void run() {
 		Set<UUID> a = new HashSet<UUID>();
-		if (Mob.this.attackers.isEmpty()) {
-		    Mob.this.cancel();
+		if (attackers.isEmpty()) {
+		    cancel();
 		}
-		a.addAll(Mob.this.attackers);
-		if (Mob.this.getHealth() > 0.0D) {
-		    float p = (float) (Mob.this.getHealth() / Mob.this.getHP());
+		a.addAll(attackers);
+		if (getHealth() > 0.0D) {
+		    float p = (float) (getHealth() / getHP());
 		    for (UUID id : a) {
-			BarAPI.setMessage(Utils.getPlayer(id), Mob.this.getName(), 100.0F * p);
+			BarAPI.setMessage(Utils.getPlayer(id), getName(), 100.0F * p);
 		    }
 		}
 	    }
@@ -164,10 +164,10 @@ public abstract class Mob extends Fighter {
     }
 
     public void clearAttackers() {
-	for (UUID id : this.attackers) {
+	for (UUID id : attackers) {
 	    BarAPI.removeBar(Utils.getPlayer(id));
 	}
-	this.attackers.clear();
+	attackers.clear();
     }
 
     public Collection<? extends UUID> getAttackers() {

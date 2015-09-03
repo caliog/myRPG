@@ -89,24 +89,6 @@ public class Commandguard extends Commands {
 
 	/*
 	 * Name: guard
-	 * SubName: delpath
-	 * 
-	 * Permission: myrpg.guard.path
-	 * 
-	 * Usage: /guard delpath
-	 */
-	cmds.add(new Command("guard", "myrpg.guard.path", new CommandExecutable() {
-
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Guard g = GManager.getClosestGuard(player.getLocation());
-		g.removePath();
-		player.sendMessage(ChatColor.GRAY + "Removed path!");
-	    }
-	}, new CommandField("delpath", FieldProperty.IDENTIFIER)));
-
-	/*
-	 * Name: guard
 	 * SubName: equip
 	 * 
 	 * Permission: myrpg.guard.equip

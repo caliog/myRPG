@@ -20,13 +20,12 @@ public class InvisibleSpell extends Spell {
 	activate(getPower() * 20);
 	Manager.scheduleRepeatingTask(new Runnable() {
 	    public void run() {
-		InvisibleSpell.this.getPlayer().getPlayer()
-			.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1200, 2));
+		getPlayer().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1200, 2));
 	    }
 	}, 0L, 200L, getPower() * 20L);
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
-		InvisibleSpell.this.getPlayer().getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+		getPlayer().getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
 	    }
 	}, getPower() * 20L);
 

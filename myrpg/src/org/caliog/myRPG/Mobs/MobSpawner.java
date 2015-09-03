@@ -11,14 +11,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
-import org.caliog.myRPG.myConfig;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Utils.EntityUtils;
@@ -98,35 +97,37 @@ public class MobSpawner {
 			z.askForSpawn();
 		    }
 		}
-		World w = Bukkit.getWorld(myConfig.getWorld());
-		if (w == null)
-		    return;
-		Set<UUID> ids = new HashSet<UUID>();
-		Mob m;
-		for (Entity e : w.getEntities()) {
-		    if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {
-			m = VolatileEntities.getMob(e.getUniqueId());
-			if (!VolatileEntities.isRegistered(e.getUniqueId())) {
-			    e.remove();
-			} else if (m != null) {
-			    ids.add(e.getUniqueId());
-			    for (Entity p : e.getNearbyEntities(7.0D, 5.0D, 7.0D)) {
-				if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null)
-					&& (m.isAgressive()) && ((e instanceof Creature))) {
-				    ((Creature) e).setTarget((Player) p);
+		for (World w : Manager.getWorlds()) {
+		    if (w == null)
+			return;
+		    Set<UUID> ids = new HashSet<UUID>();
+		    Mob m;
+		    for (Entity e : w.getEntities()) {
+			if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {
+			    m = VolatileEntities.getMob(e.getUniqueId());
+			    if (!VolatileEntities.isRegistered(e.getUniqueId())) {
+				e.remove();
+			    } else if (m != null) {
+				ids.add(e.getUniqueId());
+				for (Entity p : e.getNearbyEntities(7.0D, 5.0D, 7.0D)) {
+				    if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null)
+					    && (m.isAgressive()) && ((e instanceof Creature))) {
+					((Creature) e).setTarget((Player) p);
+				    }
 				}
 			    }
 			}
 		    }
-		}
-		List<UUID> remove = new ArrayList<UUID>();
-		for (Mob mob : VolatileEntities.getMobs()) {
-		    if (!ids.contains(mob.getId())) {
-			remove.add(mob.getId());
+
+		    List<UUID> remove = new ArrayList<UUID>();
+		    for (Mob mob : VolatileEntities.getMobs()) {
+			if (!ids.contains(mob.getId())) {
+			    remove.add(mob.getId());
+			}
 		    }
-		}
-		for (UUID id : remove) {
-		    VolatileEntities.remove(id);
+		    for (UUID id : remove) {
+			VolatileEntities.remove(id);
+		    }
 		}
 	    }
 	};

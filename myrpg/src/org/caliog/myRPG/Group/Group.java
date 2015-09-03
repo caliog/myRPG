@@ -38,7 +38,7 @@ public class Group {
 	if (this.players.containsKey(member)) {
 	    return false;
 	}
-	this.players.put(member, Float.valueOf(0.0F));
+	this.players.put(member, 0.0F);
 	updateScoreboard();
 	return true;
     }

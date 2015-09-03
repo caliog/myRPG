@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Utils.Vector;
 
@@ -55,12 +56,12 @@ public class MobSpawnZone {
 	int d = 0;
 	if (t > 0)
 	    d = (int) (r.nextInt(t) - t / 2.);
-	long time = 300L + 20L * (t <= 0 ? 0 : t) + 20L * d;
+	long time = 20L * (myConfig.getDefaultSpawnTime() + (t <= 0 ? 0 : t) + d);
 	this.scheduled += 1;
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
-		if (MobSpawnZone.this.spawnMob()) {
-		    MobSpawnZone.this.scheduled -= 1;
+		if (spawnMob()) {
+		    scheduled -= 1;
 		}
 	    }
 	}, time);

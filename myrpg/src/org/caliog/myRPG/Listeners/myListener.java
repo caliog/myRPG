@@ -170,7 +170,7 @@ public class myListener implements Listener {
 
 	    Manager.scheduleTask(new Runnable() {
 		public void run() {
-		    myListener.this.damaged.remove(event.getEntity().getUniqueId());
+		    damaged.remove(event.getEntity().getUniqueId());
 		}
 	    }, 2L);
 	    damager.fight();
@@ -341,8 +341,8 @@ public class myListener implements Listener {
 		final short newD = (short) Math.round(p * w.getType().getMaxDurability());
 		Manager.scheduleTask(new Runnable() {
 		    public void run() {
-			if (myListener.this.bows.containsKey(player.getPlayer().getUniqueId())) {
-			    myListener.this.bows.put(player.getPlayer().getUniqueId(), Short.valueOf(newD));
+			if (bows.containsKey(player.getPlayer().getUniqueId())) {
+			    bows.put(player.getPlayer().getUniqueId(), Short.valueOf(newD));
 			}
 			hand.setDurability(newD);
 		    }
@@ -353,14 +353,15 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerDeathEvent(PlayerDeathEvent event) {
-	Firework firework = (Firework) event.getEntity().getWorld()
-		.spawn(event.getEntity().getLocation(), Firework.class);
-	FireworkMeta data = firework.getFireworkMeta();
-	data.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(false).withColor(Color.RED)
-		.withFade(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build() });
-	data.setPower(new Random().nextInt(2) + 1);
-	firework.setFireworkMeta(data);
-
+	if (myConfig.isFireworkEnabled()) {
+	    Firework firework = (Firework) event.getEntity().getWorld()
+		    .spawn(event.getEntity().getLocation(), Firework.class);
+	    FireworkMeta data = firework.getFireworkMeta();
+	    data.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(false).withColor(Color.RED)
+		    .withFade(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build() });
+	    data.setPower(new Random().nextInt(2) + 1);
+	    firework.setFireworkMeta(data);
+	}
 	myClass p = PlayerManager.getPlayer(event.getEntity().getUniqueId());
 	if (p.isBossFight()) {
 	    UUID id = p.getBossId();
@@ -369,11 +370,13 @@ public class myListener implements Listener {
 	    }
 	    p.setBossId(null);
 	}
-	float newExp = event.getEntity().getExp() - 0.25F * event.getEntity().getExp();
+
+	float newExp = event.getEntity().getExp() - myConfig.getExpLoseRate() * event.getEntity().getExp();
 	if (newExp < 0) {
 	    newExp = 0F;
 	}
 	event.getEntity().setExp(newExp);
+	event.setKeepInventory(myConfig.keepInventory());
 	Msg.sendMessage(event.getEntity(), "dead-message");
     }
 
@@ -384,23 +387,26 @@ public class myListener implements Listener {
 	    return;
 	}
 	if (event.getOldLevel() + 1 == event.getNewLevel()) {
-	    Location loc = player.getPlayer().getLocation();
-	    Firework firework = (Firework) player.getPlayer().getWorld().spawn(loc, Firework.class);
-	    FireworkMeta data = firework.getFireworkMeta();
-	    Color c = Color.YELLOW;
-	    if (event.getNewLevel() > 20) {
-		c = Color.GREEN;
+	    if (myConfig.isFireworkEnabled()) {
+		Location loc = player.getPlayer().getLocation();
+		Firework firework = (Firework) player.getPlayer().getWorld().spawn(loc, Firework.class);
+		FireworkMeta data = firework.getFireworkMeta();
+		Color c = Color.YELLOW;
+		if (event.getNewLevel() > 20) {
+		    c = Color.GREEN;
+		}
+		if (event.getNewLevel() > 40) {
+		    c = Color.BLUE;
+		}
+		if (event.getNewLevel() > 60) {
+		    c = Color.LIME;
+		}
+		data.addEffects(new FireworkEffect[] { FireworkEffect.builder().withColor(c)
+			.with(FireworkEffect.Type.STAR).build() });
+		data.setPower(0);
+
+		firework.setFireworkMeta(data);
 	    }
-	    if (event.getNewLevel() > 40) {
-		c = Color.BLUE;
-	    }
-	    if (event.getNewLevel() > 60) {
-		c = Color.LIME;
-	    }
-	    data.addEffects(new FireworkEffect[] { FireworkEffect.builder().withColor(c).with(FireworkEffect.Type.STAR)
-		    .build() });
-	    data.setPower(0);
-	    firework.setFireworkMeta(data);
 	    Playerface.giveItem(player.getPlayer(), new Skillstar(3));
 	    Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
 	}
@@ -443,8 +449,8 @@ public class myListener implements Listener {
 	if ((useable)
 		|| ((displayName != null) && (c.getSpellItemName() != null) && (displayName
 			.equals(c.getSpellItemName()[1])))) {
-
-	    c.register(event.getAction());
+	    if (myConfig.spellsEnabled())
+		c.register(event.getAction());
 
 	} else {
 	    event.setCancelled(true);
@@ -465,7 +471,7 @@ public class myListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerJoin(PlayerJoinEvent event) {
 	if (!PlayerManager.login(event.getPlayer())) {
-	    PlayerManager.register(event.getPlayer(), myConfig.getStandardClass());
+	    PlayerManager.register(event.getPlayer(), myConfig.getDefaultClass());
 	}
 
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
@@ -605,9 +611,9 @@ public class myListener implements Listener {
 		this.bows.put(player.getUniqueId(), Short.valueOf(d));
 		Manager.scheduleTask(new Runnable() {
 		    public void run() {
-			short d = ((Short) myListener.this.bows.get(player.getUniqueId())).shortValue();
+			short d = ((Short) bows.get(player.getUniqueId())).shortValue();
 			player.getItemInHand().setDurability(d);
-			myListener.this.bows.remove(player.getUniqueId());
+			bows.remove(player.getUniqueId());
 		    }
 		});
 	    }

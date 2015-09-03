@@ -33,7 +33,7 @@ public class SpeedSpell extends Spell {
 
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
-		SpeedSpell.this.getPlayer().getPlayer().setWalkSpeed(speed);
+		getPlayer().getPlayer().setWalkSpeed(speed);
 	    }
 	}, 600L);
 	activate(600L);

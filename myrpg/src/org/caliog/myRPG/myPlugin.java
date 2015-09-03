@@ -113,6 +113,7 @@ public class myPlugin extends JavaPlugin {
 			    fc.copyFile(FilePath.messages, "messages.yml");
 			else if (value.equals(FilePath.classes))
 			    fc.copyFile(FilePath.classes, "classes.yml");
+			//TODO add customizer
 		    }
 		}
 	    } catch (IllegalArgumentException | IllegalAccessException | IOException e) {

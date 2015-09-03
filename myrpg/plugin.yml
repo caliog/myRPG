@@ -2,7 +2,7 @@ name: myRPG
 author: caliog
 website: caliog.org
 main: org.caliog.myRPG.myPlugin
-version: 0.1.1
+version: 3.0.3
 
 commands:
     myrpg:

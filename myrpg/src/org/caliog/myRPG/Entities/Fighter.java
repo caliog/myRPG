@@ -47,10 +47,10 @@ public abstract class Fighter {
 	if (this.task != -1) {
 	    Manager.cancelTask(Integer.valueOf(this.task));
 	}
-	this.fighting = true;
+	fighting = true;
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
-		Fighter.this.fighting = false;
+		fighting = false;
 	    }
 	}, 240L);
     }

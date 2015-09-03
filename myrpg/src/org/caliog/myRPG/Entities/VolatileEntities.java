@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.caliog.myRPG.myConfig;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Mobs.Mob;
 import org.caliog.myRPG.Mobs.MobInstance;
 import org.caliog.myRPG.Mobs.MobSpawner;
@@ -30,14 +29,15 @@ public class VolatileEntities {
 	File f = new File(FilePath.mobsFile);
 	FileWriter writer = new FileWriter(f);
 	String text = "";
-	World w = Bukkit.getWorld(myConfig.getWorld());
-	if (w != null)
-	    for (Entity e : w.getEntities()) {
-		Mob m = getMob(e.getUniqueId());
-		if (m != null) {
-		    text = text + m.getName() + "=" + m.getId().toString() + "=" + m.getSpawnZone().toString() + "\r";
+	for (World w : Manager.getWorlds())
+	    if (w != null)
+		for (Entity e : w.getEntities()) {
+		    Mob m = getMob(e.getUniqueId());
+		    if (m != null) {
+			text = text + m.getName() + "=" + m.getId().toString() + "=" + m.getSpawnZone().toString()
+				+ "\r";
+		    }
 		}
-	    }
 
 	writer.write(text);
 	writer.close();
@@ -58,16 +58,16 @@ public class VolatileEntities {
 
 		getMobs().add(new MobInstance(m, uuid, Vector.fromString(line.split("=")[2])));
 		register(uuid);
-		World w = Bukkit.getWorld(myConfig.getWorld());
-		if (w != null)
-		    for (Entity entity : w.getEntities()) {
+		for (World w : Manager.getWorlds())
+		    if (w != null)
+			for (Entity entity : w.getEntities()) {
 
-			if ((entity.getUniqueId().equals(uuid)) && (!MobSpawner.isNearSpawnZone(entity))) {
-			    remove(uuid);
-			    entity.remove();
+			    if ((entity.getUniqueId().equals(uuid)) && (!MobSpawner.isNearSpawnZone(entity))) {
+				remove(uuid);
+				entity.remove();
+			    }
+
 			}
-
-		    }
 	    }
 	}
 	reader.close();

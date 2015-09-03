@@ -269,16 +269,14 @@ public class myClass extends myPlayer {
 		}
 		this.spellTask = Manager.scheduleTask(new Runnable() {
 		    public void run() {
-			for (int i = 0; i < myClass.this.spell.length; i++) {
-			    myClass.this.spell[i] = -1;
+			for (int i = 0; i < spell.length; i++) {
+			    spell[i] = -1;
 			}
-			if ((myClass.this.getPlayer().getItemInHand().hasItemMeta())
-				&& (myClass.this.getPlayer().getItemInHand().getItemMeta().hasDisplayName())
-				&& (myClass.this.getPlayer().getItemInHand().getItemMeta().getDisplayName()
-					.equals(myClass.this.spellItemName[1]))) {
-			    ItemUtils.setDisplayName(myClass.this.getPlayer().getItemInHand(),
-				    myClass.this.spellItemName[0]);
-			    myClass.this.spellItemName = null;
+			if ((getPlayer().getItemInHand().hasItemMeta())
+				&& (getPlayer().getItemInHand().getItemMeta().hasDisplayName())
+				&& (getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(spellItemName[1]))) {
+			    ItemUtils.setDisplayName(getPlayer().getItemInHand(), spellItemName[0]);
+			    spellItemName = null;
 			}
 		    }
 		}, 40L);
