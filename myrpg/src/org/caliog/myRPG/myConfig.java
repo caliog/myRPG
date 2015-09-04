@@ -75,6 +75,6 @@ public class myConfig {
     }
 
     public static boolean isMICDisabled() {
-	return config.getBoolean("disable-mic", false);
+	return config.getBoolean("disable-mic", true);
     }
 }

@@ -107,7 +107,7 @@ public class myPlugin extends JavaPlugin {
 		String[] split = value.split("/");
 		String name = split[split.length - 1];
 		File file = new File(value);
-		if (!name.equals("MIC.jar"))
+		if (!value.equals(FilePath.mic))
 		    if (!file.exists()) {
 			if (value.endsWith("/")) {
 			    file.mkdir();
@@ -128,20 +128,34 @@ public class myPlugin extends JavaPlugin {
     }
 
     public boolean createMIC() {
-	File micFile = new File(FilePath.mic);
+	return createMIC(null);
+    }
+
+    public boolean createMIC(final Player player) {
+	final File micFile = new File(FilePath.mic);
 	if (micFile.exists() && micFile.length() != 0)
 	    return false;
 	if (!myConfig.isMICDisabled())
-	    try {
-		micFile.createNewFile();
-		fc.copyFile(FilePath.mic, "MIC.jar");
-		return true;
-	    } catch (IOException e) {
-		getLogger().log(Level.WARNING, "Could not create MIC.jar!");
-		e.printStackTrace();
-	    }
-	return false;
+	    new Thread(new Runnable() {
 
+		@Override
+		public void run() {
+		    try {
+			micFile.createNewFile();
+			getLogger().log(Level.INFO, "Starting download MIC.jar...");
+			FileCreator.copyURL(micFile, "http://www.caliog.org/MIC.jar");
+			getLogger().log(Level.INFO, "Finished download of MIC.jar!");
+			if (player != null)
+			    player.sendMessage(ChatColor.GREEN + "Finished download of MIC.jar!");
+		    } catch (IOException e) {
+			getLogger().log(Level.WARNING, "Download of MIC.jar failed!");
+			if (player != null)
+			    player.sendMessage(ChatColor.GREEN + "Download of MIC.jar failed!");
+		    }
+
+		}
+	    }).start();
+
+	return true;
     }
-
 }

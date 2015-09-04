@@ -9,4 +9,4 @@ firework: true
 exp-loss-on-death: 25
 enable-spells: true
 mob-spawn-time: 15
-disable-mic: false
+disable-mic: true
