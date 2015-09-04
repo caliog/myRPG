@@ -1,5 +1,9 @@
 package org.caliog.myRPG;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -7,10 +11,34 @@ import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.myRPG.Classes.ClazzLoader;
+import org.caliog.myRPG.Resource.FileCreator;
+import org.caliog.myRPG.Utils.FilePath;
 
 public class myConfig {
 
     public static YamlConfiguration config;
+
+    @SuppressWarnings("deprecation")
+    public static void init() {
+	YamlConfiguration def = YamlConfiguration.loadConfiguration(new FileCreator().getClass().getResourceAsStream(
+		"config.yml"));
+	config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	config.addDefaults(def);
+	config.options().copyDefaults(true);
+	try {
+	    File f = new File(FilePath.config);
+	    String str = config.saveToString();
+	    BufferedWriter bf = new BufferedWriter(new FileWriter(f));
+	    while (str.contains("comment")) {
+		str = str.replace(str.substring(str.indexOf("comment"), str.indexOf(": '#") + 3), "");
+		str = str.replaceFirst("'", "");
+	    }
+	    bf.write(str);
+	    bf.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+    }
 
     public static Material getCurrency() {
 	try {

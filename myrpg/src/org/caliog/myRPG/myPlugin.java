@@ -21,7 +21,6 @@ import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.myUtils;
 
 public class myPlugin extends JavaPlugin {
-    public myListener listener;
     public CommandRegister cmdReg;
     private String version;
     private FileCreator fc = new FileCreator();
@@ -35,16 +34,16 @@ public class myPlugin extends JavaPlugin {
 	Manager.plugin = this;
 	cmdReg = new CommandRegister();
 
-	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	myConfig.init();
 	createMIC();
 	Manager.load();
-	this.listener = new myListener();
-	getServer().getPluginManager().registerEvents(this.listener, this);
+	getServer().getPluginManager().registerEvents(new myListener(), this);
 	getServer().getPluginManager().registerEvents(new VillagerListener(), this);//Villager
 
 	Manager.scheduleRepeatingTask(Manager.getTask(), 20L, 1L);
-	backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
-		20L * 60L * myConfig.getBackupTime());
+	if (myConfig.getBackupTime() > 0)
+	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
+		    20L * 60L * myConfig.getBackupTime());
 
 	getLogger().info(getDescription().getFullName() + " enabled!");
     }
@@ -63,7 +62,7 @@ public class myPlugin extends JavaPlugin {
 	if (sender instanceof Player)
 	    player = (Player) sender;
 	else {
-	    sender.sendMessage(ChatColor.RED + "Only for players, sorry!");//const
+	    sender.sendMessage(ChatColor.RED + "Only for players, sorry!");
 	    return false;
 	}
 
@@ -163,7 +162,8 @@ public class myPlugin extends JavaPlugin {
     public void reload() {
 	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
 	Manager.cancelTask(backupTask);
-	backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
-		20L * 60L * myConfig.getBackupTime());
+	if (myConfig.getBackupTime() > 0)
+	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
+		    20L * 60L * myConfig.getBackupTime());
     }
 }
