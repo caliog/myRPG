@@ -4,14 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.caliog.myRPG.Utils.FilePath;
-import org.caliog.myRPG.Utils.Utils;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.caliog.myRPG.Utils.FilePath;
+import org.caliog.myRPG.Utils.Utils;
 
 public class Armor extends CustomItemInstance {
     private int level;
@@ -94,7 +93,7 @@ public class Armor extends CustomItemInstance {
 	}
 	YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
 
-	Material mat = Material.matchMaterial(config.getString("type"));
+	Material mat = Material.matchMaterial(config.getString("material"));
 	if (mat == null) {
 	    return null;
 	}

@@ -107,12 +107,8 @@ public class myPlugin extends JavaPlugin {
 			file.mkdir();
 		    } else {
 			file.createNewFile();
-			if (value.equals(FilePath.config))
-			    fc.copyFile(FilePath.config, "config.yml");
-			else if (value.equals(FilePath.messages))
-			    fc.copyFile(FilePath.messages, "messages.yml");
-			else if (value.equals(FilePath.classes))
-			    fc.copyFile(FilePath.classes, "classes.yml");
+			String[] split = value.split("/");
+			fc.copyFile(value, split[split.length - 1]);
 			//TODO add customizer
 		    }
 		}
