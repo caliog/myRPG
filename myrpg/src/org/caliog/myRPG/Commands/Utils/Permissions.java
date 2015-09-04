@@ -12,6 +12,7 @@ public class Permissions {
 	permissions.add("myrpg.item");
 	permissions.add("myrpg.mic");
 	permissions.add("myrpg.reload");
+	permissions.add("myrpg.backup");
 
 	permissions.add("myrpg.level.set");
 	permissions.add("myrpg.level.reset");

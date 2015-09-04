@@ -10,3 +10,5 @@ exp-loss-on-death: 25
 enable-spells: true
 mob-spawn-time: 15
 disable-mic: true
+max-backups: 20
+backup-time: 60

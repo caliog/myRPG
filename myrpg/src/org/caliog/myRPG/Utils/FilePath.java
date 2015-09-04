@@ -3,8 +3,8 @@ package org.caliog.myRPG.Utils;
 public class FilePath {
     public static String main = "plugins/myRPG/";
     public static String con = main + "Config/";
-    public static String backup = main + "Backup/";
     public static String data = main + "Data/";
+    public static String backup = data + "Backup/";
     public static String mobs = con + "Mobs/";
     public static String items = con + "Items/";
     public static String spells = con + "Spells/";
@@ -17,14 +17,11 @@ public class FilePath {
     public static String players = data + "Players/";
     public static String mobsFile = data + "mobs.data";
     public static String szFile = data + "spawnzones.data";
-    public static String castles = data + "Castles/";
     public static String classes = cl + "classes.yml";
     public static String mic = con + "MIC.jar";
 
     //Villager
-    public static String villagerMain = data + "Villagers/";
-    public static String villagerBackup = villagerMain + "backup/";
-    public static String villagerData = villagerMain + "data/";
+    public static String villagerData = data + "Villagers/";
     public static String villagerDataVillagerFile = villagerData + "villagers.data";
     public static String villagerDataFile = villagerData + "data.yml";
     public static String villagerDataQuestKillFile = villagerData + "questkills.yml";

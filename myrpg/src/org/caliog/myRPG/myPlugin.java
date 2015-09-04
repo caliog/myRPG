@@ -25,6 +25,7 @@ public class myPlugin extends JavaPlugin {
     public CommandRegister cmdReg;
     private String version;
     private FileCreator fc = new FileCreator();
+    int backupTask;
 
     public void onEnable() {
 	String pN = Bukkit.getServer().getClass().getPackage().getName();
@@ -42,14 +43,14 @@ public class myPlugin extends JavaPlugin {
 	getServer().getPluginManager().registerEvents(new VillagerListener(), this);//Villager
 
 	Manager.scheduleRepeatingTask(Manager.getTask(), 20L, 1L);
+	backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
+		20L * 60L * myConfig.getBackupTime());
 
 	getLogger().info(getDescription().getFullName() + " enabled!");
     }
 
     public void onDisable() {
 	Manager.save();
-
-	DataFolder.backup();
 
 	Manager.cancelAllTasks();
 
@@ -157,5 +158,12 @@ public class myPlugin extends JavaPlugin {
 	    }).start();
 
 	return true;
+    }
+
+    public void reload() {
+	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	Manager.cancelTask(backupTask);
+	backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
+		20L * 60L * myConfig.getBackupTime());
     }
 }

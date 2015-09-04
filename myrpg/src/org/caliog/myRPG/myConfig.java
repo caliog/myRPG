@@ -77,4 +77,12 @@ public class myConfig {
     public static boolean isMICDisabled() {
 	return config.getBoolean("disable-mic", true);
     }
+
+    public static int getMaxBackups() {
+	return config.getInt("max-backups", 20);
+    }
+
+    public static long getBackupTime() {
+	return config.getInt("backup-time", 60);
+    }
 }

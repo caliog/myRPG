@@ -23,6 +23,7 @@ import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Spells.SpellLoader;
+import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.npclib.NMS;
 import org.caliog.npclib.NPCManager;
@@ -30,17 +31,20 @@ import org.caliog.npclib.NPCManager;
 public class Manager {
     public static myPlugin plugin;
     private static long timer = 0L;
-    public static float seconds;
+    public static long seconds;
 
     public static myClass getPlayer(UUID id) {
 	return PlayerManager.getPlayer(id);
     }
 
     public static Runnable getTask() {
+
 	return new Runnable() {
 	    public void run() {
 		Manager.timer += 1L;
-		Manager.seconds = (float) Manager.timer / 20.0F;
+		if (timer >= 72000)
+		    timer = 0;
+		Manager.seconds = Manager.timer / 20;
 		if (Manager.timer % 5L == 0L) {
 		    MobSpawner.getTask().run();
 		}
@@ -49,6 +53,7 @@ public class Manager {
 		    VManager.doLogics();
 		    GManager.doLogics();
 		}
+
 	    }
 	};
     }
@@ -67,6 +72,7 @@ public class Manager {
 	    QuestKill.save();
 	    ChatManager.clear();
 
+	    DataFolder.backup();
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}

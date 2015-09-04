@@ -1,10 +1,9 @@
 package org.caliog.myRPG.Commands;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
@@ -13,6 +12,7 @@ import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
+import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 
 public class Commandmyrpg extends Commands {
@@ -41,13 +41,13 @@ public class Commandmyrpg extends Commands {
 	 * 
 	 * Permission: myrpg.reload
 	 * 
-	 * Usage: /myrpg
+	 * Usage: /myrpg reload
 	 */
 	cmds.add(new Command("myrpg", "myrpg.reload", new CommandExecutable() {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+		Manager.plugin.reload();
 		player.sendMessage(ChatColor.GREEN + "Reloaded " + Manager.plugin.getDescription().getFullName());
 	    }
 	}, new CommandField("reload", FieldProperty.IDENTIFIER)));
@@ -84,7 +84,7 @@ public class Commandmyrpg extends Commands {
 	 * 
 	 * Permission: myrpg.mic
 	 * 
-	 * Usage: /myrpg
+	 * Usage: /myrpg mic
 	 */
 	cmds.add(new Command("myrpg", "myrpg.mic", new CommandExecutable() {
 
@@ -100,6 +100,27 @@ public class Commandmyrpg extends Commands {
 		}
 	    }
 	}, new CommandField("mic", FieldProperty.IDENTIFIER)));
+
+	/*
+	 * Name: myrpg
+	 * 
+	 * Permission: myrpg.backup
+	 * 
+	 * Usage: /myrpg backup
+	 */
+	cmds.add(new Command("myrpg", "myrpg.backup", new CommandExecutable() {
+
+	    @Override
+	    public void execute(String[] args, Player player) {
+		try {
+		    DataFolder.backup();
+		} catch (IOException e) {
+		    player.sendMessage(ChatColor.RED + "Failed to create backup!");
+		}
+		player.sendMessage(ChatColor.GREEN + "Made a backup in " + FilePath.backup + "!");
+
+	    }
+	}, new CommandField("backup", FieldProperty.IDENTIFIER)));
 
 	return cmds;
     }

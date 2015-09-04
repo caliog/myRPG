@@ -107,7 +107,7 @@ public class PlayerManager {
 	return null;
     }
 
-    public static void task(float seconds) {
+    public static void task(long seconds) {
 	for (myClass clazz : players.values()) {
 	    int i = clazz.getIntelligence();
 	    int s = 1;
@@ -125,7 +125,7 @@ public class PlayerManager {
 		clazz.regainFood();
 	    }
 	    if (clazz.getHealth() != 0.0D) {
-		if (seconds % 5.0F == 0.0F) {
+		if (seconds % 5 == 0.0F) {
 		    clazz.addHealth(clazz.getMaxHealth() * 0.05D);
 		}
 		double d = clazz.getHealth() / clazz.getMaxHealth();
