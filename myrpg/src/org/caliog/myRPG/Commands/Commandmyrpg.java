@@ -1,16 +1,19 @@
 package org.caliog.myRPG.Commands;
 
+import java.io.File;
 import java.util.List;
 
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.caliog.myRPG.Utils.FilePath;
 
 public class Commandmyrpg extends Commands {
 
@@ -31,6 +34,23 @@ public class Commandmyrpg extends Commands {
 		player.sendMessage("Type /myrpg help [page] for commands!");
 	    }
 	}));
+
+	/*
+	 * Name: myrpg
+	 * SubName: reload
+	 * 
+	 * Permission: myrpg.reload
+	 * 
+	 * Usage: /myrpg
+	 */
+	cmds.add(new Command("myrpg", "myrpg.reload", new CommandExecutable() {
+
+	    @Override
+	    public void execute(String[] args, Player player) {
+		myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+		player.sendMessage(ChatColor.GREEN + "Reloaded " + Manager.plugin.getDescription().getFullName());
+	    }
+	}, new CommandField("reload", FieldProperty.IDENTIFIER)));
 
 	/*
 	 * Name: myrpg
@@ -59,6 +79,27 @@ public class Commandmyrpg extends Commands {
 	    }
 	}, new CommandField("help", FieldProperty.IDENTIFIER), new CommandField("page", "positve integer",
 		FieldProperty.OPTIONAL)));
+	/*
+	 * Name: myrpg
+	 * 
+	 * Permission: myrpg.mic
+	 * 
+	 * Usage: /myrpg
+	 */
+	cmds.add(new Command("myrpg", "myrpg.mic", new CommandExecutable() {
+
+	    @Override
+	    public void execute(String[] args, Player player) {
+		if (myConfig.isMICDisabled())
+		    player.sendMessage(ChatColor.RED + "MIC is disabled in config!");
+		else {
+		    if (Manager.plugin.createMIC())
+			player.sendMessage(ChatColor.GRAY + "Created MIC.jar in your config folder.. Use it wisely!");
+		    else
+			player.sendMessage(ChatColor.RED + "Couldn't create MIC.jar, is it already existing?");
+		}
+	    }
+	}, new CommandField("mic", FieldProperty.IDENTIFIER)));
 
 	return cmds;
     }

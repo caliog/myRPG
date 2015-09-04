@@ -73,4 +73,8 @@ public class myConfig {
     public static int getDefaultSpawnTime() {
 	return config.getInt("mob-spawn-time", 15);
     }
+
+    public static boolean isMICDisabled() {
+	return config.getBoolean("disable-mic", false);
+    }
 }

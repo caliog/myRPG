@@ -9,10 +9,12 @@ public class Permissions {
     private static Set<String> permissions = new HashSet<String>();
 
     public static void declare() {
+	permissions.add("myrpg.item");
+	permissions.add("myrpg.mic");
+	permissions.add("myrpg.reload");
+
 	permissions.add("myrpg.level.set");
 	permissions.add("myrpg.level.reset");
-
-	permissions.add("myrpg.item");
 
 	permissions.add("myrpg.group.create");
 	permissions.add("myrpg.group.join");

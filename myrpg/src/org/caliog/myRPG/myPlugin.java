@@ -3,11 +3,13 @@ package org.caliog.myRPG;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.caliog.Villagers.Listeners.VillagerListener;
@@ -32,6 +34,8 @@ public class myPlugin extends JavaPlugin {
 	Manager.plugin = this;
 	cmdReg = new CommandRegister();
 
+	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	createMIC();
 	Manager.load();
 	this.listener = new myListener();
 	getServer().getPluginManager().registerEvents(this.listener, this);
@@ -100,18 +104,18 @@ public class myPlugin extends JavaPlugin {
 	for (Field f : FilePath.class.getFields()) {
 	    try {
 		String value = (String) f.get(this);
+		String[] split = value.split("/");
+		String name = split[split.length - 1];
 		File file = new File(value);
-		if (!file.exists()) {
-
-		    if (value.endsWith("/")) {
-			file.mkdir();
-		    } else {
-			file.createNewFile();
-			String[] split = value.split("/");
-			fc.copyFile(value, split[split.length - 1]);
-			//TODO add customizer
+		if (!name.equals("MIC.jar"))
+		    if (!file.exists()) {
+			if (value.endsWith("/")) {
+			    file.mkdir();
+			} else {
+			    file.createNewFile();
+			    fc.copyFile(value, name);
+			}
 		    }
-		}
 	    } catch (IllegalArgumentException | IllegalAccessException | IOException e) {
 		e.printStackTrace();
 	    }
@@ -121,6 +125,23 @@ public class myPlugin extends JavaPlugin {
 
     public String getVersion() {
 	return version;
+    }
+
+    public boolean createMIC() {
+	File micFile = new File(FilePath.mic);
+	if (micFile.exists() && micFile.length() != 0)
+	    return false;
+	if (!myConfig.isMICDisabled())
+	    try {
+		micFile.createNewFile();
+		fc.copyFile(FilePath.mic, "MIC.jar");
+		return true;
+	    } catch (IOException e) {
+		getLogger().log(Level.WARNING, "Could not create MIC.jar!");
+		e.printStackTrace();
+	    }
+	return false;
+
     }
 
 }

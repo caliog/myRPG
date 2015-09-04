@@ -73,11 +73,11 @@ public class Manager {
     }
 
     public static void load() {
-	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
 	ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
 	Permissions.declare();
 
 	try {
+
 	    //Quests
 	    QManager.init();
 	    QuestKill.load();
@@ -145,4 +145,5 @@ public class Manager {
 		r.add(w);
 	return r;
     }
+
 }

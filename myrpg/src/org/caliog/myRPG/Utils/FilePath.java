@@ -19,6 +19,7 @@ public class FilePath {
     public static String szFile = data + "spawnzones.data";
     public static String castles = data + "Castles/";
     public static String classes = cl + "classes.yml";
+    public static String mic = con + "MIC.jar";
 
     //Villager
     public static String villagerMain = data + "Villagers/";
@@ -31,5 +32,4 @@ public class FilePath {
     public static String villagerDataNPCFile = villagerData + "npcs.data";
     public static String guardFile = villagerData + "guards.yml";
 
-    //Villager END
 }
