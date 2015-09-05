@@ -25,6 +25,7 @@ public class myPlugin extends JavaPlugin {
     private String version;
     private FileCreator fc = new FileCreator();
     int backupTask;
+    private boolean scd = false;
 
     public void onEnable() {
 	String pN = Bukkit.getServer().getClass().getPackage().getName();
@@ -36,6 +37,7 @@ public class myPlugin extends JavaPlugin {
 
 	myConfig.init();
 	createMIC();
+	downloadSpellCollection();
 	Manager.load();
 	getServer().getPluginManager().registerEvents(new myListener(), this);
 	getServer().getPluginManager().registerEvents(new VillagerListener(), this);//Villager
@@ -142,8 +144,8 @@ public class myPlugin extends JavaPlugin {
 		public void run() {
 		    try {
 			micFile.createNewFile();
-			getLogger().log(Level.INFO, "Starting download MIC.jar...");
-			FileCreator.copyURL(micFile, "http://www.caliog.org/MIC.jar");
+			getLogger().log(Level.INFO, "Starting download of MIC.jar...");
+			FileCreator.copyURL(micFile, "http://www.caliog.org/downloads/MIC.jar");
 			getLogger().log(Level.INFO, "Finished download of MIC.jar!");
 			if (player != null)
 			    player.sendMessage(ChatColor.GREEN + "Finished download of MIC.jar!");
@@ -159,11 +161,45 @@ public class myPlugin extends JavaPlugin {
 	return true;
     }
 
+    public void downloadSpellCollection() {
+	final File file = new File(FilePath.spellCollection);
+	if (!myConfig.isSpellCollectionEnabled()) {
+	    return;
+	}
+
+	if (file.exists() && file.length() != 0) {
+	    scd = true;
+	    return;
+	}
+	new Thread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		try {
+
+		    if (!file.exists())
+			file.createNewFile();
+		    getLogger().log(Level.INFO, "Starting download of SpellCollection.jar! ");
+		    FileCreator.copyURL(file, "http://www.caliog.org/downloads/SpellCollection.jar");
+		    getLogger().log(Level.INFO, "Finished download of SpellCollection.jar! ");
+		} catch (IOException e) {
+		    getLogger().log(Level.WARNING, "Download of SpellCollection.jar failed!");
+		}
+		scd = true;
+	    }
+	}).start();
+
+    }
+
     public void reload() {
 	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
 	Manager.cancelTask(backupTask);
 	if (myConfig.getBackupTime() > 0)
 	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
 		    20L * 60L * myConfig.getBackupTime());
+    }
+
+    public boolean isSpellCollectionDownloadFinished() {
+	return scd;
     }
 }

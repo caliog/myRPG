@@ -24,6 +24,9 @@ mob-spawn-time: 15
 comment12: '#If this is false, myRPG will download (by command or reload)' 
 comment13: '#the Mobs&Items Creator which allows you to create custom mobs & items'
 disable-mic: true
+comment13a: '#If you this is enabled, myRPG will download SpellCollection'
+comment13b: '#It contains usefull standard spells for myRPG'
+enable-spell-collection: true
 comment14: '#The maximum amount of backups in your Backup folder'
 max-backups: 20
 comment15: '#Automatically backup after this time (in minutes)'

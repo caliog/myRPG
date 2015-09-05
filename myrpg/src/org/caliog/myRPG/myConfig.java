@@ -113,4 +113,8 @@ public class myConfig {
     public static long getBackupTime() {
 	return config.getInt("backup-time", 60);
     }
+
+    public static boolean isSpellCollectionEnabled() {
+	return config.getBoolean("enable-spell-collection", true);
+    }
 }
