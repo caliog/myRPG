@@ -35,7 +35,9 @@ public class Node { // Holds data about each block we check
     }
 
     public void update() {
-	NMS.getUtil().nodeUpdate(this);
+	NMSUtil util = NMS.getUtil();
+	if (util != null)
+	    util.nodeUpdate(this);
     }
 
     public boolean isNotsolid() {

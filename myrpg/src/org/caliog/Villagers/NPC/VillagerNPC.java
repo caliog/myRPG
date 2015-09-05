@@ -7,6 +7,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.caliog.Villagers.NPC.Guards.CPMoveable;
 import org.caliog.Villagers.nms.NMS;
+import org.caliog.Villagers.nms.NMSUtil;
 import org.caliog.myRPG.Manager;
 
 public class VillagerNPC extends CPMoveable {
@@ -82,7 +83,9 @@ public class VillagerNPC extends CPMoveable {
     }
 
     protected void init() {
-	NMS.getUtil().initVillager(this);
+	NMSUtil util = NMS.getUtil();
+	if (util != null)
+	    util.initVillager(this);
     }
 
     public void despawn() {

@@ -24,6 +24,9 @@ public class NMS {
     }
 
     public static NPCManager getNPCManager() {
-	return getUtil().getNPCManager();
+	NMSUtil util = getUtil();
+	if (util != null)
+	    return getUtil().getNPCManager();
+	return null;
     }
 }

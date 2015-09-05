@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -29,10 +31,16 @@ public class myPlugin extends JavaPlugin {
     private FileCreator fc = new FileCreator();
     int backupTask;
     private boolean scd = false;
+    private final Set<String> supportedVersions = new HashSet<String>();
 
     public void onEnable() {
+	initSupportedVersions();
 	String pN = Bukkit.getServer().getClass().getPackage().getName();
 	version = pN.substring(pN.lastIndexOf(".") + 1);
+	if (!supportedVersions.contains(version)) {
+	    getLogger().warning("You are using an unsupported version of bukkit (" + version + ")!");
+	    getLogger().warning("The plugin probably won't work correctly with this version!");
+	}
 	mkdir();
 
 	Manager.plugin = this;
@@ -57,6 +65,10 @@ public class myPlugin extends JavaPlugin {
 
 	searchForNewVersion();
 	getLogger().info(getDescription().getFullName() + " enabled!");
+    }
+
+    private void initSupportedVersions() {
+	supportedVersions.add("v1_8_R3");
     }
 
     public void onDisable() {
