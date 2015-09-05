@@ -32,3 +32,9 @@ max-backups: 20
 comment15: '#Automatically backup after this time (in minutes)'
 comment16: '#Set to zero if you do not want automatic backups'
 backup-time: 60
+comment17: '#Player with mtaching level will be moved into these groups'
+comment18: '#ignore: names of the players who should not be moved'
+group-assignment:
+  ignore: caliog,DrBaron,Syrios
+  Default: 1
+  Builder: 5

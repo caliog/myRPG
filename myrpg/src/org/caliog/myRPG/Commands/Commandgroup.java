@@ -12,7 +12,7 @@ import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
-import org.caliog.myRPG.Group.GroupManager;
+import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Utils.Utils;
 
@@ -33,8 +33,8 @@ public class Commandgroup extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		if (!GroupManager.isInGroup(player)) {
-		    GroupManager.createGroup(player);
+		if (!GManager.isInGroup(player)) {
+		    GManager.createGroup(player);
 		    Msg.sendMessage(player, "group-created");
 		} else {
 		    Msg.sendMessage(player, "group-leave-create");
@@ -57,10 +57,10 @@ public class Commandgroup extends Commands {
 	    public void execute(String[] args, Player player) {
 		final String name = args[1];
 		if (Bukkit.getPlayer(name) != null) {
-		    GroupManager.invitation.put(Bukkit.getPlayer(name).getUniqueId(), player.getUniqueId());
+		    GManager.invitation.put(Bukkit.getPlayer(name).getUniqueId(), player.getUniqueId());
 		    Manager.scheduleTask(new Runnable() {
 			public void run() {
-			    GroupManager.invitation.remove(Bukkit.getPlayer(name).getUniqueId());
+			    GManager.invitation.remove(Bukkit.getPlayer(name).getUniqueId());
 			}
 		    }, 1800L);
 		    Msg.sendMessage(Bukkit.getPlayer(name), "group-invited", Msg.PLAYER, player.getName());
@@ -82,13 +82,13 @@ public class Commandgroup extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-		if (!GroupManager.isInGroup(player)) {
-		    if (GroupManager.invitation.containsKey(player.getUniqueId())) {
-			if (!GroupManager.addMemeber(
-				Utils.getPlayer((UUID) GroupManager.invitation.get(player.getUniqueId())), player)) {
+		if (!GManager.isInGroup(player)) {
+		    if (GManager.invitation.containsKey(player.getUniqueId())) {
+			if (!GManager.addMemeber(
+				Utils.getPlayer((UUID) GManager.invitation.get(player.getUniqueId())), player)) {
 			    Msg.sendMessage(player, "group-full");
 			}
-			GroupManager.invitation.remove(player.getUniqueId());
+			GManager.invitation.remove(player.getUniqueId());
 		    }
 		} else {
 		    Msg.sendMessage(player, "group-leave-join");
@@ -112,15 +112,15 @@ public class Commandgroup extends Commands {
 		if (args.length >= 2) {
 		    String name = args[1];
 		    if (Bukkit.getPlayer(name) != null) {
-			if (!GroupManager.removeMemeber(player, name)) {
+			if (!GManager.removeMemeber(player, name)) {
 			    Msg.sendMessage(player, "group-cannot-leave-player");
 			}
 		    } else {
 			player.sendMessage(ChatColor.RED + "This player is offline!");
 		    }
 		} else {
-		    if (GroupManager.isInGroup(player)) {
-			GroupManager.leaveGroup(player);
+		    if (GManager.isInGroup(player)) {
+			GManager.leaveGroup(player);
 			Msg.sendMessage(player, "group-left");
 		    } else {
 			Msg.sendMessage(player, "group-no");

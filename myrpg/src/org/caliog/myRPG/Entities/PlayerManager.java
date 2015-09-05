@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.caliog.myRPG.Classes.ClazzLoader;
-import org.caliog.myRPG.Group.GroupManager;
+import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Utils.FilePath;
 
 public class PlayerManager {
@@ -131,7 +131,7 @@ public class PlayerManager {
 		double d = clazz.getHealth() / clazz.getMaxHealth();
 
 		clazz.getPlayer().setHealth(20.0D * (d > 1.0D ? 1.0D : d));
-		if (!GroupManager.isInGroup(clazz.getPlayer())) {
+		if (!GManager.isInGroup(clazz.getPlayer())) {
 		    clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	    }

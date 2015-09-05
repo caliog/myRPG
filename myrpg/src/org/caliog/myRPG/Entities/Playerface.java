@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
-import org.caliog.myRPG.Group.GroupManager;
+import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Mobs.Mob;
 
@@ -61,8 +61,8 @@ public class Playerface {
 	    }
 	}
 	int exp = mob.getExp();
-	if (GroupManager.isInGroup(player)) {
-	    GroupManager.playerEarnedExp(player, exp);
+	if (GManager.isInGroup(player)) {
+	    GManager.playerEarnedExp(player, exp);
 	    return exp;
 	}
 	giveExp(player, (int) (d * exp));

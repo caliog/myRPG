@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class GroupManager {
+public class GManager {
     private static List<Group> groups = new ArrayList<Group>();
     public static HashMap<UUID, UUID> invitation = new HashMap<UUID, UUID>();
 

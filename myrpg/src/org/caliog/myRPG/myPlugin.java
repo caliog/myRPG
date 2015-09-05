@@ -35,23 +35,27 @@ public class myPlugin extends JavaPlugin {
 	version = pN.substring(pN.lastIndexOf(".") + 1);
 	mkdir();
 
-	searchForNewVersion();
-
 	Manager.plugin = this;
+
 	cmdReg = new CommandRegister();
 
 	myConfig.init();
+
 	createMIC();
 	downloadSpellCollection();
+
 	Manager.load();
+
 	getServer().getPluginManager().registerEvents(new myListener(), this);
 	getServer().getPluginManager().registerEvents(new VillagerListener(), this);//Villager
 
 	Manager.scheduleRepeatingTask(Manager.getTask(), 20L, 1L);
+
 	if (myConfig.getBackupTime() > 0)
 	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
 		    20L * 60L * myConfig.getBackupTime());
 
+	searchForNewVersion();
 	getLogger().info(getDescription().getFullName() + " enabled!");
     }
 

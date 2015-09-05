@@ -51,7 +51,7 @@ import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
-import org.caliog.myRPG.Group.GroupManager;
+import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Items.Weapon;
 import org.caliog.myRPG.Items.Custom.Apple_1;
@@ -65,6 +65,7 @@ import org.caliog.myRPG.Mobs.Mob;
 import org.caliog.myRPG.Mobs.MobSpawnZone;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Utils.EntityUtils;
+import org.caliog.myRPG.Utils.GroupManager;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.SkillInventoryView;
 
@@ -408,8 +409,10 @@ public class myListener implements Listener {
 		firework.setFireworkMeta(data);
 	    }
 	    Playerface.giveItem(player.getPlayer(), new Skillstar(3));
-	    Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
+	    Msg.sendMessage(event.getPlayer(), "leavel-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
 	}
+	GroupManager.updateGroup(player.getPlayer(), event.getNewLevel());
+
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -487,8 +490,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerQuit(PlayerQuitEvent event) {
-	if (GroupManager.isInGroup(event.getPlayer())) {
-	    GroupManager.leaveGroup(event.getPlayer());
+	if (GManager.isInGroup(event.getPlayer())) {
+	    GManager.leaveGroup(event.getPlayer());
 	}
 	PlayerManager.logout(event.getPlayer());
     }

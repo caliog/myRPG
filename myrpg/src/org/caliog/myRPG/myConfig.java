@@ -6,10 +6,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.myRPG.Classes.ClazzLoader;
 import org.caliog.myRPG.Resource.FileCreator;
@@ -121,5 +123,24 @@ public class myConfig {
 
     public static boolean isSpellCollectionEnabled() {
 	return config.getBoolean("enable-spell-collection", true);
+    }
+
+    public static HashMap<String, Integer> getGroupMap() {
+	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	ConfigurationSection sec = config.getConfigurationSection("group-assignment");
+	for (String key : sec.getKeys(false))
+	    if (!key.equals("ignore"))
+		map.put(key, sec.getInt(key));
+	return map;
+    }
+
+    public static String[] getIgnoredPlayers() {
+	String s = config.getString("group-assignemt.ignore");
+	String[] r;
+	if (s != null && s.length() != 0)
+	    r = s.replaceAll(" ", "").split(",");
+	else
+	    r = null;
+	return r;
     }
 }

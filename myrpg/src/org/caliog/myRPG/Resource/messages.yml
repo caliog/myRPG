@@ -1,7 +1,6 @@
 #GENERAL
 dead-message: '&cYou died!'
-leavel-reached: '&2Congrats! You reaced level %LEVEL%!'
-dead-return: '&2You will return here, if you die!'
+level-reached: '&2Congrats! You reached level %LEVEL%!'
 
 #CLASS
 class-changed: '&2You are now a %CLASS%!'

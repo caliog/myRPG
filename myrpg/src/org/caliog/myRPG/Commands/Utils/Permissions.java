@@ -14,8 +14,7 @@ public class Permissions {
 	permissions.add("myrpg.reload");
 	permissions.add("myrpg.backup");
 
-	permissions.add("myrpg.level.set");
-	permissions.add("myrpg.level.reset");
+	permissions.add("myrpg.level");
 
 	permissions.add("myrpg.group.create");
 	permissions.add("myrpg.group.join");

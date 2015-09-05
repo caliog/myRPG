@@ -26,6 +26,7 @@ import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Spells.SpellLoader;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
+import org.caliog.myRPG.Utils.GroupManager;
 import org.caliog.npclib.NMS;
 import org.caliog.npclib.NPCManager;
 
@@ -85,6 +86,7 @@ public class Manager {
 
 	try {
 	    Msg.init();
+	    GroupManager.init();
 
 	    //Quests
 	    QManager.init();
