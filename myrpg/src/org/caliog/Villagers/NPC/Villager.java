@@ -45,10 +45,12 @@ public class Villager extends VillagerNPC {
 
     public FileWriter save(FileWriter writer) throws IOException {
 	try {
-	    List<String> messages = new ArrayList<String>();
-	    for (int i : texts.keySet())
-		messages.add(i + ":" + texts.get(i).toString());
-
+	    List<String> messages = null;
+	    if (!type.equals(VillagerType.PRIEST)) {
+		messages = new ArrayList<String>();
+		for (int i : texts.keySet())
+		    messages.add(i + ":" + texts.get(i).toString());
+	    }
 	    writer.append(getName() + "&" + LocationUtil.toString(getLocation()) + "&" + type.name() + "&"
 		    + DataSaver.save(messages) + "&" + DataSaver.save(quests) + "&" + getProfession().name() + "&"
 		    + this.getPathName() + ((type.equals(VillagerType.TRADER)) ? "&" : "\r"));
@@ -59,7 +61,11 @@ public class Villager extends VillagerNPC {
     }
 
     public void addText(int i, String text) {
-	this.texts.put(i, CMessage.fromString(text, i));
+	addCMessage(i, CMessage.fromString(text, i));
+    }
+
+    public void addCMessage(int i, CMessage message) {
+	this.texts.put(i, message);
     }
 
     public void removeText(int id) {

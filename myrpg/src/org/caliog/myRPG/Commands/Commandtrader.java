@@ -2,6 +2,8 @@ package org.caliog.myRPG.Commands;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Trader;
 import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.myRPG.Commands.Utils.Command;
@@ -9,9 +11,6 @@ import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 public class Commandtrader extends Commands {
 
@@ -30,6 +29,7 @@ public class Commandtrader extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		VManager.spawnTrader(player.getLocation(), args[1], null);
+		player.sendMessage(ChatColor.GOLD + "Spawned the trader next to you!");
 	    }
 	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
@@ -53,12 +53,12 @@ public class Commandtrader extends Commands {
 		if (args.length == 2) {
 		    int price = Integer.parseInt(args[1]);
 		    trader.addRecipe(player.getItemInHand(), price);
-		    player.sendMessage(ChatColor.GRAY + "The trader sells now: "
+		    player.sendMessage(ChatColor.GOLD + "The trader sells now: "
 			    + player.getItemInHand().getType().name().toLowerCase().replace("_", " ") + "!");
 		} else {
 		    trader.addRecipe(player.getInventory().getItem(0), player.getInventory().getItem(1), player
 			    .getInventory().getItem(2));
-		    player.sendMessage(ChatColor.GRAY + "The trader sells now: "
+		    player.sendMessage(ChatColor.GOLD + "The trader sells now: "
 			    + player.getInventory().getItem(2).getType().name().toLowerCase().replace("_", " ") + "!");
 		}
 
@@ -85,7 +85,7 @@ public class Commandtrader extends Commands {
 		}
 
 		trader.delRecipe(player.getItemInHand());
-		player.sendMessage(ChatColor.GRAY + "Deleted this recipe!");
+		player.sendMessage(ChatColor.GOLD + "Deleted this recipe!");
 
 	    }
 	}, new CommandField("del", FieldProperty.IDENTIFIER)));

@@ -60,17 +60,17 @@ public class Group {
 	board.add(ChatColor.BLUE + "Members:");
 	for (UUID id : this.players.keySet()) {
 	    if (Utils.getPlayer(id) != null) {
-		String str = ChatColor.GREEN + Utils.getPlayer(id).getName() + " " + ChatColor.YELLOW
+		String str = ChatColor.GOLD + Utils.getPlayer(id).getName() + " " + ChatColor.YELLOW
 			+ Math.round(((Float) this.players.get(id)).floatValue() / this.experience * 100.0F) + "%";
 		if ((str.length() > 16) && (Utils.getPlayer(id).getName().length() >= 10)) {
-		    str = ChatColor.GREEN + Utils.getPlayer(id).getName().substring(0, 9) + ". " + ChatColor.YELLOW
+		    str = ChatColor.GOLD + Utils.getPlayer(id).getName().substring(0, 9) + ". " + ChatColor.YELLOW
 			    + Math.round(((Float) this.players.get(id)).floatValue() / this.experience * 100.0F) + "%";
 		}
 		board.add(str);
 	    }
 	}
 	for (UUID id : this.players.keySet()) {
-	    board.setScoreboard("gruppe", ChatColor.GREEN + Utils.getPlayer(this.creator).getName() + "s "
+	    board.setScoreboard("gruppe", ChatColor.GOLD + Utils.getPlayer(this.creator).getName() + "s "
 		    + ChatColor.BLUE + "group", Utils.getPlayer(id));
 	}
     }

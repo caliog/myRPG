@@ -21,6 +21,7 @@ import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Spells.SpellLoader;
 import org.caliog.myRPG.Utils.DataFolder;
@@ -83,6 +84,7 @@ public class Manager {
 	Permissions.declare();
 
 	try {
+	    Msg.init();
 
 	    //Quests
 	    QManager.init();

@@ -31,7 +31,7 @@ public class Commandlevel extends Commands {
 	    public void execute(String[] args, Player player) {
 		if (PlayerManager.getPlayer(args[1]) != null) {
 		    PlayerManager.getPlayer(args[1]).setLevel(Integer.parseInt(args[2]));
-		    player.sendMessage(ChatColor.GRAY + "Set level to " + args[2] + "!");
+		    player.sendMessage(ChatColor.GOLD + "Set level to " + args[2] + "!");
 		    return;
 		}
 		player.sendMessage(ChatColor.RED + args[1] + " is not online!");
@@ -62,7 +62,7 @@ public class Commandlevel extends Commands {
 		}
 		if (p != null) {
 		    p.reset();
-		    player.sendMessage(ChatColor.GRAY + p.getName() + " reset!");
+		    player.sendMessage(ChatColor.GOLD + p.getName() + " reset!");
 		}
 
 	    }

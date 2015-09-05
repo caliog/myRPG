@@ -45,6 +45,8 @@ public class Permissions {
 	permissions.add("myrpg.trader.create");
 	permissions.add("myrpg.trader.recipe");
 
+	permissions.add("myrpg.priest.create");
+
 	permissions.add("myrpg.castle.create");
 	permissions.add("myrpg.castle.remove");
 	permissions.add("myrpg.castle.edit");

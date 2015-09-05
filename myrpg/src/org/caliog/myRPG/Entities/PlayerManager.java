@@ -77,10 +77,10 @@ public class PlayerManager {
 	myClass p = null;
 
 	p = ClazzLoader.create(player, clazz);
-
 	if (p == null) {
 	    return null;
 	}
+
 	return p;
     }
 
@@ -139,6 +139,8 @@ public class PlayerManager {
     }
 
     public static void changeClass(Player player, String clazz) {
+	if (getPlayer(player.getUniqueId()).getType().equals(clazz))
+	    return;
 	logout(player);
 	register(player, clazz);
 	if (player.getLevel() <= 0)

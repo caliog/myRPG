@@ -39,7 +39,7 @@ public class Weapon extends CustomItemInstance {
 
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
-	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GRAY + " Lv. " + getLevel());
+	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
 	List<String> lore = new ArrayList<String>();
 	lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Dmg: " + getDamage()[0] + "-"
 		+ getDamage()[(getDamage().length - 1)]);
@@ -80,10 +80,10 @@ public class Weapon extends CustomItemInstance {
 	if ((clazz.getSpellItemName() != null) && (dn.equals(clazz.getSpellItemName()[1]))) {
 	    dn = clazz.getSpellItemName()[0];
 	}
-	if ((dn == null) || (!dn.contains("" + ChatColor.GRAY))) {
+	if ((dn == null) || (!dn.contains("" + ChatColor.GOLD))) {
 	    return null;
 	}
-	name = dn.substring(dn.indexOf("" + ChatColor.DARK_GRAY) + 2, dn.indexOf("" + ChatColor.GRAY));
+	name = dn.substring(dn.indexOf("" + ChatColor.DARK_GRAY) + 2, dn.indexOf("" + ChatColor.GOLD));
 
 	name = Utils.cleanString(name);
 

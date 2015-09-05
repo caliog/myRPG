@@ -53,9 +53,19 @@ public class ChatManager {
     }
 
     public static void end(Chat chat) {
-	for (String id : playerChats.keySet())
-	    if (playerChats.get(id).equals(chat))
-		playerChats.remove(id);
+
+	for (final String id : playerChats.keySet())
+	    if (playerChats.get(id).equals(chat)) {
+		taskIds.put(id, Manager.scheduleTask(new Runnable() {
+
+		    @Override
+		    public void run() {
+			playerChats.remove(id);
+			taskIds.remove(id);
+		    }
+		}, 20L * 5));
+
+	    }
 
     }
 }

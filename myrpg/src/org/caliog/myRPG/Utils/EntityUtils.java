@@ -12,7 +12,7 @@ public class EntityUtils {
 	    if (i / mh <= p) {
 		bar = bar + ChatColor.RED + "♥";
 	    } else {
-		bar = bar + ChatColor.GRAY + "♥";
+		bar = bar + ChatColor.GOLD + "♥";
 	    }
 	}
 	return bar;

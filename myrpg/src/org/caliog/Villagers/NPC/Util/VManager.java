@@ -16,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager.Profession;
+import org.caliog.Villagers.NPC.Priest;
 import org.caliog.Villagers.NPC.Trader;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
@@ -44,7 +45,7 @@ public class VManager {
 	return null;
     }
 
-    public static Villager spawnVillager(Location location, String name) {
+    public static Villager spawnVillager(Location location, String name, VillagerType type) {
 	if (location == null)
 	    return null;
 
@@ -54,14 +55,22 @@ public class VManager {
 
 	if (name != null && name.equals("null"))
 	    name = null;
-
-	Villager villager = new Villager((org.bukkit.entity.Villager) entity, VillagerType.VILLAGER, location, name);
+	Villager villager;
+	if (type.equals(VillagerType.VILLAGER))
+	    villager = new Villager((org.bukkit.entity.Villager) entity, type, location, name);
+	else
+	    villager = new Priest((org.bukkit.entity.Villager) entity, location, name);
 
 	VolatileEntities.register(villager.getUniqueId());
 
 	villagers.add(villager);
 
 	return villager;
+
+    }
+
+    public static Villager spawnVillager(Location location, String name) {
+	return spawnVillager(location, name, VillagerType.VILLAGER);
     }
 
     public static Trader spawnTrader(Location location, String name, Recipe recipe) {
@@ -139,11 +148,14 @@ public class VManager {
 		if (a.length > 7)
 		    recipe = Recipe.fromString(a[7]);
 		v = spawnTrader(location, name, recipe);
-	    } else
+	    } else if (type.equals(VillagerType.PRIEST))
+		v = spawnVillager(location, name, VillagerType.PRIEST);
+	    else
 		v = spawnVillager(location, name);
 
-	    for (String text : list)
-		v.addText(Integer.parseInt(text.split(":")[0]), text.split(":")[1]);
+	    if (!type.equals(VillagerType.PRIEST))
+		for (String text : list)
+		    v.addText(Integer.parseInt(text.split(":")[0]), text.split(":")[1]);
 
 	    for (String q : quests)
 		v.addQuest(q);
@@ -244,4 +256,5 @@ public class VManager {
 	return null;
 
     }
+
 }

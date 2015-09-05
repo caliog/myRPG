@@ -31,7 +31,7 @@ public class CommandHelp {
 	    if (cmd.getName().equalsIgnoreCase(name)) {
 		ChatColor color = ChatColor.RED;
 		if (PlayerManager.getPlayer(player.getUniqueId()).hasPermission(cmd.getPermission()))
-		    color = ChatColor.GREEN;
+		    color = ChatColor.GOLD;
 		player.getPlayer().sendMessage(color + cmd.getUsage());
 	    }
 	}

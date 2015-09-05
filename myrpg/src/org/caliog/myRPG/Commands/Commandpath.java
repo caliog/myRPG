@@ -31,7 +31,7 @@ public class Commandpath extends Commands {
 		if (args.length >= 4)
 		    cpdelay = Integer.parseInt(args[3]);
 		PathUtil.createPath(args[1], Integer.parseInt(args[2]), cpdelay, player.getLocation());
-		player.sendMessage(ChatColor.GRAY + "Created path!");
+		player.sendMessage(ChatColor.GOLD + "Created path!");
 	    }
 	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED),
 		new CommandField("initdelay", "positive integer", FieldProperty.REQUIRED), new CommandField(
@@ -51,7 +51,7 @@ public class Commandpath extends Commands {
 	    public void execute(String[] args, Player player) {
 
 		PathUtil.setPath(args[1], Integer.parseInt(args[2]), player.getLocation());
-		player.sendMessage(ChatColor.GRAY + "Set path!");
+		player.sendMessage(ChatColor.GOLD + "Set path!");
 	    }
 	}, new CommandField("set", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED),
 		new CommandField("checkpoint", "not-negative integer", FieldProperty.REQUIRED)));
@@ -69,7 +69,7 @@ public class Commandpath extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		PathUtil.removePath(args[1]);
-		player.sendMessage(ChatColor.GRAY + "Deleted path!");
+		player.sendMessage(ChatColor.GOLD + "Deleted path!");
 	    }
 	}, new CommandField("delete", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 

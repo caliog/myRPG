@@ -33,7 +33,7 @@ public class Commandguard extends Commands {
 	    public void execute(String[] args, Player player) {
 
 		GManager.createNewGuard(args[1], player.getLocation());
-		player.sendMessage(ChatColor.GRAY + "Created guard at your position!");
+		player.sendMessage(ChatColor.GOLD + "Created guard at your position!");
 
 	    }
 	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
@@ -53,12 +53,12 @@ public class Commandguard extends Commands {
 		Guard g = GManager.getClosestGuard(player.getLocation());
 		if (args[1].equalsIgnoreCase("remove")) {
 		    g.removePath();
-		    player.sendMessage(ChatColor.GRAY + "The guard won't walk this path anymore!");
+		    player.sendMessage(ChatColor.GOLD + "The guard won't walk this path anymore!");
 		    return;
 		}
 		if (new CheckpointPath(args[1]).isLoaded()) {
 		    g.setPath(PathUtil.getPath(args[1]));
-		    player.sendMessage(ChatColor.GRAY + "Added path!");
+		    player.sendMessage(ChatColor.GOLD + "Added path!");
 		} else
 		    player.sendMessage(ChatColor.RED + "This path doesn't exist!");
 	    }
@@ -81,7 +81,7 @@ public class Commandguard extends Commands {
 		for (int i = 1; i < args.length; i++)
 		    a += args[i];
 		g.setAttackings(a);
-		player.sendMessage(ChatColor.GRAY + "Changed attacking of this guard!");
+		player.sendMessage(ChatColor.GOLD + "Changed attacking of this guard!");
 
 	    }
 	}, new CommandField("attack", FieldProperty.IDENTIFIER), new CommandField("attackOptions",
@@ -103,7 +103,7 @@ public class Commandguard extends Commands {
 		ItemStack hand = player.getItemInHand();
 		ItemStack armor[] = player.getInventory().getArmorContents();
 		g.setEquipment(hand, armor);
-		player.sendMessage(ChatColor.GRAY + "Changed guard's equipment!");
+		player.sendMessage(ChatColor.GOLD + "Changed guard's equipment!");
 
 	    }
 	}, new CommandField("equip", FieldProperty.IDENTIFIER)));
@@ -122,7 +122,7 @@ public class Commandguard extends Commands {
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
 		GManager.remove(g);
-		player.sendMessage(ChatColor.GRAY + "Removed this guard!");
+		player.sendMessage(ChatColor.GOLD + "Removed this guard!");
 	    }
 	}, new CommandField("remove", FieldProperty.IDENTIFIER)));
 

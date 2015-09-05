@@ -12,6 +12,10 @@ public abstract class ChatTask {
 	this.quest = quest;
     }
 
+    public ChatTask() {
+	quest = null;
+    }
+
     public abstract void execute(myClass player, Villager villager);
 
 }

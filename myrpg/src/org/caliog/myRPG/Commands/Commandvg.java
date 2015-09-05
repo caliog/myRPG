@@ -54,7 +54,7 @@ public class Commandvg extends Commands {
 		    return;
 		}
 		VManager.remove(v.getUniqueId());
-		player.sendMessage(ChatColor.GRAY + "Removed this villager!");
+		player.sendMessage(ChatColor.GOLD + "Removed this villager!");
 	    }
 	}, new CommandField("remove", FieldProperty.IDENTIFIER)));
 
@@ -82,7 +82,7 @@ public class Commandvg extends Commands {
 		    text += "#" + (args.length >= 5 ? args[4] : Integer.parseInt(args[1]) + 1);
 
 		    v.addText(Integer.parseInt(args[1]), text);
-		    player.sendMessage(ChatColor.GRAY + "The villager talks!");
+		    player.sendMessage(ChatColor.GOLD + "The villager talks!");
 		} catch (NumberFormatException e) {
 		    player.sendMessage(ChatColor.RED + "/vg talk <id> <message> <type> [target]");
 		    player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
@@ -114,7 +114,7 @@ public class Commandvg extends Commands {
 		    v.removeText(Integer.parseInt(args[1]));
 		else
 		    v.clearText();
-		player.sendMessage(ChatColor.GRAY + "Removed message!");
+		player.sendMessage(ChatColor.GOLD + "Removed message!");
 	    }
 	}, new CommandField("deltalk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer",
 		FieldProperty.OPTIONAL)));
@@ -137,9 +137,9 @@ public class Commandvg extends Commands {
 		    return;
 		}
 		if (v.addQuest(args[1]))
-		    player.sendMessage(ChatColor.GRAY + "Added this quest!");
+		    player.sendMessage(ChatColor.GOLD + "Added this quest!");
 		else
-		    player.sendMessage(ChatColor.GRAY + "Quest does not exist.");
+		    player.sendMessage(ChatColor.GOLD + "Quest does not exist.");
 	    }
 	}, new CommandField("quest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
@@ -161,7 +161,7 @@ public class Commandvg extends Commands {
 		    return;
 		}
 		v.removeQuest(args[1]);
-		player.sendMessage(ChatColor.GRAY + "Removed this quest!");
+		player.sendMessage(ChatColor.GOLD + "Removed this quest!");
 	    }
 	}, new CommandField("delquest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
@@ -205,15 +205,15 @@ public class Commandvg extends Commands {
 		}
 		if (args[1].equals("remove")) {
 		    v.removePath();
-		    player.sendMessage(ChatColor.GRAY + "The villager won't walk this path anymore!");
+		    player.sendMessage(ChatColor.GOLD + "The villager won't walk this path anymore!");
 		    return;
 		}
 		CheckpointPath path = PathUtil.getPath(args[1]);
 		if (path != null && path.isLoaded()) {
 		    v.setPath(path);
-		    player.sendMessage(ChatColor.GRAY + "The villager will walk this line!");
+		    player.sendMessage(ChatColor.GOLD + "The villager will walk this line!");
 		} else
-		    player.sendMessage(ChatColor.GRAY + "This path does not exist!");
+		    player.sendMessage(ChatColor.GOLD + "This path does not exist!");
 
 	    }
 	}, new CommandField("path", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));

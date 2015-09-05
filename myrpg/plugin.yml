@@ -2,7 +2,7 @@ name: myRPG
 author: caliog
 website: caliog.org
 main: org.caliog.myRPG.myPlugin
-version: 3.0.10
+version: 3.0.11
 
 commands:
     myrpg:
@@ -19,8 +19,11 @@ commands:
         usage: /item <name> <level/amount> [tradeable]
         description: Gives a myrpg custom item!
     trader:
-        usage: /trader create
+        usage: /trader create <name>
         description: Creates a trader!
+    priest:
+        usage: /priest create <name>
+        description: Creates a priest!
     vg:
         usage: /vg create
         description: Creates a Villager!

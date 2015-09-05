@@ -48,7 +48,7 @@ public class Commandmyrpg extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Manager.plugin.reload();
-		player.sendMessage(ChatColor.GREEN + "Reloaded " + Manager.plugin.getDescription().getFullName());
+		player.sendMessage(ChatColor.GOLD + "Reloaded " + Manager.plugin.getDescription().getFullName());
 	    }
 	}, new CommandField("reload", FieldProperty.IDENTIFIER)));
 
@@ -73,7 +73,7 @@ public class Commandmyrpg extends Commands {
 		if (Manager.plugin.cmdReg.getPermittedCommands(player).size() >= limit - 9)
 		    for (Command cmd : Manager.plugin.cmdReg.getPermittedCommands(player)) {
 			if (counter >= limit - 9 && counter < limit)
-			    player.sendMessage(ChatColor.GREEN + cmd.getUsage());
+			    player.sendMessage(ChatColor.GOLD + cmd.getUsage());
 			counter++;
 		    }
 	    }
@@ -94,7 +94,7 @@ public class Commandmyrpg extends Commands {
 		    player.sendMessage(ChatColor.RED + "MIC is disabled in config!");
 		else {
 		    if (Manager.plugin.createMIC(player))
-			player.sendMessage(ChatColor.GRAY + "Starting download of 'MIC.jar' !");
+			player.sendMessage(ChatColor.GOLD + "Starting download of 'MIC.jar' !");
 		    else
 			player.sendMessage(ChatColor.RED + "Couldn't create MIC.jar, is it already existing?");
 		}
@@ -117,7 +117,7 @@ public class Commandmyrpg extends Commands {
 		} catch (IOException e) {
 		    player.sendMessage(ChatColor.RED + "Failed to create backup!");
 		}
-		player.sendMessage(ChatColor.GREEN + "Made a backup in " + FilePath.backup + "!");
+		player.sendMessage(ChatColor.GOLD + "Made a backup in " + FilePath.backup + "!");
 
 	    }
 	}, new CommandField("backup", FieldProperty.IDENTIFIER)));

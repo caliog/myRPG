@@ -50,8 +50,8 @@ public class Chat {
 	}
 
 	player.getPlayer().sendMessage(
-		ChatColor.GRAY + name + ChatColor.WHITE + ": " + ChatColor.BOLD + "" + ChatColor.GOLD + '"'
-			+ getCurrent().getMessage() + '"');
+		ChatColor.GOLD + name + ChatColor.WHITE + ": " + ChatColor.BOLD + "" + ChatColor.GOLD + '"'
+			+ getCurrent().getMessage() + ChatColor.GOLD + '"');
 
 	Manager.scheduleTask(new Runnable() {
 

@@ -31,7 +31,7 @@ public class Armor extends CustomItemInstance {
 
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
-	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GRAY + " Lv. " + getLevel());
+	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
 	List<String> lore = new ArrayList<String>();
 	lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Def: " + getDefense());
 	if (!getEffects().isEmpty()) {
@@ -65,10 +65,10 @@ public class Armor extends CustomItemInstance {
 	boolean soulbound = false;
 
 	String dn = item.getItemMeta().getDisplayName();
-	if ((dn == null) || (!dn.contains("" + ChatColor.GRAY))) {
+	if ((dn == null) || (!dn.contains("" + ChatColor.GOLD))) {
 	    return null;
 	}
-	name = dn.substring(dn.indexOf("" + ChatColor.DARK_GRAY) + 2, dn.indexOf("" + ChatColor.GRAY));
+	name = dn.substring(dn.indexOf("" + ChatColor.DARK_GRAY) + 2, dn.indexOf("" + ChatColor.GOLD));
 
 	name = Utils.cleanString(name);
 

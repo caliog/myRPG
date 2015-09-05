@@ -17,6 +17,8 @@ public class ClazzLoader {
 
 	    ConfigurationSection config = classes.getConfigurationSection(c);
 	    if (!clazz.isLoaded()) {
+		clazz.setLevel(1);
+		clazz.getPlayer().setExp(0F);
 		clazz.setIntelligence(config.getInt("int"));
 		clazz.setVitality(config.getInt("vit"));
 		clazz.setDexterity(config.getInt("dex"));

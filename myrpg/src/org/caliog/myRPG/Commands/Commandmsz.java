@@ -34,7 +34,7 @@ public class Commandmsz extends Commands {
 	    public void execute(final String[] args, final Player player) {
 		final String c = args[1];
 		if (!EntityUtils.isMobClass(c)) {
-		    player.sendMessage(ChatColor.GRAY + args[1] + " is not a mob!");
+		    player.sendMessage(ChatColor.GOLD + args[1] + " is not a mob!");
 		    return;
 		}
 		Manager.scheduleTask(new Runnable() {
@@ -89,7 +89,7 @@ public class Commandmsz extends Commands {
 	    @Override
 	    public void execute(final String[] args, final Player player) {
 		VolatileEntities.killAllMobs();
-		player.sendMessage(ChatColor.GRAY + "Reset all mob spawn zones!");
+		player.sendMessage(ChatColor.GOLD + "Reset all mob spawn zones!");
 	    }
 	}, new CommandField("reset", FieldProperty.IDENTIFIER)));
 
@@ -107,7 +107,7 @@ public class Commandmsz extends Commands {
 	    public void execute(final String[] args, final Player player) {
 		for (MobSpawnZone z : MobSpawner.zones) {
 		    if (z.isInside(player.getLocation())) {
-			player.sendMessage(ChatColor.GRAY + "" + z.getAmount() + " of " + z.getMob()
+			player.sendMessage(ChatColor.GOLD + "" + z.getAmount() + " of " + z.getMob()
 				+ " in a radius of " + z.getRadius() + "! ");
 			return;
 		    }

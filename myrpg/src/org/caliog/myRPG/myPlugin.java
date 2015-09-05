@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.caliog.Villagers.Listeners.VillagerListener;
 import org.caliog.myRPG.Commands.Utils.CommandRegister;
 import org.caliog.myRPG.Listeners.myListener;
+import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Resource.FileCreator;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
@@ -152,11 +153,11 @@ public class myPlugin extends JavaPlugin {
 			FileCreator.copyURL(micFile, "http://www.caliog.org/downloads/MIC.jar");
 			getLogger().log(Level.INFO, "Finished download of MIC.jar!");
 			if (player != null)
-			    player.sendMessage(ChatColor.GREEN + "Finished download of MIC.jar!");
+			    player.sendMessage(ChatColor.GOLD + "Finished download of MIC.jar!");
 		    } catch (IOException e) {
 			getLogger().log(Level.WARNING, "Download of MIC.jar failed!");
 			if (player != null)
-			    player.sendMessage(ChatColor.GREEN + "Download of MIC.jar failed!");
+			    player.sendMessage(ChatColor.GOLD + "Download of MIC.jar failed!");
 		    }
 
 		}
@@ -197,6 +198,7 @@ public class myPlugin extends JavaPlugin {
 
     public void reload() {
 	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	Msg.file = YamlConfiguration.loadConfiguration(new File(FilePath.messages));
 	Manager.cancelTask(backupTask);
 	if (myConfig.getBackupTime() > 0)
 	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),

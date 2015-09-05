@@ -62,6 +62,7 @@ public class YmlQuest extends Quest {
 				if (stack != null)
 				    Playerface.giveItem(player.getPlayer(), stack);
 			}
+
 		    });
 		} else if (id.equals(config.getString("target-villager-message")))
 		    msg.setTask(new ChatTask(this) {

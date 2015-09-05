@@ -4,7 +4,8 @@ leavel-reached: '&2Congrats! You reaced level %LEVEL%!'
 dead-return: '&2You will return here, if you die!'
 
 #CLASS
-changed-class: '&2You are now a %CLASS%!'
+class-changed: '&2You are now a %CLASS%!'
+class-change-offer: '&2Hey, do you want to change your class to %CLASS% ?'
 
 #SKILLS
 str-full: '&cYour strength is already at 100%!'

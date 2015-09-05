@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,11 +21,14 @@ public class myConfig {
 
     @SuppressWarnings("deprecation")
     public static void init() {
-	YamlConfiguration def = YamlConfiguration.loadConfiguration(new FileCreator().getClass().getResourceAsStream(
-		"config.yml"));
 	config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
+	InputStream stream = new FileCreator().getClass().getResourceAsStream("config.yml");
+	if (stream == null)
+	    return;
+	YamlConfiguration def = YamlConfiguration.loadConfiguration(stream);
 	config.addDefaults(def);
 	config.options().copyDefaults(true);
+
 	try {
 	    File f = new File(FilePath.config);
 	    String str = config.saveToString();
@@ -38,6 +42,7 @@ public class myConfig {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
+
     }
 
     public static Material getCurrency() {
