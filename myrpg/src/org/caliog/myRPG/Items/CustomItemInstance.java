@@ -3,10 +3,9 @@ package org.caliog.myRPG.Items;
 import java.io.File;
 import java.util.List;
 
-import org.caliog.myRPG.Utils.FilePath;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.caliog.myRPG.Utils.FilePath;
 
 public class CustomItemInstance extends CustomItem {
     protected final YamlConfiguration config;
@@ -48,7 +47,7 @@ public class CustomItemInstance extends CustomItem {
 	}
 	YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
 
-	Material mat = Material.matchMaterial(config.getString("type"));
+	Material mat = Material.matchMaterial(config.getString("material", "none"));
 	if (mat == null) {
 	    return null;
 	}

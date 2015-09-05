@@ -1,6 +1,8 @@
 package org.caliog.myRPG;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
@@ -31,6 +33,8 @@ public class myPlugin extends JavaPlugin {
 	String pN = Bukkit.getServer().getClass().getPackage().getName();
 	version = pN.substring(pN.lastIndexOf(".") + 1);
 	mkdir();
+
+	searchForNewVersion();
 
 	Manager.plugin = this;
 	cmdReg = new CommandRegister();
@@ -201,5 +205,21 @@ public class myPlugin extends JavaPlugin {
 
     public boolean isSpellCollectionDownloadFinished() {
 	return scd;
+    }
+
+    private void searchForNewVersion() {
+	File f = new File("dummy");
+	try {
+	    FileCreator.copyURL(f, "http://www.caliog.org/downloads/version.txt");
+	    BufferedReader reader = new BufferedReader(new FileReader(f));
+	    String newVersion = reader.readLine();
+	    if (!newVersion.equals(getDescription().getVersion())) {
+		getLogger().info("There is a new version of myRPG: v" + newVersion);
+		getLogger().info("Visit www.caliog.org to download it! Have Fun ;)");
+	    }
+
+	    reader.close();
+	} catch (Exception e) {
+	}
     }
 }

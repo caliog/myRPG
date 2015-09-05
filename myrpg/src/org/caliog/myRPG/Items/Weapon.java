@@ -108,7 +108,7 @@ public class Weapon extends CustomItemInstance {
 	}
 	YamlConfiguration config = YamlConfiguration.loadConfiguration(f);
 
-	Material mat = Material.matchMaterial(config.getString("material"));
+	Material mat = Material.matchMaterial(config.getString("material", "none"));
 	if (mat == null) {
 	    return null;
 	}
