@@ -34,6 +34,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -673,43 +674,27 @@ public class myListener implements Listener {
 	    }
 	}
     }
-    /*
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onMoveTeleport(final PlayerMoveEvent event) {
-    
-    if (event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.DIAMOND_BLOCK)) {
-        if (event.getPlayer().isSneaking()) {
-    	event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1200, 3));
-    	Manager.scheduleTask(new Runnable() {
-    	    public void run() {
-    		event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation());
-    	    }
-    	}, 100L);
 
-    	Manager.scheduleTask(new Runnable() {
-    	    public void run() {
-    		event.getPlayer().removePotionEffect(PotionEffectType.CONFUSION);
-    	    }
-    	}, 160L);
-        }
-        } else if ((event.getTo().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.EMERALD_BLOCK))
-        	&& (event.getPlayer().isSneaking())) {
-            final Location l = PlayerManager.getPlayer(event.getPlayer().getUniqueId()).getLastLocation();
-            if (l != null) {
-        	event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1200, 3));
-        	Manager.scheduleTask(new Runnable() {
-        	    public void run() {
-        		event.getPlayer().teleport(l);
-        	    }
-        	}, 100L);
-
-        	Manager.scheduleTask(new Runnable() {
-        	    public void run() {
-        		event.getPlayer().removePotionEffect(PotionEffectType.CONFUSION);
-        	    }
-        	}, 160L);
-            }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChat(AsyncPlayerChatEvent event) {
+	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
+	if (player == null)
+	    return;
+	String cf = myConfig.getChatFormat();
+	if (cf == null || !cf.contains("%PLAYER%") || !cf.contains("%MESSAGE%"))
+	    return;
+	cf = cf.replace("%PLAYER%", player.getPlayer().getName());
+	cf = cf.replace("%MESSAGE%", event.getMessage());
+	String clazz = player.getType();
+	String group = GroupManager.getGroup(player);
+	String level = String.valueOf(player.getLevel());
+	if (clazz == null)
+	    clazz = "";
+	if (group == null)
+	    group = "";
+	if (level == null)
+	    level = "";
+	String format = cf.replace("%CLASS%", clazz).replace("%GROUP%", group).replace("%LEVEL%", level);
+	event.setFormat(ChatColor.translateAlternateColorCodes('&', format));
     }
-    }*/
-
 }

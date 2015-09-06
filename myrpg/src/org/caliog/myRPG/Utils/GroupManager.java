@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
+import org.caliog.myRPG.Entities.myClass;
 
 public class GroupManager {
 
@@ -51,5 +52,11 @@ public class GroupManager {
 	    }
 	}
 
+    }
+
+    public static String getGroup(myClass player) {
+	if (permission != null)
+	    return permission.getPrimaryGroup(player.getPlayer());
+	return null;
     }
 }

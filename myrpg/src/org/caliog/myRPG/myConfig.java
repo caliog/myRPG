@@ -37,7 +37,7 @@ public class myConfig {
 	    BufferedWriter bf = new BufferedWriter(new FileWriter(f));
 	    while (str.contains("comment")) {
 		str = str.replace(str.substring(str.indexOf("comment"), str.indexOf(": '#") + 3), "");
-		str = str.replaceFirst("'", "");
+		str = str.replaceFirst("#'", "");
 	    }
 	    bf.write(str);
 	    bf.close();
@@ -142,5 +142,12 @@ public class myConfig {
 	else
 	    r = null;
 	return r;
+    }
+
+    public static String getChatFormat() {
+	String cf = config.getString("chat-format", null);
+	if (cf == null || cf.equalsIgnoreCase("none"))
+	    return null;
+	return cf;
     }
 }
