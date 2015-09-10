@@ -15,10 +15,15 @@ public class GroupManager {
     private static Permission permission;
 
     public static boolean init() {
-	RegisteredServiceProvider<Permission> permissionProvider = Manager.plugin.getServer().getServicesManager()
-		.getRegistration(net.milkbowl.vault.permission.Permission.class);
-	if (permissionProvider != null) {
-	    permission = permissionProvider.getProvider();
+	try {
+	    Class.forName("net.milkbowl.vault.permission.Permission");
+	    RegisteredServiceProvider<Permission> permissionProvider = Manager.plugin.getServer().getServicesManager()
+		    .getRegistration(net.milkbowl.vault.permission.Permission.class);
+	    if (permissionProvider != null) {
+		permission = permissionProvider.getProvider();
+	    }
+	} catch (Exception e) {
+	    Manager.plugin.getLogger().warning("Could not find Vault!");
 	}
 	return (permission != null);
     }

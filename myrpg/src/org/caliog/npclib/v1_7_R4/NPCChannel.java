@@ -1,12 +1,12 @@
-package org.caliog.npclib;
-
-import io.netty.channel.AbstractChannel;
-import io.netty.channel.ChannelConfig;
-import io.netty.channel.ChannelMetadata;
-import io.netty.channel.ChannelOutboundBuffer;
-import io.netty.channel.EventLoop;
+package org.caliog.npclib.v1_7_R4;
 
 import java.net.SocketAddress;
+
+import net.minecraft.util.io.netty.channel.AbstractChannel;
+import net.minecraft.util.io.netty.channel.ChannelConfig;
+import net.minecraft.util.io.netty.channel.ChannelMetadata;
+import net.minecraft.util.io.netty.channel.ChannelOutboundBuffer;
+import net.minecraft.util.io.netty.channel.EventLoop;
 
 public class NPCChannel extends AbstractChannel {
 
@@ -51,15 +51,6 @@ public class NPCChannel extends AbstractChannel {
     }
 
     @Override
-    protected void doWrite(ChannelOutboundBuffer arg0) throws Exception {
-    }
-
-    @Override
-    protected boolean isCompatible(EventLoop arg0) {
-	return false;
-    }
-
-    @Override
     protected SocketAddress localAddress0() {
 	return null;
     }
@@ -72,5 +63,15 @@ public class NPCChannel extends AbstractChannel {
     @Override
     protected SocketAddress remoteAddress0() {
 	return null;
+    }
+
+    @Override
+    protected void doWrite(ChannelOutboundBuffer arg0) throws Exception {
+
+    }
+
+    @Override
+    protected boolean isCompatible(EventLoop arg0) {
+	return false;
     }
 }

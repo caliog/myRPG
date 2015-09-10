@@ -1,21 +1,19 @@
-package org.caliog.npclib.v1_8_R3;
+package org.caliog.npclib.v1_7_R4;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.SocketAddress;
 
-import net.minecraft.server.v1_8_R3.EnumProtocolDirection;
-import net.minecraft.server.v1_8_R3.NetworkManager;
+import net.minecraft.server.v1_7_R4.NetworkManager;
 
 public class NPCNetworkManager extends NetworkManager {
 
     public NPCNetworkManager() throws IOException {
-
-	super(EnumProtocolDirection.CLIENTBOUND);
+	super(false);
 
 	try {
-	    Field channel = getField("channel");
-	    Field address = getField("l");
+	    Field channel = getField("m");
+	    Field address = getField("n");
 
 	    if (channel == null || address == null)
 		return;
