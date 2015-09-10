@@ -12,7 +12,6 @@ import org.caliog.Villagers.Utils.DataSaver;
 import org.caliog.npclib.NPC;
 
 public class Guard extends GNPC {
-    private boolean attackPlayer;
     private boolean attackMonster;
     private boolean attackAnimal;
     private LivingEntity currentTargetEntity;
@@ -38,14 +37,6 @@ public class Guard extends GNPC {
 
     }
 
-    public boolean isAttackPlayer() {
-	return this.attackPlayer;
-    }
-
-    public void setAttackPlayer(boolean attackPlayer) {
-	this.attackPlayer = attackPlayer;
-    }
-
     public double getDamage() {
 	return 50;
     }
@@ -67,19 +58,11 @@ public class Guard extends GNPC {
     }
 
     public String getAttackings() {
-	if ((this.attackMonster) && (this.attackPlayer) && (this.attackAnimal))
-	    return "All!";
-	if ((this.attackMonster) && (this.attackPlayer) && (!this.attackAnimal))
-	    return "Monsters and Players!";
-	if ((!this.attackMonster) && (this.attackPlayer) && (this.attackAnimal))
-	    return "Animals and Players!";
-	if ((this.attackMonster) && (!this.attackPlayer) && (this.attackAnimal))
+	if ((this.attackMonster) && (this.attackAnimal))
 	    return "Animals and Monsters!";
-	if ((this.attackMonster) && (!this.attackPlayer) && (!this.attackAnimal))
+	if ((this.attackMonster) && (!this.attackAnimal))
 	    return "Monsters!";
-	if ((!this.attackMonster) && (this.attackPlayer) && (!this.attackAnimal))
-	    return "Players!";
-	if ((!this.attackMonster) && (!this.attackPlayer) && (this.attackAnimal)) {
+	if ((!this.attackMonster) && (this.attackAnimal)) {
 	    return "Animals!";
 	}
 	return "Nobody!";
@@ -96,13 +79,11 @@ public class Guard extends GNPC {
 	    this.attackMonster = true;
 	if (s.contains("animal"))
 	    this.attackAnimal = true;
-	if (s.contains("player"))
-	    this.attackPlayer = true;
+
     }
 
     private void setAll(boolean b) {
 	this.attackMonster = b;
-	this.attackPlayer = b;
 	this.attackAnimal = b;
     }
 

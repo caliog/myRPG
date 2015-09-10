@@ -1,13 +1,11 @@
 package org.caliog.Villagers.Listeners;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
@@ -111,12 +109,6 @@ public class VillagerListener implements Listener {
     public void damageEvent(EntityDamageEvent event) {
 	Guard guard = GManager.getGuard(event.getEntity().getUniqueId());
 	if (VManager.getVillager(event.getEntity().getUniqueId()) != null || guard != null) {
-	    if (event instanceof EntityDamageByEntityEvent && event.getCause().equals(DamageCause.ENTITY_ATTACK)) {
-		if (guard != null) {
-		    if (guard.isAttackPlayer())
-			guard.setAttacking((LivingEntity) ((EntityDamageByEntityEvent) event).getDamager());
-		}
-	    }
 	    event.setCancelled(true);
 	}
     }

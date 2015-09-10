@@ -50,7 +50,7 @@ public class GuardWatcher {
     private static void findAttacks(final Guard guard) {
 	int r = guard.getRadius();
 	if (guard.getNpc() != null) {
-	    if (!guard.isAttacking() && (guard.isAttackMonster() || guard.isAttackPlayer() || guard.isAttackAnimal())) {
+	    if (!guard.isAttacking() && (guard.isAttackMonster() || guard.isAttackAnimal())) {
 
 		List<Entity> entities = guard.getNpc().getBukkitEntity().getNearbyEntities(r, r, r);
 		for (Entity e : entities) {
@@ -69,8 +69,7 @@ public class GuardWatcher {
 		    && guard.getEntityLocation().distance(guard.getAttacking().getLocation()) <= r
 		    && !guard.getAttacking().isDead()) {
 
-		if (guard.getAttacking() instanceof Player && guard.isAttackPlayer()
-			|| ((guard.getAttacking() instanceof Monster) && guard.isAttackMonster())
+		if (((guard.getAttacking() instanceof Monster) && guard.isAttackMonster())
 			|| ((!(guard.getAttacking() instanceof Monster) && guard.isAttackAnimal()))) {
 		    CheckpointPath path = guard.getPath();
 		    if (path != null && path.isRun())
