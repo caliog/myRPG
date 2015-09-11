@@ -90,6 +90,7 @@ public abstract class myPlayer extends Fighter {
 
     public void completeQuest(String name) {
 	Quest q = QManager.getQuest(name);
+	QManager.updateQuestBook(PlayerManager.getPlayer(this.getPlayer().getUniqueId()));
 	if (q == null)
 	    return;
 	giveExp(q.getExp());

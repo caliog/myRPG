@@ -3,7 +3,9 @@ package org.caliog.myRPG.Commands;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.NPC.Trader;
 import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.myRPG.Commands.Utils.Command;
@@ -51,15 +53,28 @@ public class Commandtrader extends Commands {
 		    return;
 		}
 		if (args.length == 2) {
+		    if (player.getItemInHand() == null || player.getItemInHand().getType().equals(Material.AIR)) {
+			player.sendMessage(ChatColor.RED + "You have to take the item you want to sell in your hand!");
+			return;
+		    }
 		    int price = Integer.parseInt(args[1]);
 		    trader.addRecipe(player.getItemInHand(), price);
 		    player.sendMessage(ChatColor.GOLD + "The trader sells now: "
 			    + player.getItemInHand().getType().name().toLowerCase().replace("_", " ") + "!");
 		} else {
-		    trader.addRecipe(player.getInventory().getItem(0), player.getInventory().getItem(1), player
-			    .getInventory().getItem(2));
+		    ItemStack[] items = { player.getInventory().getItem(0), player.getInventory().getItem(1),
+			    player.getInventory().getItem(2) };
+		    if (items[2] == null) {
+			player.sendMessage(ChatColor.RED
+				+ "You have to put the item you want to sell in the third slot!");
+			return;
+		    } else if (items[0] == null) {
+			player.sendMessage("You have to put something you want to have for your sell in the first slot!");
+			return;
+		    }
+		    trader.addRecipe(items[0], items[1], items[2]);
 		    player.sendMessage(ChatColor.GOLD + "The trader sells now: "
-			    + player.getInventory().getItem(2).getType().name().toLowerCase().replace("_", " ") + "!");
+			    + items[2].getType().name().toLowerCase().replace("_", " ") + "!");
 		}
 
 	    }
@@ -83,9 +98,15 @@ public class Commandtrader extends Commands {
 		    player.sendMessage(ChatColor.RED + "There is no trader around you!");
 		    return;
 		}
-
-		trader.delRecipe(player.getItemInHand());
-		player.sendMessage(ChatColor.GOLD + "Deleted this recipe!");
+		if (player.getItemInHand() == null || player.getItemInHand().getType().equals(Material.AIR)) {
+		    player.sendMessage(ChatColor.RED + "You have to take the item the trader sells in your hand!");
+		    return;
+		}
+		if (trader.delRecipe(player.getItemInHand()))
+		    player.sendMessage(ChatColor.GOLD + "Deleted this recipe!");
+		else
+		    player.sendMessage(ChatColor.GOLD
+			    + "Sorry, I could not find this recipe. Take the item you do not want to sell anymore in your hand (amount is important)!");
 
 	    }
 	}, new CommandField("del", FieldProperty.IDENTIFIER)));

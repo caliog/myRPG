@@ -48,8 +48,8 @@ public class Trader extends Villager {
 	return writer;
     }
 
-    public void delRecipe(ItemStack itemInHand) {
-	recipe.del(itemInHand);
+    public boolean delRecipe(ItemStack itemInHand) {
+	return recipe.del(itemInHand);
 
     }
 

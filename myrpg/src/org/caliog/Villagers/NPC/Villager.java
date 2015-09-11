@@ -82,9 +82,8 @@ public class Villager extends VillagerNPC {
 
     }
 
-    public void removeQuest(String q) {
-
-	quests.remove(q);
+    public boolean removeQuest(String q) {
+	return quests.remove(q);
 
     }
 

@@ -49,9 +49,8 @@ public class Commandpath extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-
 		PathUtil.setPath(args[1], Integer.parseInt(args[2]), player.getLocation());
-		player.sendMessage(ChatColor.GOLD + "Set path!");
+		player.sendMessage(ChatColor.GOLD + "Created the checkpoint!");
 	    }
 	}, new CommandField("set", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED),
 		new CommandField("checkpoint", "not-negative integer", FieldProperty.REQUIRED)));

@@ -3,10 +3,9 @@ package org.caliog.Villagers.NPC.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.Utils.DataSaver;
 import org.caliog.myRPG.myConfig;
-
-import org.bukkit.inventory.ItemStack;
 
 public class Recipe {
 
@@ -34,7 +33,8 @@ public class Recipe {
 	recipes.add(array);
     }
 
-    public void del(ItemStack itemInHand) {
+    public boolean del(ItemStack itemInHand) {
+	int i = recipes.size();
 	List<ItemStack[]> n = new ArrayList<ItemStack[]>();
 	for (ItemStack[] array : recipes) {
 	    if (!array[2].equals(itemInHand)) {
@@ -42,6 +42,7 @@ public class Recipe {
 	    }
 	}
 	recipes = n;
+	return recipes.size() != i;
     }
 
     public static Recipe load(String s) {

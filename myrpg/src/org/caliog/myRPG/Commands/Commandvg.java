@@ -1,5 +1,6 @@
 package org.caliog.myRPG.Commands;
 
+import java.awt.TrayIcon.MessageType;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -78,12 +79,13 @@ public class Commandvg extends Commands {
 		}
 		String text = args[2];
 		try {
+		    MessageType.valueOf(args[3]);
 		    text += "#" + args[3];
 		    text += "#" + (args.length >= 5 ? args[4] : Integer.parseInt(args[1]) + 1);
 
 		    v.addText(Integer.parseInt(args[1]), text);
 		    player.sendMessage(ChatColor.GOLD + "The villager talks!");
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 		    player.sendMessage(ChatColor.RED + "/vg talk <id> <message> <type> [target]");
 		    player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
 		}
@@ -139,7 +141,7 @@ public class Commandvg extends Commands {
 		if (v.addQuest(args[1]))
 		    player.sendMessage(ChatColor.GOLD + "Added this quest!");
 		else
-		    player.sendMessage(ChatColor.GOLD + "Quest does not exist.");
+		    player.sendMessage(ChatColor.GOLD + "Quest does not exist!");
 	    }
 	}, new CommandField("quest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
@@ -160,8 +162,10 @@ public class Commandvg extends Commands {
 		    player.sendMessage(CmdMessage.noVillager);
 		    return;
 		}
-		v.removeQuest(args[1]);
-		player.sendMessage(ChatColor.GOLD + "Removed this quest!");
+		if (v.removeQuest(args[1]))
+		    player.sendMessage(ChatColor.GOLD + "Removed this quest!");
+		else
+		    player.sendMessage(ChatColor.RED + "That is not a assigned quest of this villager!");
 	    }
 	}, new CommandField("delquest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 

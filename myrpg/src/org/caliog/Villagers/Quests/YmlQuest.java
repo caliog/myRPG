@@ -50,13 +50,14 @@ public class YmlQuest extends Quest {
 	    CMessage msg = CMessage.fromString(config.getConfigurationSection("messages").getString(id),
 		    Integer.parseInt(id));
 	    if (msg != null) {
-		if (id.equals("1")) {//id:1 is reserved for the "accept-quest" message; default start with id:1
+		if (id.equals("1")) {//id:1 is reserved for the "accept-quest" message; default start with id:0
 
 		    msg.setTask(new ChatTask(this) {
 
 			@Override
 			public void execute(myClass player, Villager villager) {
 			    player.newQuest(quest.getName());
+			    QManager.updateQuestBook(player);
 			    ItemStack stack = getReceive();
 			    if (!config.getBoolean("target-villager-give"))
 				if (stack != null)
