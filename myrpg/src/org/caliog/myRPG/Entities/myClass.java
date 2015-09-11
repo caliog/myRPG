@@ -222,7 +222,7 @@ public class myClass extends myPlayer {
 	int a = 0;
 	for (CustomItem item : this.getEquipment()) {
 	    for (ItemEffect effect : item.getEffects()) {
-		if (effect.getType().equals(ItemEffectType.DODG))
+		if (effect.getType().equals(ItemEffectType.DODGE))
 		    a += effect.getPower();
 	    }
 	}

@@ -5,7 +5,7 @@ public class ItemEffect {
     private final ItemEffectType type;
 
     public static enum ItemEffectType {
-	VIT, DEX, STR, INT, CRIT, DODG;
+	VIT, DEX, STR, INT, CRIT, DODGE;
     }
 
     public ItemEffect(ItemEffectType type, int p) {
@@ -19,18 +19,18 @@ public class ItemEffect {
 
     public String getString() {
 	switch (this.type) {
-	case VIT:
+	case DODGE:
 	    return "Dodge Chance: +" + this.power + "%";
-	case STR:
+	case CRIT:
 	    return "Critical Chance: +" + this.power + "%";
 	case DEX:
 	    return "Dex +" + this.power;
 	case INT:
 	    return "Int +" + this.power;
-	case DODG:
-	    return "Str +" + this.power;
-	case CRIT:
+	case VIT:
 	    return "Vit +" + this.power;
+	case STR:
+	    return "Str +" + this.power;
 	}
 	return null;
     }
