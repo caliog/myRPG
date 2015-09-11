@@ -93,9 +93,7 @@ public class Commandmyrpg extends Commands {
 		if (myConfig.isMICDisabled())
 		    player.sendMessage(ChatColor.RED + "MIC is disabled in config!");
 		else {
-		    if (Manager.plugin.createMIC(player))
-			player.sendMessage(ChatColor.GOLD + "Starting download of 'MIC.jar' !");
-		    else
+		    if (!Manager.plugin.createMIC(player))
 			player.sendMessage(ChatColor.RED + "Couldn't create MIC.jar, is it already existing?");
 		}
 	    }

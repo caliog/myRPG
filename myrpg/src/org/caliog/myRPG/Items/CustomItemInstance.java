@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.caliog.myRPG.Items.ItemEffect.ItemEffectType;
 import org.caliog.myRPG.Utils.FilePath;
 
 public class CustomItemInstance extends CustomItem {
@@ -17,12 +19,11 @@ public class CustomItemInstance extends CustomItem {
     }
 
     public List<ItemEffect> getEffects() {
-	List<String> list = this.config.getStringList("item-effects");
+	ConfigurationSection sec = config.getConfigurationSection("item-effects");
 	this.effects.clear();
-	for (String l : list) {
-	    if (l.contains(":")) {
-		this.effects.add(new ItemEffect(ItemEffect.ItemEffectType.valueOf(l.split(":")[0]), Integer.parseInt(l
-			.split(":")[1])));
+	for (ItemEffectType type : ItemEffectType.values()) {
+	    if (sec.isSet(type.name())) {
+		this.effects.add(new ItemEffect(type, config.getInt(type.name())));
 	    }
 	}
 	return this.effects;

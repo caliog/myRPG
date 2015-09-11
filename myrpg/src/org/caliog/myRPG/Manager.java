@@ -98,7 +98,7 @@ public class Manager {
 	    GManager.load();
 
 	    //Spells
-	    SpellLoader.start();
+	    SpellLoader.init();
 
 	    MobSpawner.loadZones();
 	    VolatileEntities.load();

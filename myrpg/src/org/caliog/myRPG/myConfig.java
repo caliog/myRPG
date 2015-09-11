@@ -110,6 +110,8 @@ public class myConfig {
     }
 
     public static boolean isMICDisabled() {
+	if (config == null)
+	    return true;
 	return config.getBoolean("disable-mic", true);
     }
 
@@ -122,6 +124,8 @@ public class myConfig {
     }
 
     public static boolean isSpellCollectionEnabled() {
+	if (config == null)
+	    return true;
 	return config.getBoolean("enable-spell-collection", true);
     }
 

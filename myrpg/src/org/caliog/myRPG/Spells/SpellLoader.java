@@ -15,7 +15,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.caliog.myRPG.Manager;
-import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Utils.FilePath;
 
@@ -23,28 +22,6 @@ public class SpellLoader {
 
     protected static ClassLoader classLoader;
     private static Set<String> paths = new HashSet<String>();
-    private static int taskId;
-
-    public static void start() {
-	taskId = Manager.scheduleRepeatingTask(new Runnable() {
-
-	    @Override
-	    public void run() {
-		try {
-		    if (!myConfig.isSpellCollectionEnabled())
-			init();
-		    else if (Manager.plugin.isSpellCollectionDownloadFinished()) {
-			init();
-		    } else
-			return;
-		    Manager.cancelTask(taskId);
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-
-	    }
-	}, 20L, 10L);
-    }
 
     public static void init() throws IOException {
 	File dir = new File(FilePath.spells);

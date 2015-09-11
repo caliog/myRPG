@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,7 +49,7 @@ public class myPlugin extends JavaPlugin {
 	myConfig.init();
 
 	createMIC();
-	downloadSpellCollection();
+	createSpellCollection();
 
 	Manager.load();
 
@@ -136,6 +135,10 @@ public class myPlugin extends JavaPlugin {
 			if (value.endsWith("/")) {
 			    file.mkdir();
 			} else {
+			    if (value.equals(FilePath.mic))
+				continue;
+			    if (value.equals(FilePath.spellCollection))
+				continue;
 			    file.createNewFile();
 			    fc.copyFile(value, name);
 			}
@@ -151,6 +154,20 @@ public class myPlugin extends JavaPlugin {
 	return version;
     }
 
+    private void createSpellCollection() {
+	if (myConfig.isSpellCollectionEnabled()) {
+	    try {
+		File file = new File(FilePath.spellCollection);
+		if (!file.exists())
+		    file.createNewFile();
+		fc.copyFile(FilePath.spellCollection, "SpellCollection.jar");
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}
+
+    }
+
     public boolean createMIC() {
 	return createMIC(null);
     }
@@ -160,57 +177,17 @@ public class myPlugin extends JavaPlugin {
 	if (micFile.exists() && micFile.length() != 0)
 	    return false;
 	if (!myConfig.isMICDisabled())
-	    new Thread(new Runnable() {
-
-		@Override
-		public void run() {
-		    try {
-			micFile.createNewFile();
-			getLogger().log(Level.INFO, "Starting download of MIC.jar...");
-			FileCreator.copyURL(micFile, "http://www.caliog.org/downloads/MIC.jar");
-			getLogger().log(Level.INFO, "Finished download of MIC.jar!");
-			if (player != null)
-			    player.sendMessage(ChatColor.GOLD + "Finished download of MIC.jar!");
-		    } catch (IOException e) {
-			getLogger().log(Level.WARNING, "Download of MIC.jar failed!");
-			if (player != null)
-			    player.sendMessage(ChatColor.GOLD + "Download of MIC.jar failed!");
-		    }
-
-		}
-	    }).start();
+	    try {
+		micFile.createNewFile();
+		fc.copyFile(FilePath.mic, "MIC.jar");
+		if (player != null)
+		    player.sendMessage(ChatColor.GOLD + "Created MIC.jar in your Config folder!");
+	    } catch (IOException e) {
+		if (player != null)
+		    player.sendMessage(ChatColor.GOLD + "Something went wrong..!");
+	    }
 
 	return true;
-    }
-
-    public void downloadSpellCollection() {
-	final File file = new File(FilePath.spellCollection);
-	if (!myConfig.isSpellCollectionEnabled()) {
-	    return;
-	}
-
-	if (file.exists() && file.length() != 0) {
-	    scd = true;
-	    return;
-	}
-	new Thread(new Runnable() {
-
-	    @Override
-	    public void run() {
-		try {
-
-		    if (!file.exists())
-			file.createNewFile();
-		    getLogger().log(Level.INFO, "Starting download of SpellCollection.jar! ");
-		    FileCreator.copyURL(file, "http://www.caliog.org/downloads/SpellCollection.jar");
-		    getLogger().log(Level.INFO, "Finished download of SpellCollection.jar! ");
-		} catch (IOException e) {
-		    getLogger().log(Level.WARNING, "Download of SpellCollection.jar failed!");
-		}
-		scd = true;
-	    }
-	}).start();
-
     }
 
     public void reload() {
