@@ -27,6 +27,8 @@ enable-spells: true
 comment10: '#The time between death and respawn of mobs (in seconds)#'
 comment11: '#You can set a additional individual amount of time in the mob file#'
 mob-spawn-time: 15
+comment11a: '#Disable natural spawn of the usual minecraft mobs#'
+disable-natural-spawn: true
 comment12: '#If this is false, myRPG will install (by command or reload)#' 
 comment13: '#the Mobs&Items Creator which allows you to create custom mobs & items#'
 disable-mic: true

@@ -48,9 +48,10 @@ public class Msg {
 
     }
 
-    private static boolean sendMessageTo(Player player, String msg) {
+    private static boolean sendMessageTo(Player player, String msg, String key) {
 	if (msg == null || msg.length() == 0) {
-	    Manager.plugin.getLogger().warning("Message error! Look over your messages file!");
+	    String k = key == null ? "" : (" (key = " + key + ")");
+	    Manager.plugin.getLogger().warning("Message error! Look over your messages file!" + k);
 	    return false;
 	} else
 	    player.sendMessage(msg);
@@ -64,7 +65,7 @@ public class Msg {
 		return;
 	    }
 
-	sendMessageTo(player, getMessage(msgKey, key, replace));
+	sendMessageTo(player, getMessage(msgKey, key, replace), msgKey);
     }
 
     public static String getMessage(String msgKey, String key, String replace) {
@@ -103,15 +104,16 @@ public class Msg {
 	else if (field.getType().contains("integer"))
 	    type += "integer";
 	String message = field.getName() + " has to be a " + type + "!";
-	sendMessageTo(player, ChatColor.RED + message);
+	sendMessageTo(player, ChatColor.RED + message, null);
     }
 
     public static void commandOptionError(CommandField field, Player player) {
-	sendMessageTo(player, ChatColor.RED + field.getName() + " has to be on of these options: " + field.getType());
+	sendMessageTo(player, ChatColor.RED + field.getName() + " has to be on of these options: " + field.getType(),
+		null);
     }
 
     public static void noPermission(Player player) {
-	sendMessageTo(player, ChatColor.RED + "You do not have the permission to do this!");
+	sendMessageTo(player, ChatColor.RED + "You do not have the permission to do this!", null);
     }
 
 }

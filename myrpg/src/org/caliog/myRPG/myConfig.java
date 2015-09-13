@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.myRPG.Entities.ClazzLoader;
@@ -78,6 +79,10 @@ public class myConfig {
 	if (!config.isSet("disable-worlds"))
 	    return def;
 	return config.getStringList("disable-worlds");
+    }
+
+    public static boolean isWorldDisabled(World world) {
+	return getDisabledWorlds().contains(world.getName());
     }
 
     public static boolean isLevelLinear() {
@@ -158,4 +163,9 @@ public class myConfig {
     public static boolean isUpdateEnabled() {
 	return config.getBoolean("enable-update-check", true);
     }
+
+    public static boolean isNaturalSpawnDisabled() {
+	return config.getBoolean("disable-natural-spawn", true);
+    }
+
 }

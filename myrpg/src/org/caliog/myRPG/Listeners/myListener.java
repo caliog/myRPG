@@ -78,12 +78,17 @@ public class myListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void creatureSpawnEvent(CreatureSpawnEvent event) {
 	if (!event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-	    event.setCancelled(true);
+	    if (myConfig.isNaturalSpawnDisabled())
+		event.setCancelled(true);
 	}
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDamage(EntityDamageEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
+	if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+	    return;
 	if (((event.getCause().equals(EntityDamageEvent.DamageCause.FALL))
 		|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) || (event.getCause()
 		.equals(EntityDamageEvent.DamageCause.FIRE_TICK))) && ((event.getEntity() instanceof Player))) {
@@ -109,6 +114,10 @@ public class myListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDamageByPlayer(EntityDamageByEntityEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
+	if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+	    return;
 	if (((event.getDamager() instanceof Player))
 		&& (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
 	    if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getItemInHand())) {
@@ -134,6 +143,10 @@ public class myListener implements Listener {
     }
 
     public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+	if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+	    return;
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
 	if (event.isCancelled()) {
 	    return;
 	}
@@ -208,6 +221,8 @@ public class myListener implements Listener {
     }
 
     public void onMobDamageByPlayer(EntityDamageByEntityEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
 	if (event.isCancelled()) {
 	    return;
 	}
@@ -217,6 +232,8 @@ public class myListener implements Listener {
 	if (!(event.getEntity() instanceof LivingEntity)) {
 	    return;
 	}
+	if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+	    return;
 	boolean shooterisplayer = false;
 	if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
 		&& (((Projectile) event.getDamager()).getShooter() != null)
@@ -270,6 +287,10 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onMobDeath(final EntityDeathEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
+	if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+	    return;
 	event.setDroppedExp(0);
 	event.getDrops().clear();
 	if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime))
@@ -356,6 +377,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerDeathEvent(PlayerDeathEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
 	if (myConfig.isFireworkEnabled()) {
 	    Firework firework = (Firework) event.getEntity().getWorld()
 		    .spawn(event.getEntity().getLocation(), Firework.class);
@@ -385,6 +408,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void levelUp(PlayerLevelChangeEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 	if (player == null) {
 	    return;
@@ -411,7 +436,7 @@ public class myListener implements Listener {
 		firework.setFireworkMeta(data);
 	    }
 	    Playerface.giveItem(player.getPlayer(), new Skillstar(3));
-	    Msg.sendMessage(event.getPlayer(), "leavel-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
+	    Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
 	}
 	GroupManager.updateGroup(player.getPlayer(), event.getNewLevel());
 
@@ -419,6 +444,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void inventoryClose(InventoryCloseEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	if (!(event.getPlayer() instanceof Player)) {
 	    return;
 	}
@@ -438,6 +465,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void spellEvent(final PlayerInteractEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	boolean useable = ItemUtils.checkForUse(event.getPlayer(), event.getItem());
 	final myClass c = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 	if (c == null) {
@@ -465,6 +494,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void skillstar(PlayerInteractEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	ItemStack stack = event.getPlayer().getItemInHand();
 	if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
 		&& (Skillstar.isSkillstar(stack))) {
@@ -475,6 +506,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerJoin(PlayerJoinEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	if (!PlayerManager.login(event.getPlayer())) {
 	    PlayerManager.register(event.getPlayer(), myConfig.getDefaultClass());
 	}
@@ -524,6 +557,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void dropItem(PlayerDropItemEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	Playerface.dropItem(event.getPlayer(), event.getPlayer().getLocation(), event.getItemDrop());
     }
 
@@ -596,6 +631,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBowShoot(EntityShootBowEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
 	if ((!(event.getEntity() instanceof Player))
 		|| (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
 	    return;
@@ -627,6 +664,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBowShoot(final PlayerInteractEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 	if (player == null) {
 	    return;
@@ -678,6 +717,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 	if (player == null)
 	    return;

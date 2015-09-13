@@ -18,6 +18,7 @@ import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Utils.EntityUtils;
@@ -106,7 +107,8 @@ public class MobSpawner {
 			if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {
 			    m = VolatileEntities.getMob(e.getUniqueId());
 			    if (!VolatileEntities.isRegistered(e.getUniqueId())) {
-				e.remove();
+				if (myConfig.isNaturalSpawnDisabled())
+				    e.remove();
 			    } else if (m != null) {
 				ids.add(e.getUniqueId());
 				for (Entity p : e.getNearbyEntities(7.0D, 5.0D, 7.0D)) {
