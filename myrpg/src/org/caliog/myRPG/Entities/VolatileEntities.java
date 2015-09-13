@@ -122,6 +122,11 @@ public class VolatileEntities {
     }
 
     public static void killAllMobs() {
+	for (Mob m : mobs) {
+	    m.delete();
+	    unregister(m.getId());
+	}
 	mobs.clear();
+
     }
 }

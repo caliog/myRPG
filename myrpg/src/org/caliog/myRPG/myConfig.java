@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.caliog.myRPG.Classes.ClazzLoader;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Resource.FileCreator;
 import org.caliog.myRPG.Utils.FilePath;
 
@@ -153,5 +153,9 @@ public class myConfig {
 	if (cf == null || cf.equalsIgnoreCase("none"))
 	    return null;
 	return cf;
+    }
+
+    public static boolean isUpdateEnabled() {
+	return config.getBoolean("enable-update-check", true);
     }
 }

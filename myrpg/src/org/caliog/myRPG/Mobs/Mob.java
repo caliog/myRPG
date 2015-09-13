@@ -49,7 +49,7 @@ public abstract class Mob extends Fighter {
 
 	Manager.scheduleRepeatingTask(new Runnable() {
 	    public void run() {
-		ParticleEffect.SMOKE_LARGE.display(0.1F, 0.3F, 0.1F, 0.25F, 10, loc, 30);
+		ParticleEffect.SMOKE_NORMAL.display(0.1F, 0.3F, 0.1F, 0.25F, 10, loc, 30);
 
 	    }
 	}, 0L, 2L, 8L);

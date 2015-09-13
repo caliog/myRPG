@@ -46,7 +46,8 @@ public class Commandmsz extends Commands {
 		player.sendMessage(CmdMessage.createdMSZ);
 	    }
 	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("mob", FieldProperty.REQUIRED),
-		new CommandField("amount", "positive integer", FieldProperty.REQUIRED)));
+		new CommandField("radius", "positive integer", FieldProperty.REQUIRED), new CommandField("amount",
+			"positive integer", FieldProperty.REQUIRED)));
 
 	/*
 	 * Name: msz

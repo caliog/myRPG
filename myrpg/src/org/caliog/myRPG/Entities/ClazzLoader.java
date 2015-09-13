@@ -1,9 +1,8 @@
-package org.caliog.myRPG.Classes;
+package org.caliog.myRPG.Entities;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Spells.Spell;
 import org.caliog.myRPG.Spells.SpellLoader;
 

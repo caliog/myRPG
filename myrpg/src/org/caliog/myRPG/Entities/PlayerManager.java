@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.caliog.myRPG.Classes.ClazzLoader;
 import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Utils.FilePath;
 

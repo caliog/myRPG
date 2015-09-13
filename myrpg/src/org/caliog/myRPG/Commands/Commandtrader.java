@@ -69,7 +69,8 @@ public class Commandtrader extends Commands {
 				+ "You have to put the item you want to sell in the third slot!");
 			return;
 		    } else if (items[0] == null) {
-			player.sendMessage("You have to put something you want to have for your sell in the first slot!");
+			player.sendMessage(ChatColor.RED
+				+ "You have to put something you want to have in exchange for your sell in the first slot!");
 			return;
 		    }
 		    trader.addRecipe(items[0], items[1], items[2]);

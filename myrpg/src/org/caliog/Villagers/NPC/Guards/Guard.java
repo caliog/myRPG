@@ -21,6 +21,7 @@ public class Guard extends GNPC {
     public Guard(String name, Location loc, int id, String eq) {
 	super(name, loc, id);
 	this.setIsLooking(true);
+	this.setAttackMonster(true);
 	equipment(eq);
     }
 
@@ -114,7 +115,7 @@ public class Guard extends GNPC {
 		    Location loc = target.getEyeLocation();
 		    if (loc != null)
 			if (lastShot + 20 < target.getWorld().getTime()
-				&& loc.distance(npc.getBukkitEntity().getLocation()) < 33) {
+				&& loc.distanceSquared(npc.getBukkitEntity().getLocation()) < 1098) {
 
 			    final double c = 0.55;
 
@@ -134,7 +135,7 @@ public class Guard extends GNPC {
 		} else {
 		    npc.walkTo(target.getLocation());
 		    ((NPC) npc).lookAtPoint(target.getEyeLocation());
-		    if (npc.getBukkitEntity().getLocation().distance(target.getLocation()) <= 1) {
+		    if (npc.getBukkitEntity().getLocation().distanceSquared(target.getLocation()) <= 1.44) {
 			npc.animateArmSwing();
 			target.damage(this.getDamage());
 			this.attackCount++;
@@ -150,7 +151,7 @@ public class Guard extends GNPC {
 
     @Override
     public int getRadius() {
-	return 5;
+	return 8;
     }
 
     public void setEquipment(ItemStack stack, ItemStack[] armor) {

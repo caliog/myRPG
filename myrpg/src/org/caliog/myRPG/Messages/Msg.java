@@ -1,6 +1,8 @@
 package org.caliog.myRPG.Messages;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -29,7 +31,21 @@ public class Msg {
 	YamlConfiguration def = YamlConfiguration.loadConfiguration(stream);
 	file.addDefaults(def);
 	file.options().copyDefaults(true);
-	file.save(new File(FilePath.messages));
+	try {
+	    File f = new File(FilePath.messages);
+	    String str = file.saveToString();
+	    BufferedWriter bf = new BufferedWriter(new FileWriter(f));
+	    while (str.contains("comment")) {
+		str = str.replace(str.substring(str.indexOf("comment"), str.indexOf(": '#") + 3), "");
+		str = str.replaceFirst("#'", "");
+	    }
+	    bf.write(str);
+	    bf.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	file = YamlConfiguration.loadConfiguration(new File(FilePath.messages));
+
     }
 
     private static boolean sendMessageTo(Player player, String msg) {
@@ -59,7 +75,7 @@ public class Msg {
 
     private static String getMessage(String msgKey, String[] key, String[] replace) {
 	String msg = file.getString(msgKey);
-	if (msg == null || replace.length != key.length)
+	if (msg == null || (key != null && replace != null && replace.length != key.length))
 	    return null;
 	if (key != null)
 	    for (int i = 0; i < key.length; i++)

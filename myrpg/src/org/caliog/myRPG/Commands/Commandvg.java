@@ -1,10 +1,10 @@
 package org.caliog.myRPG.Commands;
 
-import java.awt.TrayIcon.MessageType;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Guards.CheckpointPath;
 import org.caliog.Villagers.NPC.Guards.PathUtil;
@@ -79,12 +79,12 @@ public class Commandvg extends Commands {
 		}
 		String text = args[2];
 		try {
-		    MessageType.valueOf(args[3]);
+		    CMessage.MessageType.valueOf(args[3]);
 		    text += "#" + args[3];
-		    text += "#" + (args.length >= 5 ? args[4] : Integer.parseInt(args[1]) + 1);
+		    text += "#" + (args.length >= 5 ? args[4] : (Integer.parseInt(args[1]) + 1));
 
 		    v.addText(Integer.parseInt(args[1]), text);
-		    player.sendMessage(ChatColor.GOLD + "The villager talks!");
+		    player.sendMessage(ChatColor.GOLD + "You set message " + args[1] + "!");
 		} catch (Exception e) {
 		    player.sendMessage(ChatColor.RED + "/vg talk <id> <message> <type> [target]");
 		    player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
@@ -112,11 +112,13 @@ public class Commandvg extends Commands {
 		    player.sendMessage(CmdMessage.noVillager);
 		    return;
 		}
-		if (args.length == 2)
+		if (args.length == 2) {
 		    v.removeText(Integer.parseInt(args[1]));
-		else
+		    player.sendMessage(ChatColor.GOLD + "Removed message " + args[1] + "!");
+		} else {
 		    v.clearText();
-		player.sendMessage(ChatColor.GOLD + "Removed message!");
+		    player.sendMessage(ChatColor.GOLD + "Removed all messages!");
+		}
 	    }
 	}, new CommandField("deltalk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer",
 		FieldProperty.OPTIONAL)));
@@ -139,7 +141,7 @@ public class Commandvg extends Commands {
 		    return;
 		}
 		if (v.addQuest(args[1]))
-		    player.sendMessage(ChatColor.GOLD + "Added this quest!");
+		    player.sendMessage(ChatColor.GOLD + "Assigned the quest to the villager!");
 		else
 		    player.sendMessage(ChatColor.GOLD + "Quest does not exist!");
 	    }
@@ -165,7 +167,7 @@ public class Commandvg extends Commands {
 		if (v.removeQuest(args[1]))
 		    player.sendMessage(ChatColor.GOLD + "Removed this quest!");
 		else
-		    player.sendMessage(ChatColor.RED + "That is not a assigned quest of this villager!");
+		    player.sendMessage(ChatColor.RED + "That is not an assigned quest of this villager!");
 	    }
 	}, new CommandField("delquest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 

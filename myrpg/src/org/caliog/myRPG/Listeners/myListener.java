@@ -113,6 +113,7 @@ public class myListener implements Listener {
 		&& (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
 	    if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getItemInHand())) {
 		event.setCancelled(true);
+		return;
 	    } else {
 		final Player p = (Player) event.getDamager();
 		final short d = p.getItemInHand().getDurability();

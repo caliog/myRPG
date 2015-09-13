@@ -1,8 +1,6 @@
 package org.caliog.myRPG;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -22,6 +20,9 @@ import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Resource.FileCreator;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
+import org.caliog.myRPG.Utils.Updater;
+import org.caliog.myRPG.Utils.Updater.UpdateCallback;
+import org.caliog.myRPG.Utils.Updater.UpdateType;
 import org.caliog.myRPG.Utils.myUtils;
 
 public class myPlugin extends JavaPlugin {
@@ -204,18 +205,18 @@ public class myPlugin extends JavaPlugin {
     }
 
     private void searchForNewVersion() {
-	File f = new File("dummy");
-	try {
-	    FileCreator.copyURL(f, "http://www.caliog.org/downloads/version.txt");
-	    BufferedReader reader = new BufferedReader(new FileReader(f));
-	    String newVersion = reader.readLine();
-	    if (!newVersion.equals(getDescription().getVersion())) {
-		getLogger().info("There is a new version of myRPG: v" + newVersion);
-		getLogger().info("Visit www.caliog.org to download it! Have Fun ;)");
-	    }
+	if (myConfig.isUpdateEnabled()) {
+	    new Updater(this, 45030, this.getFile(), UpdateType.NO_DOWNLOAD, new UpdateCallback() {
 
-	    reader.close();
-	} catch (Exception e) {
+		@Override
+		public void onFinish(Updater updater) {
+		    if (updater.getResult().equals(Updater.UpdateResult.UPDATE_AVAILABLE))
+			getLogger().info(
+				"There is a new version (" + updater.getLatestName().replace("myRPG", "").trim()
+					+ ") of myRPG available!");
+
+		}
+	    });
 	}
     }
 }

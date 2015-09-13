@@ -150,22 +150,24 @@ public class Playerface {
 
     public static void dropItem(Player player, Location location, final Item item) {
 	final UUID id = item.getUniqueId();
-	long time = CustomItem.isItemTradeable(item.getItemStack()) ? 200L : 3600L;
-
+	long time = myConfig.getRemoveItemTime();
+	time = time <= 0 ? 0 : time;
 	playerDrops.put(id, player.getUniqueId());
 	Manager.scheduleTask(new Runnable() {
 	    public void run() {
 		Playerface.playerDrops.remove(id);
 	    }
-	}, time);
-
-	Manager.scheduleTask(new Runnable() {
-	    public void run() {
-		if (item.isOnGround()) {
-		    item.remove();
+	}, CustomItem.isItemTradeable(item.getItemStack()) ? 200L : (time * 20));
+	time = myConfig.getRemoveItemTime();
+	time = time <= 0 ? 0 : time;
+	if (time != 0)
+	    Manager.scheduleTask(new Runnable() {
+		public void run() {
+		    if (item.isOnGround()) {
+			item.remove();
+		    }
 		}
-	    }
-	}, 20L * myConfig.getRemoveItemTime());
+	    }, 20L * time);
     }
 
     public static boolean isAccessible(Player player, Item item) {

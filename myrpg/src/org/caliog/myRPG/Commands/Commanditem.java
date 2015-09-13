@@ -21,14 +21,16 @@ public class Commanditem extends Commands {
 	 * 
 	 * Permission: myrpg.item
 	 * 
-	 * Usage: /item <name> <level|amount> [tradeable]
+	 * Usage: /item <name> [level|amount] [tradeable]
 	 */
 	cmds.add(new Command("item", "myrpg.item", new CommandExecutable() {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
 		String name = args[0];
-		int a = Integer.parseInt(args[1]);
+		int a = 1;
+		if (args.length > 1)
+		    a = Integer.parseInt(args[1]);
 		boolean t = true;
 		if (args.length > 2) {
 		    t = Boolean.getBoolean(args[2]);
@@ -39,7 +41,7 @@ public class Commanditem extends Commands {
 		    player.sendMessage(CmdMessage.gaveYouItemNot);
 	    }
 	}, new CommandField("name", FieldProperty.REQUIRED), new CommandField("level|amount", "positive integer",
-		FieldProperty.REQUIRED), new CommandField("tradeable", "true|false", FieldProperty.OPTIONAL)));
+		FieldProperty.OPTIONAL), new CommandField("tradeable", "true|false", FieldProperty.OPTIONAL)));
 
 	return cmds;
     }

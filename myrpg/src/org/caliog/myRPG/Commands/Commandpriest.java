@@ -7,12 +7,12 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
 import org.caliog.Villagers.NPC.Util.VManager;
-import org.caliog.myRPG.Classes.ClazzLoader;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
+import org.caliog.myRPG.Entities.ClazzLoader;
 
 public class Commandpriest extends Commands {
 

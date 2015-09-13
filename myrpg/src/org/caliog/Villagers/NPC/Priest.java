@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.Chat.CMessage.MessageType;
 import org.caliog.Villagers.Chat.ChatTask;
-import org.caliog.myRPG.Classes.ClazzLoader;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Messages.Msg;

@@ -148,6 +148,11 @@ public class NPCManager extends org.caliog.npclib.NPCManager {
 	if (npc != null) {
 	    npcs.remove(id);
 	    npc.removeFromWorld();
+
+	    sendPacketsTo(Bukkit.getOnlinePlayers(),
+		    new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER,
+			    new EntityPlayer[] { (EntityPlayer) npc.getEntity() }));
+
 	}
     }
 

@@ -1,3 +1,6 @@
+comment_0: '#Decide if the plugin should search for new updates.#'
+comment_0a: '#There will be no auto-download of new updates.#'
+enable-update-check: true
 comment1: '#You can choose every material you like (e.g. GOLD_NUGGETS, IRON_INGOT)#'
 currency: EMERALD
 comment2: '#Set the default class, players are assigned on first join#'
@@ -11,7 +14,7 @@ comment4c: '#Leave it blank or set to none if you dont want to use it#'
 chat-format: '&9[&9%GROUP%&9]&8[&2%PLAYER% &6%LEVEL%&8]&f: %MESSAGE%'
 comment5: '#The time after droped items will be removed (in seconds)#'
 remove-item-delay: 120
-comment6: '#myRPG will not touch these worlds'
+comment6: '#myRPG will not touch these worlds#'
 disable-worlds:
   - world_nether
   - world_the_end

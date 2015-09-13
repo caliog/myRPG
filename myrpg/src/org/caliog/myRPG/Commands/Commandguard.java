@@ -14,6 +14,7 @@ import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
+import org.caliog.myRPG.Messages.CmdMessage;
 
 public class Commandguard extends Commands {
 
@@ -31,7 +32,6 @@ public class Commandguard extends Commands {
 
 	    @Override
 	    public void execute(String[] args, Player player) {
-
 		GManager.createNewGuard(args[1], player.getLocation());
 		player.sendMessage(ChatColor.GOLD + "Created guard at your position!");
 
@@ -51,6 +51,10 @@ public class Commandguard extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
+		if (g == null) {
+		    player.sendMessage(CmdMessage.noGuard);
+		    return;
+		}
 		if (args[1].equalsIgnoreCase("remove")) {
 		    g.removePath();
 		    player.sendMessage(ChatColor.GOLD + "The guard won't walk this path anymore!");
@@ -77,6 +81,10 @@ public class Commandguard extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
+		if (g == null) {
+		    player.sendMessage(CmdMessage.noGuard);
+		    return;
+		}
 		String a = "";
 		for (int i = 1; i < args.length; i++)
 		    a += args[i];
@@ -100,6 +108,10 @@ public class Commandguard extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
+		if (g == null) {
+		    player.sendMessage(CmdMessage.noGuard);
+		    return;
+		}
 		ItemStack hand = player.getItemInHand();
 		ItemStack armor[] = player.getInventory().getArmorContents();
 		g.setEquipment(hand, armor);
@@ -121,6 +133,10 @@ public class Commandguard extends Commands {
 	    @Override
 	    public void execute(String[] args, Player player) {
 		Guard g = GManager.getClosestGuard(player.getLocation());
+		if (g == null) {
+		    player.sendMessage(CmdMessage.noGuard);
+		    return;
+		}
 		GManager.remove(g);
 		player.sendMessage(ChatColor.GOLD + "Removed this guard!");
 	    }

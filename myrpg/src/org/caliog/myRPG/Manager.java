@@ -15,8 +15,8 @@ import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;
 import org.caliog.Villagers.Utils.DataSaver;
-import org.caliog.myRPG.Classes.ClazzLoader;
 import org.caliog.myRPG.Commands.Utils.Permissions;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
@@ -49,12 +49,12 @@ public class Manager {
 		Manager.seconds = Manager.timer / 20;
 		if (Manager.timer % 5L == 0L) {
 		    MobSpawner.getTask().run();
-		}
-		PlayerManager.task(Manager.seconds);
-		if (Manager.timer % 20L == 0L) {
-		    VManager.doLogics();
 		    GManager.doLogics();
+		    if (Manager.timer % 20L == 0L)
+			VManager.doLogics();
 		}
+
+		PlayerManager.task(Manager.seconds);
 
 	    }
 	};

@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.Chat.CMessage;
-import org.caliog.myRPG.Classes.ClazzLoader;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Utils.QuestStatus;
 
