@@ -202,7 +202,7 @@ public class myListener implements Listener {
 	    if ((entity = PlayerManager.getPlayer(event.getEntity().getUniqueId())) != null) {
 		damage -= entity.getDefense();
 		entity.fight();
-		if (entity.getDodge() / 100 > Math.random()) {
+		if (entity.getDodge() / 100F > Math.random()) {
 		    event.setCancelled(true);
 		}
 	    }

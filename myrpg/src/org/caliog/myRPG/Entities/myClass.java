@@ -239,11 +239,14 @@ public class myClass extends myPlayer {
 	    s = 1;
 	    break;
 	case RIGHT_CLICK_BLOCK:
+	    s = 0;
 	    return;
 	case RIGHT_CLICK_AIR:
 	    s = 0;
 	    break;
 	case LEFT_CLICK_BLOCK:
+	    if (getPlayer().isSneaking())
+		s = 1;
 	    return;
 	default:
 	    return;
