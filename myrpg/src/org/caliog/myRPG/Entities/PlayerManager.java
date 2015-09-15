@@ -128,8 +128,7 @@ public class PlayerManager {
 		    clazz.addHealth(clazz.getMaxHealth() * 0.05D);
 		}
 		double d = clazz.getHealth() / clazz.getMaxHealth();
-
-		clazz.getPlayer().setHealth(20.0D * (d > 1.0D ? 1.0D : d));
+		clazz.getPlayer().setHealth(clazz.getPlayer().getMaxHealth() * (d > 1.0D ? 1.0D : d));
 		if (!GManager.isInGroup(clazz.getPlayer())) {
 		    clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
