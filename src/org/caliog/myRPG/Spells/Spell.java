@@ -1,5 +1,6 @@
 package org.caliog.myRPG.Spells;
 
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Messages.Msg;
@@ -28,17 +29,49 @@ public abstract class Spell {
 	return this.active;
     }
 
+    /**
+     * This is an optional method to use in the execute override.<br>
+     * It will tell the plugin that the spell is still active,<br>
+     * while it is active {@link getDamage()},{@link getDefense()} will be added
+     * to player's damage,defense.<br>
+     * 
+     * @param time
+     *            The time (in ticks = 20 * seconds) the spell will be active
+     * 
+     * @return false, if spell is already active
+     */
+
     public boolean activate(long time) {
 	if (this.active) {
 	    return false;
 	}
 	this.active = true;
 	if (!this.player.isBossFight()) {
-	    BarAPI.timerBar(this.player.getPlayer(), this.name, (int) Math.round(time / 20L));
+	    BarAPI.timerBar(this.player.getPlayer(), this.name, Math.round(time / 20F));
 	}
+
+	Manager.scheduleTask(new Runnable() {
+
+	    @Override
+	    public void run() {
+		active = false;
+	    }
+	}, time);
 	return true;
     }
 
+    /**
+     * 
+     * If you override this method, make sure to call super.execute() first.<br>
+     * It will return true if and only if:<br>
+     * <ol>
+     * <li>Player level is greater than or equal to {@link getMinLevel()}</li>
+     * <li>Player food is greater than or equal to {@link getFood()}</li>
+     * <li>the spell is not already active</li>
+     * </ol>
+     * 
+     * @return true, if player could cast this spell
+     */
     public boolean execute() {
 	if (this.player.getLevel() < getMinLevel()) {
 	    Msg.sendMessage(this.player.getPlayer(), "need-level-skill");
