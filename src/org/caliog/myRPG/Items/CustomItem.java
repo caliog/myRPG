@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -33,6 +34,7 @@ public abstract class CustomItem extends ItemStack {
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
 	meta.setDisplayName(ChatColor.DARK_GRAY + getName());
+	meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 	List<String> lore = new ArrayList<String>();
 	if ((hasClass()) || (hasMinLevel()) || (!isTradeable())) {
 	    lore.add(" ");

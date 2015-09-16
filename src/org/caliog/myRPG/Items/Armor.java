@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Utils.FilePath;
@@ -32,6 +33,7 @@ public class Armor extends CustomItemInstance {
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
 	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
+	meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 	List<String> lore = new ArrayList<String>();
 	lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Def: " + getDefense());
 	if (!getEffects().isEmpty()) {

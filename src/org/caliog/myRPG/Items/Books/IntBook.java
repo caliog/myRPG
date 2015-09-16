@@ -3,11 +3,11 @@ package org.caliog.myRPG.Items.Books;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Items.ItemEffect;
-
-import org.bukkit.ChatColor;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class IntBook extends Book {
     public IntBook(myClass clazz) {
@@ -17,6 +17,7 @@ public class IntBook extends Book {
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
 	meta.setDisplayName(ChatColor.DARK_GRAY + getName());
+	meta.addItemFlags(ItemFlag.values());
 	List<String> lore = new ArrayList<String>();
 	lore.add(ChatColor.BLUE + " + " + this.player.getIntelligence());
 
