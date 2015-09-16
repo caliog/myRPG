@@ -15,6 +15,7 @@ import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;
 import org.caliog.Villagers.Utils.DataSaver;
+import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Commands.Utils.Permissions;
 import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
@@ -83,6 +84,7 @@ public class Manager {
     public static void load() {
 	ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
 	Permissions.declare();
+	BarAPI.init();
 
 	try {
 	    Msg.init();
@@ -131,13 +133,14 @@ public class Manager {
 	Bukkit.getScheduler().cancelTasks(Manager.plugin);
     }
 
-    public static void scheduleRepeatingTask(Runnable r, long i, long j, long l) {
+    public static int scheduleRepeatingTask(Runnable r, long i, long j, long l) {
 	final int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Manager.plugin, r, i, j);
 	Bukkit.getScheduler().scheduleSyncDelayedTask(Manager.plugin, new Runnable() {
 	    public void run() {
 		Bukkit.getScheduler().cancelTask(taskId);
 	    }
 	}, l);
+	return taskId;
     }
 
     public static void broadcast(String string) {

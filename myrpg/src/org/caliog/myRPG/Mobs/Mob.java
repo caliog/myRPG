@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import me.confuser.barapi.BarAPI;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -15,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Entities.Fighter;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
@@ -156,7 +155,7 @@ public abstract class Mob extends Fighter {
 		if (getHealth() > 0.0D) {
 		    float p = (float) (getHealth() / getHP());
 		    for (UUID id : a) {
-			BarAPI.setMessage(Utils.getPlayer(id), getName(), 100.0F * p);
+			BarAPI.updateBar(Utils.getPlayer(id), getName(), p);
 		    }
 		}
 	    }

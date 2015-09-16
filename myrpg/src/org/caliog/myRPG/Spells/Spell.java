@@ -1,8 +1,6 @@
 package org.caliog.myRPG.Spells;
 
-import me.confuser.barapi.BarAPI;
-
-import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Messages.Msg;
 
@@ -36,16 +34,8 @@ public abstract class Spell {
 	}
 	this.active = true;
 	if (!this.player.isBossFight()) {
-	    BarAPI.setMessage(this.player.getPlayer(), this.name, (int) (time / 20L));
+	    BarAPI.timerBar(this.player.getPlayer(), this.name, (int) Math.round(time / 20L));
 	}
-	Manager.scheduleTask(new Runnable() {
-	    public void run() {
-		active = false;
-		if (!player.isBossFight()) {
-		    BarAPI.setMessage(player.getPlayer(), "Ready!", 1);
-		}
-	    }
-	}, time);
 	return true;
     }
 
