@@ -33,7 +33,7 @@ public class Commanditem extends Commands {
 		    a = Integer.parseInt(args[1]);
 		boolean t = true;
 		if (args.length > 2) {
-		    t = Boolean.getBoolean(args[2]);
+		    t = Boolean.valueOf(args[2]);
 		}
 		if (Playerface.giveItem(player, ItemUtils.getCustomItem(name, a, t)))
 		    player.sendMessage(CmdMessage.gaveYouItem);
