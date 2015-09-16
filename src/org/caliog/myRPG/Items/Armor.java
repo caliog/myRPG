@@ -38,7 +38,8 @@ public class Armor extends CustomItemInstance {
 	    lore.add(" ");
 	}
 	for (ItemEffect effect : getEffects()) {
-	    lore.add(ChatColor.ITALIC + "" + ChatColor.GOLD + effect.getString());
+	    if (effect.getPower() > 0)
+		lore.add(ChatColor.ITALIC + "" + ChatColor.GOLD + effect.getString());
 	}
 	if ((hasClass()) || (hasMinLevel()) || (!isTradeable())) {
 	    lore.add(" ");

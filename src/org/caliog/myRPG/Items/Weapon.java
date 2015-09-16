@@ -41,8 +41,9 @@ public class Weapon extends CustomItemInstance {
 	ItemMeta meta = getItemMeta();
 	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
 	List<String> lore = new ArrayList<String>();
-	lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Dmg: " + getDamage()[0] + "-"
-		+ getDamage()[(getDamage().length - 1)]);
+	String damage = getDamage().length == 1 ? String.valueOf(getDamage()[0])
+		: (getDamage()[0] + "-" + getDamage()[(getDamage().length - 1)]);
+	lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Dmg: " + damage);
 	for (ItemEffect effect : getEffects()) {
 	    if (effect.getPower() > 0)
 		lore.add(ChatColor.ITALIC + "" + ChatColor.GOLD + effect.getString());
