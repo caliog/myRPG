@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -41,7 +39,7 @@ public class MobSpawner {
 		Vector m;
 
 		m = Vector.fromString(a[0]);
-		if (m == null)
+		if (m == null || m.isNull())
 		    continue;
 		String mob = null;
 		if (EntityUtils.isMobClass(a[1])) {
@@ -93,15 +91,18 @@ public class MobSpawner {
 		while (MobSpawner.zones.contains(null)) {
 		    MobSpawner.zones.remove(null);
 		}
-		for (MobSpawnZone z : MobSpawner.zones) {
-		    if (Math.random() < 0.6D) {
-			z.askForSpawn();
-		    }
-		}
+
+		Set<UUID> remove = new HashSet<UUID>();
+		Set<UUID> ids = new HashSet<UUID>();
 		for (World w : Manager.getWorlds()) {
 		    if (w == null)
-			return;
-		    Set<UUID> ids = new HashSet<UUID>();
+			continue;
+		    for (MobSpawnZone z : MobSpawner.zones) {
+			if (z.getWorld().equals(w.getName()))
+			    if (Math.random() < 0.6D) {
+				z.askForSpawn();
+			    }
+		    }
 		    Mob m;
 		    for (Entity e : w.getEntities()) {
 			if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {
@@ -121,15 +122,14 @@ public class MobSpawner {
 			}
 		    }
 
-		    List<UUID> remove = new ArrayList<UUID>();
-		    for (Mob mob : VolatileEntities.getMobs()) {
-			if (!ids.contains(mob.getId())) {
-			    remove.add(mob.getId());
-			}
+		}
+		for (Mob mob : VolatileEntities.getMobs()) {
+		    if (!ids.contains(mob.getId())) {
+			remove.add(mob.getId());
 		    }
-		    for (UUID id : remove) {
-			VolatileEntities.remove(id);
-		    }
+		}
+		for (UUID id : remove) {
+		    VolatileEntities.remove(id);
 		}
 	    }
 	};

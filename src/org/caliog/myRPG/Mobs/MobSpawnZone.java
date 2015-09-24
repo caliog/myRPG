@@ -68,6 +68,8 @@ public class MobSpawnZone {
     }
 
     private boolean spawnMob() {
+	if (myConfig.getDisabledWorlds().contains(world))
+	    return false;
 	final int maxHeight = 10;
 
 	int x = this.radius - (int) (Math.random() * this.radius * 2.0D);

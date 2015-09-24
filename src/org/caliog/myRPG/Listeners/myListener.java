@@ -77,6 +77,8 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void creatureSpawnEvent(CreatureSpawnEvent event) {
+	if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
+	    return;
 	if (!event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
 	    if (myConfig.isNaturalSpawnDisabled())
 		event.setCancelled(true);
@@ -506,12 +508,11 @@ public class myListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerJoin(PlayerJoinEvent event) {
-	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
-	    return;
 	if (!PlayerManager.login(event.getPlayer())) {
 	    PlayerManager.register(event.getPlayer(), myConfig.getDefaultClass());
 	}
-
+	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
+	    return;
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 	if (player == null) {
 	    return;
