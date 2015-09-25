@@ -27,7 +27,7 @@ public abstract class myPlayer extends Fighter {
 
     public double getMaximumHealth() {
 	int l = getLevel();
-	int h = 4 * (int) Math.round((Math.sqrt(l)));
+	double h = 4 * Math.round((Math.sqrt(l)));
 	return h;
     }
 
@@ -40,7 +40,7 @@ public abstract class myPlayer extends Fighter {
     }
 
     public int getDefense() {
-	int defense = Math.round((float) (getMaximumHealth() / 4.0D)) + 5;
+	int defense = Math.round((float) (getMaximumHealth() / 4.0D));
 	for (ItemStack s : getPlayer().getInventory().getArmorContents()) {
 	    if (Armor.isArmor(s)) {
 		Armor armor = Armor.getInstance(s);
@@ -51,7 +51,7 @@ public abstract class myPlayer extends Fighter {
     }
 
     public int getDamage(boolean b) {
-	int damage = Math.round((float) (getMaximumHealth() / 4.0D)) + 5;
+	int damage = Math.round((float) (getMaximumHealth() / 4.0D));
 	if ((b) && (Weapon.isWeapon((myClass) this, getPlayer().getItemInHand()))) {
 	    damage += Weapon.getInstance((myClass) this, getPlayer().getItemInHand()).getRandomDamage();
 	} else if (damage == 0) {
