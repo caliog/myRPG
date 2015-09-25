@@ -41,7 +41,7 @@ public class myClass extends myPlayer {
 
     public double getMaxHealth() {
 	double h = super.getMaximumHealth();
-	h += 20.0F + getRVitality() / 100.0F * 20.0F;
+	h += (getRVitality() / 100.0F) * 20.0F;
 	return h;
     }
 
