@@ -106,7 +106,7 @@ public class PlayerManager {
 	return null;
     }
 
-    public static void task(long seconds) {
+    public static void task(long time) {
 	for (myClass clazz : players.values()) {
 	    int i = clazz.getIntelligence();
 	    int s = 1;
@@ -119,13 +119,14 @@ public class PlayerManager {
 	    } else if (i <= 80) {
 		s = 2;
 	    }
+	    s *= 20;
 
-	    if (seconds % s == 0.0F) {
+	    if (time % s == 0.0F) {
 		clazz.regainFood();
 	    }
 	    if (clazz.getHealth() != 0.0D) {
-		if (seconds % 5 == 0.0F) {
-		    clazz.addHealth(clazz.getMaxHealth() * 0.05D);
+		if (time % 100 == 0.0F) {
+		    clazz.addHealth(clazz.getMaxHealth() * 0.08D);
 		}
 		double d = clazz.getHealth() / clazz.getMaxHealth();
 		clazz.getPlayer().setHealth(clazz.getPlayer().getMaxHealth() * (d > 1.0D ? 1.0D : d));

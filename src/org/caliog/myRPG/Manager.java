@@ -34,7 +34,6 @@ import org.caliog.npclib.NPCManager;
 public class Manager {
     public static myPlugin plugin;
     private static long timer = 0L;
-    public static long seconds;
 
     public static myClass getPlayer(UUID id) {
 	return PlayerManager.getPlayer(id);
@@ -47,7 +46,6 @@ public class Manager {
 		Manager.timer += 1L;
 		if (timer >= 72000)
 		    timer = 0;
-		Manager.seconds = Manager.timer / 20;
 		if (Manager.timer % 5L == 0L) {
 		    MobSpawner.getTask().run();
 		    GManager.doLogics();
@@ -55,7 +53,7 @@ public class Manager {
 			VManager.doLogics();
 		}
 
-		PlayerManager.task(Manager.seconds);
+		PlayerManager.task(timer);
 
 	    }
 	};
