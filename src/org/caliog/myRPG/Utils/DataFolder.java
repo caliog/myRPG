@@ -24,16 +24,21 @@ public class DataFolder {
 	File delete = null;
 	DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HHmmss");
 	Date date = new Date();
-
-	if (dir.listFiles().length >= max) {
+	while (dir.listFiles().length >= max) {
 	    for (File f : dir.listFiles())
 		if (f.lastModified() < a) {
 		    a = f.lastModified();
 		    delete = f;
 		}
+
+	    if (delete != null)
+		try {
+		    FileUtils.deleteDirectory(delete);
+		} catch (IOException e) {
+		    break;
+		}
+
 	}
-	if (delete != null)
-	    FileUtils.deleteDirectory(delete);
 
 	File srcFolder = new File(FilePath.data);
 	File destFolder = new File(FilePath.backup + "Data " + dateFormat.format(date));
