@@ -1,11 +1,5 @@
 package org.caliog.myRPG.Utils;
 
-import org.caliog.myRPG.Entities.PlayerManager;
-import org.caliog.myRPG.Items.Books.DexBook;
-import org.caliog.myRPG.Items.Books.IntBook;
-import org.caliog.myRPG.Items.Books.StrBook;
-import org.caliog.myRPG.Items.Books.VitBook;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -13,6 +7,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.caliog.myRPG.Entities.PlayerManager;
+import org.caliog.myRPG.Items.Books.DexBook;
+import org.caliog.myRPG.Items.Books.IntBook;
+import org.caliog.myRPG.Items.Books.StrBook;
+import org.caliog.myRPG.Items.Books.VitBook;
 
 public class SkillInventoryView extends InventoryView {
     private HumanEntity entity;
@@ -32,7 +31,7 @@ public class SkillInventoryView extends InventoryView {
     }
 
     public Inventory getTopInventory() {
-	Inventory inv = Bukkit.createInventory(null, 9, "Deine Skills");
+	Inventory inv = Bukkit.createInventory(null, 9, "Your Skills");
 	inv.addItem(new ItemStack[] { new StrBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
 	inv.addItem(new ItemStack[] { new DexBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
 	inv.addItem(new ItemStack[] { new IntBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
