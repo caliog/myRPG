@@ -8,13 +8,14 @@ import java.util.UUID;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.Vector;
 
 public class MobInstance extends Mob {
-    public YamlConfiguration mobConfig = null;
+    public YamlConfiguration mobConfig = new YamlConfiguration();
 
     public MobInstance(String name, UUID id, Vector m) {
 	super(name, id, m);
@@ -30,7 +31,12 @@ public class MobInstance extends Mob {
     }
 
     public EntityType getType() {
-	return EntityType.valueOf(this.mobConfig.getString("entity-type"));
+	try {
+	    return EntityType.valueOf(this.mobConfig.getString("entity-type", "error"));
+	} catch (Exception e) {
+	    Manager.plugin.getLogger().warning("Error in " + getName() + "+.yml! Entity-Type is not a valid entity.");
+	    return EntityType.COW;
+	}
     }
 
     public HashMap<String, ItemStack> eq() {
@@ -53,11 +59,18 @@ public class MobInstance extends Mob {
     public int getExp() {
 	String s = this.mobConfig.getString("experience");
 	int e = 0;
-	if (s.contains("%")) {
-	    e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]),
-		    Integer.parseInt(s.split("%")[1].split("-")[1])) * (Integer.parseInt(s.split("%")[0]) / 100.0F));
-	} else {
-	    e = Integer.parseInt(s);
+	try {
+	    if (s.length() >= 5 && s.split("%").length == 2 && s.split("-").length == 2) {
+		e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]),
+			Integer.parseInt(s.split("%")[1].split("-")[1])) * (Integer.parseInt(s.split("%")[0]) / 100.0F));
+	    } else if (s.contains("%")) {
+		e = (int) (Playerface.getExpDifference(getLevel(), getLevel() + 1) * (Integer.parseInt(s.replace("%",
+			"")) / 100F));
+	    } else
+		throw new Exception();
+	} catch (Exception exc) {
+	    Manager.plugin.getLogger().warning("Error in " + getName() + "+.yml! Experience expression is incorrect.");
+	    return 0;
 	}
 	return e;
     }
@@ -65,7 +78,7 @@ public class MobInstance extends Mob {
     public HashMap<ItemStack, Float> drops() {
 	List<String> list = this.mobConfig.getStringList("drops");
 	for (String l : list) {
-	    if (l.contains("%")) {
+	    if (l.contains("%") && l.split("%").length == 2) {
 		this.drops.put(ItemUtils.getItem(l.split("%")[1]),
 			Float.valueOf(Integer.parseInt(l.split("%")[0]) / 100.0F));
 	    }
