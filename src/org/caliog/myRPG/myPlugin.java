@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.caliog.Villagers.Listeners.VillagerListener;
 import org.caliog.myRPG.Commands.Utils.CommandRegister;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Listeners.myListener;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Resource.FileCreator;
@@ -194,6 +195,7 @@ public class myPlugin extends JavaPlugin {
     public void reload() {
 	myConfig.config = YamlConfiguration.loadConfiguration(new File(FilePath.config));
 	Msg.file = YamlConfiguration.loadConfiguration(new File(FilePath.messages));
+	ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
 	Manager.cancelTask(backupTask);
 	if (myConfig.getBackupTime() > 0)
 	    backupTask = Manager.scheduleRepeatingTask(DataFolder.backupTask(), 20L * 60L * myConfig.getBackupTime(),
