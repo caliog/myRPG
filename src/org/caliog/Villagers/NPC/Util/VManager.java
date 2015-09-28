@@ -97,12 +97,14 @@ public class VManager {
 
     public static Villager getClosestVillager(Location location) {
 	Villager villager = null;
-	double distance = 100;
+	double distance = 400;
 	for (Villager v : villagers) {
-	    double d = v.getVillager().getLocation().distanceSquared(location);
-	    if (d < distance) {
-		distance = d;
-		villager = v;
+	    if (location.getWorld().equals(v.getVillager().getWorld())) {
+		double d = v.getVillager().getLocation().distanceSquared(location);
+		if (d < distance) {
+		    distance = d;
+		    villager = v;
+		}
 	    }
 
 	}
@@ -116,10 +118,12 @@ public class VManager {
 	for (Villager v : villagers) {
 	    if (!v.getType().equals(VillagerType.TRADER))
 		continue;
-	    double d = v.getVillager().getLocation().distanceSquared(location);
-	    if (d < distance) {
-		distance = d;
-		villager = (Trader) v;
+	    if (location.getWorld().equals(v.getVillager().getWorld())) {
+		double d = v.getVillager().getLocation().distanceSquared(location);
+		if (d < distance) {
+		    distance = d;
+		    villager = (Trader) v;
+		}
 	    }
 
 	}
@@ -152,7 +156,8 @@ public class VManager {
 		v = spawnVillager(location, name, VillagerType.PRIEST);
 	    else
 		v = spawnVillager(location, name);
-
+	    if (v == null)
+		continue;
 	    if (!type.equals(VillagerType.PRIEST))
 		for (String text : list)
 		    v.addText(Integer.parseInt(text.split(":")[0]), text.split(":")[1]);

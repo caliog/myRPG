@@ -65,14 +65,15 @@ public class GManager {
 
     public static Guard getClosestGuard(Location location) {
 	Guard guard = null;
-	double distance = 10000;
+	double distance = 400;
 	for (Guard g : guards) {
-	    double d = g.getNpc().getBukkitEntity().getLocation().distanceSquared(location);
-	    if (d < distance) {
-		distance = d;
-		guard = g;
+	    if (location.getWorld().equals(g.getLocation().getWorld())) {
+		double d = g.getNpc().getBukkitEntity().getLocation().distanceSquared(location);
+		if (d < distance) {
+		    distance = d;
+		    guard = g;
+		}
 	    }
-
 	}
 	return guard;
     }
