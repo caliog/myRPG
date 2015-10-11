@@ -3,13 +3,14 @@ package org.caliog.Villagers.Quests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.caliog.myRPG.Entities.myClass;
-import org.caliog.myRPG.Items.ItemEffect;
-import org.caliog.myRPG.Items.Books.Book;
-
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Items.CustomItem;
+import org.caliog.myRPG.Items.ItemEffect;
+import org.caliog.myRPG.Items.Books.Book;
+import org.caliog.myRPG.Utils.myUtils;
 
 public class QuestBook extends Book {
 
@@ -51,6 +52,18 @@ public class QuestBook extends Book {
 		    for (String m : q.getMobs().keySet()) {
 			page += "&8" + QuestKill.getKilled(player.getPlayer(), m) + " &0/ " + q.getMobs().get(m) + " "
 				+ m.replaceAll(" ", "") + "\n";
+		    }
+		page += "\n";
+		if (q.getCollects() != null && !q.getCollects().isEmpty())
+		    for (ItemStack stack : q.getCollects()) {
+			String name;
+			if (stack instanceof CustomItem)
+			    name = ChatColor.stripColor(
+
+			    stack.getItemMeta().getDisplayName());
+			else
+			    name = myUtils.readable(stack.getType());
+			page += "&8" + name + ": &0" + stack.getAmount() + "\n";
 		    }
 
 		pages.add(ChatColor.translateAlternateColorCodes('&', page));

@@ -1,5 +1,6 @@
 package org.caliog.myRPG.Utils;
 
+import org.bukkit.Material;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 
 public class myUtils {
@@ -73,4 +74,12 @@ public class myUtils {
 	return b;
     }
 
+    public static String readable(Material mat) {
+	String[] split = mat.name().split("_");
+	String name = "";
+	for (String s : split)
+	    name += s.substring(0, 1) + s.substring(1).toLowerCase() + " ";
+	return name.trim();
+
+    }
 }
