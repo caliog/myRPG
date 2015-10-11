@@ -170,9 +170,7 @@ public class myListener implements Listener {
 	} else {
 	    mdamager = (LivingEntity) event.getDamager();
 	}
-	if (((mdamager instanceof Player)) && ((event.getEntity() instanceof Player))) {
-	    return;
-	}
+
 	Fighter damager = PlayerManager.getPlayer(mdamager.getUniqueId());
 	if (damager == null) {
 	    damager = VolatileEntities.getMob(mdamager.getUniqueId());
