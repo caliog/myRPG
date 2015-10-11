@@ -93,6 +93,7 @@ public abstract class myPlayer extends Fighter {
 	QManager.updateQuestBook(PlayerManager.getPlayer(this.getPlayer().getUniqueId()));
 	if (q == null)
 	    return;
+	Playerface.takeItem(getPlayer(), q.getCollects());
 	giveExp(q.getExp());
 	Playerface.giveItem(getPlayer(), q.getRewards());
 	this.quests.put(name, QuestStatus.COMPLETED);
