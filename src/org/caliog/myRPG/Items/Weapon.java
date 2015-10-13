@@ -41,7 +41,8 @@ public class Weapon extends CustomItemInstance {
     public void syncItemStack() {
 	ItemMeta meta = getItemMeta();
 	meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
-	meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+	if (Manager.plugin.getVersion().equals("v1_8_R3"))
+	    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 	List<String> lore = new ArrayList<String>();
 	String damage = getDamage().length == 1 ? String.valueOf(getDamage()[0])
 		: (getDamage()[0] + "-" + getDamage()[(getDamage().length - 1)]);
@@ -81,9 +82,6 @@ public class Weapon extends CustomItemInstance {
 	boolean soulbound = false;
 
 	String dn = item.getItemMeta().getDisplayName();
-	if ((clazz.getSpellItemName() != null) && (dn.equals(clazz.getSpellItemName()[1]))) {
-	    dn = clazz.getSpellItemName()[0];
-	}
 	if ((dn == null) || (!dn.contains("" + ChatColor.GOLD))) {
 	    return null;
 	}
@@ -133,10 +131,6 @@ public class Weapon extends CustomItemInstance {
 	}
 	if (!isCustomItem(item)) {
 	    isWeapon = false;
-	}
-	if ((clazz != null) && (clazz.getSpellItemName() != null) && (clazz.getSpellItemName()[1] != null)
-		&& (clazz.getSpellItemName()[1].equals(item.getItemMeta().getDisplayName()))) {
-	    isWeapon = true;
 	}
 	if (isWeapon) {
 	    for (String l : item.getItemMeta().getLore()) {

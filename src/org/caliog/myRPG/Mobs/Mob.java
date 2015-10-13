@@ -13,10 +13,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.myRPG.Manager;
-import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Entities.Fighter;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
+import org.caliog.myRPG.Lib.Barkeeper.TopBar.TopBar;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.Utils;
 import org.caliog.myRPG.Utils.Vector;
@@ -133,7 +133,7 @@ public abstract class Mob extends Fighter {
 
     public void removeAttacker(UUID uniqueId) {
 	attackers.remove(uniqueId);
-	BarAPI.removeBar(Utils.getPlayer(uniqueId));
+	TopBar.removeBar(Utils.getPlayer(uniqueId));
     }
 
     public void cancel() {
@@ -155,7 +155,7 @@ public abstract class Mob extends Fighter {
 		if (getHealth() > 0.0D) {
 		    float p = (float) (getHealth() / getHP());
 		    for (UUID id : a) {
-			BarAPI.updateBar(Utils.getPlayer(id), getName(), p);
+			TopBar.updateBar(Utils.getPlayer(id), getName(), p);
 		    }
 		}
 	    }
@@ -164,7 +164,7 @@ public abstract class Mob extends Fighter {
 
     public void clearAttackers() {
 	for (UUID id : attackers) {
-	    BarAPI.removeBar(Utils.getPlayer(id));
+	    TopBar.removeBar(Utils.getPlayer(id));
 	}
 	attackers.clear();
     }

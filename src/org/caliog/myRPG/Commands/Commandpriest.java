@@ -2,8 +2,7 @@ package org.caliog.myRPG.Commands;
 
 import java.util.List;
 
-import net.md_5.bungee.api.ChatColor;
-
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
 import org.caliog.Villagers.NPC.Util.VManager;

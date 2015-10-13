@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Items.ItemEffect;
 import org.caliog.myRPG.Items.ItemEffect.ItemEffectType;
-import org.caliog.myRPG.Items.ItemUtils;
+import org.caliog.myRPG.Lib.Barkeeper.BottomBar.BottomBar;
 import org.caliog.myRPG.Spells.InvisibleSpell;
 import org.caliog.myRPG.Spells.Spell;
 import org.caliog.myRPG.Utils.FilePath;
@@ -28,7 +29,6 @@ public class myClass extends myPlayer {
     private HashMap<String, Spell> spells = new HashMap<String, Spell>();
     private final String type;
     private int spellTask = -1;
-    private String[] spellItemName;
     private UUID boss = null;
     private boolean loaded = false;
 
@@ -259,11 +259,9 @@ public class myClass extends myPlayer {
 	for (int i = 0; i < this.spell.length; i++) {
 	    if (this.spell[i] == -1) {
 		this.spell[i] = s;
-		if (i == 0) {
-		    this.spellItemName = Playerface.spell(getPlayer(), this.spell);
-		} else {
-		    this.spellItemName[1] = Playerface.spell(getPlayer(), this.spell)[1];
-		}
+
+		BottomBar.display(getPlayer(), Playerface.spell(spell));
+
 		if (i == this.spell.length - 1) {
 		    castSpell();
 		}
@@ -274,12 +272,6 @@ public class myClass extends myPlayer {
 		    public void run() {
 			for (int i = 0; i < spell.length; i++) {
 			    spell[i] = -1;
-			}
-			if ((getPlayer().getItemInHand().hasItemMeta())
-				&& (getPlayer().getItemInHand().getItemMeta().hasDisplayName())
-				&& (getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(spellItemName[1]))) {
-			    ItemUtils.setDisplayName(getPlayer().getItemInHand(), spellItemName[0]);
-			    spellItemName = null;
 			}
 		    }
 		}, 40L);
@@ -293,13 +285,13 @@ public class myClass extends myPlayer {
 	for (String id : spells.keySet())
 	    if (id.equals(String.valueOf(spell[0]) + String.valueOf(spell[1]) + String.valueOf(spell[2]))) {
 		Spell spell = spells.get(id);
-		if (spell != null)
+		if (spell != null) {
 		    spell.execute();
+		    BottomBar.display(getPlayer(), ChatColor.GOLD + spell.getName());
+		    return;
+		}
 	    }
-    }
-
-    public String[] getSpellItemName() {
-	return this.spellItemName;
+	BottomBar.display(getPlayer(), ChatColor.RED + "" + ChatColor.MAGIC + "Uups");
     }
 
     public void regainFood() {

@@ -1,8 +1,8 @@
 package org.caliog.myRPG.Spells;
 
 import org.caliog.myRPG.Manager;
-import org.caliog.myRPG.BarAPI.BarAPI;
 import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Lib.Barkeeper.TopBar.TopBar;
 import org.caliog.myRPG.Messages.Msg;
 
 public abstract class Spell {
@@ -12,7 +12,7 @@ public abstract class Spell {
 
     public Spell(myClass player, String name) {
 	this.player = player;
-	this.name = name;
+	this.setName(name);
     }
 
     public abstract int getMinLevel();
@@ -47,7 +47,7 @@ public abstract class Spell {
 	}
 	this.active = true;
 	if (!this.player.isBossFight()) {
-	    BarAPI.timerBar(this.player.getPlayer(), this.name, Math.round(time / 20F));
+	    TopBar.timerBar(this.player.getPlayer(), this.getName(), Math.round(time / 20F));
 	}
 
 	Manager.scheduleTask(new Runnable() {
@@ -92,5 +92,13 @@ public abstract class Spell {
 
     public myClass getPlayer() {
 	return this.player;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
     }
 }
