@@ -1,18 +1,16 @@
 package org.caliog.myRPG.Items;
 
-import org.caliog.myRPG.Entities.PlayerManager;
-import org.caliog.myRPG.Entities.myClass;
-import org.caliog.myRPG.Items.Custom.Apple_1;
-import org.caliog.myRPG.Items.Custom.Apple_2;
-import org.caliog.myRPG.Items.Custom.Apple_3;
-import org.caliog.myRPG.Items.Custom.Apple_4;
-import org.caliog.myRPG.Items.Custom.Apple_5;
-import org.caliog.myRPG.Items.Custom.Skillstar;
-import org.caliog.myRPG.Messages.Msg;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.caliog.myRPG.Entities.PlayerManager;
+import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Items.Custom.Apple_1;
+import org.caliog.myRPG.Items.Custom.Apple_2;
+import org.caliog.myRPG.Items.Custom.HealthPotion;
+import org.caliog.myRPG.Items.Custom.Skillstar;
+import org.caliog.myRPG.Messages.Msg;
 
 public class ItemUtils {
     public static CustomItem getCustomItem(String name, int a, boolean t) {
@@ -24,15 +22,6 @@ public class ItemUtils {
 	}
 	if ((name.equals("Apple_2")) || (name.equals("Apple II"))) {
 	    return new Apple_2(a);
-	}
-	if ((name.equals("Apple_3")) || (name.equals("Apple III"))) {
-	    return new Apple_3(a);
-	}
-	if ((name.equals("Apple_4")) || (name.equals("Apple IV"))) {
-	    return new Apple_4(a);
-	}
-	if ((name.equals("Apple_5")) || (name.equals("Apple V"))) {
-	    return new Apple_5(a);
 	}
 	CustomItem i = CustomItemInstance.getInstance(name, a, t);
 	if (i == null) {
@@ -109,6 +98,17 @@ public class ItemUtils {
 	if (Material.matchMaterial(name) != null) {
 	    return new ItemStack(Material.matchMaterial(name), al);
 	}
+
+	if ((name.equals("HealthPotion_1")) || (name.equals("Health Potion I"))) {
+	    return HealthPotion.getHP1(al);
+	}
+	if ((name.equals("HealthPotion_2")) || (name.equals("Health Potion II"))) {
+	    return HealthPotion.getHP2(al);
+	}
+	if ((name.equals("HealthPotion_3")) || (name.equals("Health Potion III"))) {
+	    return HealthPotion.getHP3(al);
+	}
+
 	return getCustomItem(name, al, !soulbound);
     }
 }

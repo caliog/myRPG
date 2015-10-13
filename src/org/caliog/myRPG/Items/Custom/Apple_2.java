@@ -11,7 +11,7 @@ import org.caliog.myRPG.Items.ItemEffect;
 
 public class Apple_2 extends CustomItem {
     public Apple_2(int amount) {
-	super(Material.APPLE, "Apple II", true);
+	super(Material.GOLDEN_APPLE, "Apple 2", false);
 	setAmount(amount);
 	syncItemStack();
     }
@@ -22,7 +22,7 @@ public class Apple_2 extends CustomItem {
 	List<String> lore = new ArrayList<String>();
 
 	lore.add(" ");
-	lore.add(ChatColor.GOLD + "This apple gives you 10 lifepoints!");
+	lore.add(ChatColor.GOLD + "This apple gives you 100% of your lifepoints!");
 	lore.add(" ");
 	if (!isTradeable()) {
 	    lore.add(ChatColor.RED + "soulbound!");
@@ -39,9 +39,7 @@ public class Apple_2 extends CustomItem {
 	return 0;
     }
 
-    @Override
     public String getClazz() {
 	return null;
     }
-
 }

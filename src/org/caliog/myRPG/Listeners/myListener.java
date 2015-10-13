@@ -44,7 +44,6 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.Fighter;
@@ -57,10 +56,9 @@ import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Items.Weapon;
 import org.caliog.myRPG.Items.Custom.Apple_1;
 import org.caliog.myRPG.Items.Custom.Apple_2;
-import org.caliog.myRPG.Items.Custom.Apple_3;
-import org.caliog.myRPG.Items.Custom.Apple_4;
-import org.caliog.myRPG.Items.Custom.Apple_5;
+import org.caliog.myRPG.Items.Custom.HealthPotion;
 import org.caliog.myRPG.Items.Custom.Skillstar;
+import org.caliog.myRPG.Lib.Barkeeper.CenterBar.CenterBar;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.Mob;
 import org.caliog.myRPG.Mobs.MobSpawnZone;
@@ -435,6 +433,8 @@ public class myListener implements Listener {
 
 		firework.setFireworkMeta(data);
 	    }
+	    if (Manager.plugin.getVersion().equals("v1_8_R3"))
+		CenterBar.display(player.getPlayer(), "", ChatColor.GOLD + "Level " + event.getNewLevel());
 	    Playerface.giveItem(player.getPlayer(), new Skillstar(3));
 	    Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
 	}
@@ -475,14 +475,7 @@ public class myListener implements Listener {
 	if (!Weapon.isWeapon(c, event.getItem())) {
 	    return;
 	}
-	ItemMeta meta = event.getPlayer().getItemInHand().getItemMeta();
-	String displayName = null;
-	if (meta != null) {
-	    displayName = meta.getDisplayName();
-	}
-	if ((useable)
-		|| ((displayName != null) && (c.getSpellItemName() != null) && (displayName
-			.equals(c.getSpellItemName()[1])))) {
+	if (useable) {
 	    if (myConfig.spellsEnabled())
 		c.register(event.getAction());
 
@@ -612,11 +605,8 @@ public class myListener implements Listener {
 	if ((stack == null) || (!stack.hasItemMeta()) || (!stack.getItemMeta().hasDisplayName())) {
 	    return;
 	}
-	if ((clazz == null) || (clazz.getSpellItemName() == null)) {
+	if (clazz == null) {
 	    return;
-	}
-	if (stack.getItemMeta().getDisplayName().equals(clazz.getSpellItemName()[1])) {
-	    ItemUtils.setDisplayName(stack, clazz.getSpellItemName()[0]);
 	}
     }
 
@@ -662,7 +652,7 @@ public class myListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onBowShoot(final PlayerInteractEvent event) {
+    public void onPotion(final PlayerInteractEvent event) {
 	if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
 	    return;
 	myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
@@ -674,23 +664,23 @@ public class myListener implements Listener {
 	}
 	String apple1 = new Apple_1(1).getItemMeta().getDisplayName();
 	String apple2 = new Apple_2(1).getItemMeta().getDisplayName();
-	String apple3 = new Apple_3(1).getItemMeta().getDisplayName();
-	String apple4 = new Apple_4(1).getItemMeta().getDisplayName();
-	String apple5 = new Apple_5(1).getItemMeta().getDisplayName();
+	String hp1 = HealthPotion.getHP1(1).getItemMeta().getDisplayName();
+	String hp2 = HealthPotion.getHP2(1).getItemMeta().getDisplayName();
+	String hp3 = HealthPotion.getHP3(1).getItemMeta().getDisplayName();
 	if ((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_AIR))) {
 	    ItemStack stack = event.getItem();
 	    if ((stack.hasItemMeta()) && (stack.getItemMeta().hasDisplayName())) {
 		String name = stack.getItemMeta().getDisplayName();
 		boolean isApple = true;
-		if (name.equals(apple1)) {
-		    player.addHealth(5.0D);
-		} else if (name.equals(apple2)) {
-		    player.addHealth(10.0D);
-		} else if (name.equals(apple3)) {
-		    player.addHealth(20.0D);
-		} else if (name.equals(apple4)) {
+		if (name.equals(hp1)) {
+		    player.addHealth(0.1D * player.getMaxHealth());
+		} else if (name.equals(hp2)) {
+		    player.addHealth(0.2D * player.getMaxHealth());
+		} else if (name.equals(hp3)) {
+		    player.addHealth(0.4D * player.getMaxHealth());
+		} else if (name.equals(apple1)) {
 		    player.addHealth(0.5D * player.getMaxHealth());
-		} else if (name.equals(apple5)) {
+		} else if (name.equals(apple2)) {
 		    player.addHealth(player.getMaxHealth());
 		} else {
 		    isApple = false;
