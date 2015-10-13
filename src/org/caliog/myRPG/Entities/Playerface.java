@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Group.GManager;
@@ -184,12 +183,9 @@ public class Playerface {
 	playerDrops.clear();
     }
 
-    public static String[] spell(Player player, int[] spell) {
-	ItemStack s = player.getItemInHand();
-	ItemMeta meta = s.getItemMeta();
-	String displayName = meta.getDisplayName();
+    public static String spell(int[] spell) {
 
-	String newDisplayName = "";
+	String r = "";
 	for (int i : spell) {
 	    if (i == -1) {
 		break;
@@ -198,12 +194,9 @@ public class Playerface {
 	    if (i == 0) {
 		n = ChatColor.BLUE + "O";
 	    }
-	    newDisplayName = newDisplayName + n + ChatColor.RESET + " - ";
+	    r += n + ChatColor.RESET + " - ";
 	}
-	newDisplayName = (newDisplayName + "..").replace(ChatColor.RESET + " - ..", "");
-	meta.setDisplayName(newDisplayName);
-	s.setItemMeta(meta);
-	String[] re = { displayName, newDisplayName };
-	return re;
+	r = (r + "..").replace(ChatColor.RESET + " - ..", "");
+	return r;
     }
 }
