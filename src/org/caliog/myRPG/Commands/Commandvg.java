@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.NPC.Villager;
+import org.caliog.Villagers.NPC.Villager.VillagerType;
 import org.caliog.Villagers.NPC.Guards.CheckpointPath;
 import org.caliog.Villagers.NPC.Guards.PathUtil;
 import org.caliog.Villagers.NPC.Util.VManager;
@@ -18,212 +19,205 @@ import org.caliog.myRPG.Messages.CmdMessage;
 
 public class Commandvg extends Commands {
 
-    @Override
-    public List<Command> getCommands() {
-	/*
-	 * Name: vg
-	 * SubName: create
-	 * 
-	 * Permission: myrpg.villager.create
-	 * 
-	 * Usage: /vg create <name..>
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.create", new CommandExecutable() {
+	@Override
+	public List<Command> getCommands() {
+		/*
+		 * Name: vg SubName: create
+		 * 
+		 * Permission: myrpg.villager.create
+		 * 
+		 * Usage: /vg create <name..>
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.create", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		String name = args[1];
-		VManager.spawnVillager(player.getLocation(), name.trim());
-	    }
-	}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
+			@Override
+			public void execute(String[] args, Player player) {
+				String name = args[1];
+				VManager.spawnVillager(player.getLocation(), name.trim(), VillagerType.VILLAGER);
+			}
+		}, new CommandField("create", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
-	/*
-	 * Name: vg
-	 * SubName: remove
-	 * 
-	 * Permission: myrpg.villager.remove
-	 * 
-	 * Usage: /vg remove
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.remove", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: remove
+		 * 
+		 * Permission: myrpg.villager.remove
+		 * 
+		 * Usage: /vg remove
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.remove", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		VManager.remove(v.getUniqueId());
-		player.sendMessage(ChatColor.GOLD + "Removed this villager!");
-	    }
-	}, new CommandField("remove", FieldProperty.IDENTIFIER)));
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				VManager.remove(v.getUniqueId());
+				player.sendMessage(ChatColor.GOLD + "Removed this villager!");
+			}
+		}, new CommandField("remove", FieldProperty.IDENTIFIER)));
 
-	/*
-	 * Name: vg
-	 * SubName: talk
-	 * 
-	 * Permission: myrpg.villager.talk
-	 * 
-	 * Usage: /vg talk <id> <message> <type> <target>
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: talk
+		 * 
+		 * Permission: myrpg.villager.talk
+		 * 
+		 * Usage: /vg talk <id> <message> <type> <target>
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
 
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		String text = args[2];
-		try {
-		    CMessage.MessageType.valueOf(args[3]);
-		    text += "#" + args[3];
-		    text += "#" + (args.length >= 5 ? args[4] : (Integer.parseInt(args[1]) + 1));
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				String text = args[2];
+				try {
+					CMessage.MessageType.valueOf(args[3]);
+					text += "#" + args[3];
+					text += "#" + (args.length >= 5 ? args[4] : (Integer.parseInt(args[1]) + 1));
 
-		    v.addText(Integer.parseInt(args[1]), text);
-		    player.sendMessage(ChatColor.GOLD + "You set message " + args[1] + "!");
-		} catch (Exception e) {
-		    player.sendMessage(ChatColor.RED + "/vg talk <id> <message> <type> [target]");
-		    player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
-		}
-	    }
-	}, new CommandField("talk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer",
-		FieldProperty.REQUIRED), new CommandField("message", FieldProperty.REQUIRED), new CommandField("type",
-		"END|QUESTION|TEXT", FieldProperty.REQUIRED), new CommandField("target", "not-negative integer",
-		FieldProperty.OPTIONAL)));
+					v.addText(Integer.parseInt(args[1]), text);
+					player.sendMessage(ChatColor.GOLD + "You set message " + args[1] + "!");
+				} catch (Exception e) {
+					player.sendMessage(ChatColor.RED + "/vg talk <id> <message> <type> [target]");
+					player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
+				}
+			}
+		}, new CommandField("talk", FieldProperty.IDENTIFIER),
+				new CommandField("id", "not-negative integer", FieldProperty.REQUIRED),
+				new CommandField("message", FieldProperty.REQUIRED),
+				new CommandField("type", "END|QUESTION|TEXT", FieldProperty.REQUIRED),
+				new CommandField("target", "not-negative integer", FieldProperty.OPTIONAL)));
 
-	/*
-	 * Name: vg
-	 * SubName: deltalk
-	 * 
-	 * Permission: myrpg.villager.talk
-	 * 
-	 * Usage: /vg deltalk [id]
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: deltalk
+		 * 
+		 * Permission: myrpg.villager.talk
+		 * 
+		 * Usage: /vg deltalk [id]
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		if (args.length == 2) {
-		    v.removeText(Integer.parseInt(args[1]));
-		    player.sendMessage(ChatColor.GOLD + "Removed message " + args[1] + "!");
-		} else {
-		    v.clearText();
-		    player.sendMessage(ChatColor.GOLD + "Removed all messages!");
-		}
-	    }
-	}, new CommandField("deltalk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer",
-		FieldProperty.OPTIONAL)));
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				if (args.length == 2) {
+					v.removeText(Integer.parseInt(args[1]));
+					player.sendMessage(ChatColor.GOLD + "Removed message " + args[1] + "!");
+				} else {
+					v.clearText();
+					player.sendMessage(ChatColor.GOLD + "Removed all messages!");
+				}
+			}
+		}, new CommandField("deltalk", FieldProperty.IDENTIFIER),
+				new CommandField("id", "not-negative integer", FieldProperty.OPTIONAL)));
 
-	/*
-	 * Name: vg
-	 * SubName: quest
-	 * 
-	 * Permission: myrpg.villager.quest
-	 * 
-	 * Usage: /vg quest <name>
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: quest
+		 * 
+		 * Permission: myrpg.villager.quest
+		 * 
+		 * Usage: /vg quest <name>
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		if (v.addQuest(args[1]))
-		    player.sendMessage(ChatColor.GOLD + "Assigned the quest to the villager!");
-		else
-		    player.sendMessage(ChatColor.GOLD + "Quest does not exist!");
-	    }
-	}, new CommandField("quest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				if (v.addQuest(args[1]))
+					player.sendMessage(ChatColor.GOLD + "Assigned the quest to the villager!");
+				else
+					player.sendMessage(ChatColor.GOLD + "Quest does not exist!");
+			}
+		}, new CommandField("quest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
-	/*
-	 * Name: vg
-	 * SubName: delquest
-	 * 
-	 * Permission: myrpg.villager.quest
-	 * 
-	 * Usage: /vg delquest <name>
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: delquest
+		 * 
+		 * Permission: myrpg.villager.quest
+		 * 
+		 * Usage: /vg delquest <name>
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		if (v.removeQuest(args[1]))
-		    player.sendMessage(ChatColor.GOLD + "Removed this quest!");
-		else
-		    player.sendMessage(ChatColor.RED + "That is not an assigned quest of this villager!");
-	    }
-	}, new CommandField("delquest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				if (v.removeQuest(args[1]))
+					player.sendMessage(ChatColor.GOLD + "Removed this quest!");
+				else
+					player.sendMessage(ChatColor.RED + "That is not an assigned quest of this villager!");
+			}
+		}, new CommandField("delquest", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
-	/*
-	 * Name: vg
-	 * SubName: toggle
-	 * 
-	 * Permission: myrpg.villager.toggle
-	 * 
-	 * Usage: /vg toggle
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.toggle", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: toggle
+		 * 
+		 * Permission: myrpg.villager.toggle
+		 * 
+		 * Usage: /vg toggle
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.toggle", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		v.toggleProfession();
-	    }
-	}, new CommandField("toggle", FieldProperty.IDENTIFIER)));
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				v.toggleProfession();
+			}
+		}, new CommandField("toggle", FieldProperty.IDENTIFIER)));
 
-	/*
-	 * Name: vg
-	 * SubName: path
-	 * 
-	 * Permission: myrpg.villager.path
-	 * 
-	 * Usage: /vg path <name>
-	 */
-	cmds.add(new Command("vg", "myrpg.villager.path", new CommandExecutable() {
+		/*
+		 * Name: vg SubName: path
+		 * 
+		 * Permission: myrpg.villager.path
+		 * 
+		 * Usage: /vg path <name>
+		 */
+		cmds.add(new Command("vg", "myrpg.villager.path", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		Villager v = VManager.getClosestVillager(player.getLocation());
-		if (v == null) {
-		    player.sendMessage(CmdMessage.noVillager);
-		    return;
-		}
-		if (args[1].equals("remove")) {
-		    v.removePath();
-		    player.sendMessage(ChatColor.GOLD + "The villager won't walk this path anymore!");
-		    return;
-		}
-		CheckpointPath path = PathUtil.getPath(args[1]);
-		if (path != null && path.isLoaded()) {
-		    v.setPath(path);
-		    player.sendMessage(ChatColor.GOLD + "The villager will walk this line!");
-		} else
-		    player.sendMessage(ChatColor.GOLD + "This path does not exist!");
+			@Override
+			public void execute(String[] args, Player player) {
+				Villager v = VManager.getClosestVillager(player.getLocation());
+				if (v == null) {
+					player.sendMessage(CmdMessage.noVillager);
+					return;
+				}
+				if (args[1].equals("remove")) {
+					v.removePath();
+					player.sendMessage(ChatColor.GOLD + "The villager won't walk this path anymore!");
+					return;
+				}
+				CheckpointPath path = PathUtil.getPath(args[1]);
+				if (path != null && path.isLoaded()) {
+					v.setPath(path);
+					player.sendMessage(ChatColor.GOLD + "The villager will walk this line!");
+				} else
+					player.sendMessage(ChatColor.GOLD + "This path does not exist!");
 
-	    }
-	}, new CommandField("path", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
+			}
+		}, new CommandField("path", FieldProperty.IDENTIFIER), new CommandField("name", FieldProperty.REQUIRED)));
 
-	return cmds;
-    }
+		return cmds;
+	}
 }

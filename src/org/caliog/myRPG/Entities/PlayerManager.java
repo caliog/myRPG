@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -16,6 +18,7 @@ import org.caliog.myRPG.Utils.FilePath;
 public class PlayerManager {
 	private static HashMap<UUID, myClass> players = new HashMap<UUID, myClass>();
 	private static File f = new File(FilePath.players);
+	public static Set<UUID> changedClass = new HashSet<UUID>();
 
 	public static void save() throws IOException {
 		f.mkdir();
@@ -129,7 +132,7 @@ public class PlayerManager {
 					clazz.addHealth(clazz.getMaxHealth() * 0.08D);
 				}
 				double d = clazz.getHealth() / clazz.getMaxHealth();
-				double maxHealth = clazz.getMaxHealth();
+				double maxHealth = clazz.getPlayer().getMaxHealth();
 				clazz.getPlayer().setHealth(maxHealth * (d > 1.0D ? 1.0D : d));
 				if (!GManager.isInGroup(clazz.getPlayer())) {
 					clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());

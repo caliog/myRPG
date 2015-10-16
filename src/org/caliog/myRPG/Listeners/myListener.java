@@ -415,32 +415,36 @@ public class myListener implements Listener {
 		if (player == null) {
 			return;
 		}
-		if (event.getOldLevel() + 1 == event.getNewLevel()) {
-			if (myConfig.isFireworkEnabled()) {
-				Location loc = player.getPlayer().getLocation();
-				Firework firework = (Firework) player.getPlayer().getWorld().spawn(loc, Firework.class);
-				FireworkMeta data = firework.getFireworkMeta();
-				Color c = Color.YELLOW;
-				if (event.getNewLevel() > 20) {
-					c = Color.GREEN;
-				}
-				if (event.getNewLevel() > 40) {
-					c = Color.BLUE;
-				}
-				if (event.getNewLevel() > 60) {
-					c = Color.LIME;
-				}
-				data.addEffects(new FireworkEffect[] {
-						FireworkEffect.builder().withColor(c).with(FireworkEffect.Type.STAR).build() });
-				data.setPower(0);
+		if (!PlayerManager.changedClass.contains(player.getPlayer().getUniqueId())) {
+			if (event.getOldLevel() + 1 == event.getNewLevel()) {
+				if (myConfig.isFireworkEnabled()) {
+					Location loc = player.getPlayer().getLocation();
+					Firework firework = (Firework) player.getPlayer().getWorld().spawn(loc, Firework.class);
+					FireworkMeta data = firework.getFireworkMeta();
+					Color c = Color.YELLOW;
+					if (event.getNewLevel() > 20) {
+						c = Color.GREEN;
+					}
+					if (event.getNewLevel() > 40) {
+						c = Color.BLUE;
+					}
+					if (event.getNewLevel() > 60) {
+						c = Color.LIME;
+					}
+					data.addEffects(new FireworkEffect[] {
+							FireworkEffect.builder().withColor(c).with(FireworkEffect.Type.STAR).build() });
+					data.setPower(0);
 
-				firework.setFireworkMeta(data);
+					firework.setFireworkMeta(data);
+				}
+
+				CenterBar.display(player.getPlayer(), "", ChatColor.GOLD + "Level " + event.getNewLevel());
+				Playerface.giveItem(player.getPlayer(), new Skillstar(3));
+				Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
 			}
+		} else
+			PlayerManager.changedClass.remove(player.getPlayer().getUniqueId());
 
-			CenterBar.display(player.getPlayer(), "", ChatColor.GOLD + "Level " + event.getNewLevel());
-			Playerface.giveItem(player.getPlayer(), new Skillstar(3));
-			Msg.sendMessage(event.getPlayer(), "level-reached", Msg.LEVEL, String.valueOf(event.getNewLevel()));
-		}
 		GroupManager.updateGroup(player.getPlayer(), event.getNewLevel());
 
 	}

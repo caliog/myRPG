@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Villager.Profession;
 import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.Chat.CMessage.MessageType;
 import org.caliog.Villagers.Chat.ChatTask;
@@ -21,6 +22,7 @@ public class Priest extends Villager {
 
 	public Priest(org.bukkit.entity.Villager entity, Location location, String name) {
 		super(entity, VillagerType.PRIEST, location, name);
+		this.profession = Profession.PRIEST;
 		String msg = Msg.getMessage("class-change-offer", Msg.CLASS, getClassType());
 		addCMessage(1, new CMessage(msg, MessageType.QUESTION, 3));
 		CMessage message = new CMessage(Msg.getMessage("class-changed", Msg.CLASS, getClassType()), MessageType.END);
