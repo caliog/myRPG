@@ -10,36 +10,36 @@ import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Items.ItemEffect;
 
 public class DexBook extends Book {
-    public DexBook(myClass clazz) {
-	super("Dexterity", clazz);
-    }
+	public DexBook(myClass clazz) {
+		super("Dexterity", clazz);
+	}
 
-    public void syncItemStack() {
-	ItemMeta meta = getItemMeta();
-	meta.setDisplayName(ChatColor.DARK_GRAY + getName());
-	meta.addItemFlags(ItemFlag.values());
-	List<String> lore = new ArrayList<String>();
-	lore.add(ChatColor.BLUE + " + " + this.player.getDexterity());
+	public void syncItemStack() {
+		ItemMeta meta = getItemMeta();
+		meta.setDisplayName(ChatColor.DARK_GRAY + getName());
+		meta.addItemFlags(ItemFlag.values());
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.BLUE + " + " + this.player.getDexterity());
 
-	lore.add(" ");
-	lore.add(ChatColor.GOLD + "Drag a skillstar at the book");
-	lore.add(ChatColor.GOLD + "to increase your dexterity");
-	lore.add(" ");
+		lore.add(" ");
+		lore.add(ChatColor.GOLD + "Drag a skillstar at the book");
+		lore.add(ChatColor.GOLD + "to increase your dexterity");
+		lore.add(" ");
 
-	lore.add(ChatColor.RED + "soulbound!");
-	meta.setLore(lore);
-	setItemMeta(meta);
-    }
+		lore.add(ChatColor.RED + "soulbound!");
+		meta.setLore(lore);
+		setItemMeta(meta);
+	}
 
-    public List<ItemEffect> getEffects() {
-	return this.effects;
-    }
+	public List<ItemEffect> getEffects() {
+		return this.effects;
+	}
 
-    public int getMinLevel() {
-	return -1;
-    }
+	public int getMinLevel() {
+		return -1;
+	}
 
-    public String getClazz() {
-	return null;
-    }
+	public String getClazz() {
+		return null;
+	}
 }
