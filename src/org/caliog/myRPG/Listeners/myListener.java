@@ -113,7 +113,6 @@ public class myListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onDamageByPlayer(EntityDamageByEntityEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
@@ -137,10 +136,8 @@ public class myListener implements Listener {
 				}
 			}
 		}
-		onEntityDamageByEntity(new EntityDamageByEntityEvent(event.getDamager(), event.getEntity(), event.getCause(),
-				event.getDamage()));
-		onMobDamageByPlayer(new EntityDamageByEntityEvent(event.getDamager(), event.getEntity(), event.getCause(),
-				event.getDamage()));
+		onEntityDamageByEntity(event);
+		onMobDamageByPlayer(event);
 		event.setDamage(0.0D);
 	}
 
