@@ -41,7 +41,8 @@ public class Weapon extends CustomItemInstance {
 	public void syncItemStack() {
 		ItemMeta meta = getItemMeta();
 		meta.setDisplayName(ChatColor.DARK_GRAY + getName() + ChatColor.GOLD + " Lv. " + getLevel());
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		if (Utils.isBukkitClass("org.bukkit.inventory.ItemFlag"))
+			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		List<String> lore = new ArrayList<String>();
 		String damage = getDamage().length == 1 ? String.valueOf(getDamage()[0])
 				: (getDamage()[0] + "-" + getDamage()[(getDamage().length - 1)]);

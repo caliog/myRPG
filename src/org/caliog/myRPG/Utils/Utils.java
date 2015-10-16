@@ -1,9 +1,13 @@
 package org.caliog.myRPG.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.caliog.myRPG.Manager;
 
 public class Utils {
 	public static String cleanString(String str) {
@@ -28,6 +32,32 @@ public class Utils {
 
 	public static Player getPlayer(UUID id) {
 		return Bukkit.getPlayer(id);
+	}
+
+	public static boolean isBukkitClass(String string) {
+		try {
+			Manager.plugin.getClass().getClassLoader().loadClass(string);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static List<Player> getBukkitPlayers() {
+		List<Player> players = new ArrayList<Player>();
+		for (World w : Bukkit.getWorlds())
+			players.addAll(w.getPlayers());
+		return players;
+	}
+
+	public static boolean isBukkitMethod(String c, String m, Class<?>... param) {
+		try {
+			Class<?> cl = Manager.plugin.getClass().getClassLoader().loadClass(c);
+			cl.getMethod(m, param);
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 
 }

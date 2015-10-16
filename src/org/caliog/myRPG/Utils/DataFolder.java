@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 
-import org.apache.commons.io.FileUtils;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Resource.FileCreator;
@@ -32,11 +31,7 @@ public class DataFolder {
 				}
 
 			if (delete != null)
-				try {
-					FileUtils.deleteDirectory(delete);
-				} catch (IOException e) {
-					break;
-				}
+				deleteDirectory(delete);
 
 		}
 
@@ -85,6 +80,22 @@ public class DataFolder {
 				}
 			}
 		};
+	}
+
+	public static boolean deleteDirectory(File directory) throws IOException {
+		if (directory.exists()) {
+			File[] files = directory.listFiles();
+			if (files != null) {
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].isDirectory()) {
+						deleteDirectory(files[i]);
+					} else {
+						files[i].delete();
+					}
+				}
+			}
+		}
+		return (directory.delete());
 	}
 
 }

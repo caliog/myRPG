@@ -3,10 +3,10 @@ package org.caliog.myRPG.Lib.Barkeeper.CenterBar;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.caliog.myRPG.Utils.Utils;
 
 public class CenterBar {
 	public static void display(Player player, String title, String subtitle, int time, boolean t) {
@@ -40,7 +40,7 @@ public class CenterBar {
 
 	public static void broadcast(String title, String subtitle, World world, int time, boolean t) {
 		Collection<? extends Player> players = new ArrayList<Player>();
-		players = Bukkit.getOnlinePlayers();
+		players = Utils.getBukkitPlayers();
 		if (world != null)
 			players = world.getPlayers();
 		for (Player player : players)

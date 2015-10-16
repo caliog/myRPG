@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
+import org.caliog.myRPG.Utils.Utils;
 
 public class HealthPotion {
 
@@ -34,7 +35,8 @@ public class HealthPotion {
 			meta = stack.getItemMeta();
 		} else
 			meta = Bukkit.getItemFactory().getItemMeta(Material.POTION);
-		meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		if (Utils.isBukkitClass("org.bukkit.inventory.ItemFlag"))
+			meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 		meta.setDisplayName(ChatColor.DARK_GRAY + name);
 		List<String> lore = new ArrayList<String>();
 		lore.add(" ");

@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Items.ItemEffect;
+import org.caliog.myRPG.Utils.Utils;
 
 public class StrBook extends Book {
 	public StrBook(myClass clazz) {
@@ -17,7 +18,8 @@ public class StrBook extends Book {
 	public void syncItemStack() {
 		ItemMeta meta = getItemMeta();
 		meta.setDisplayName(ChatColor.DARK_GRAY + getName());
-		meta.addItemFlags(ItemFlag.values());
+		if (Utils.isBukkitClass("org.bukkit.inventory.ItemFlag"))
+			meta.addItemFlags(ItemFlag.values());
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.BLUE + " + " + this.player.getStrength());
 

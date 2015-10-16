@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Utils.FilePath;
@@ -132,7 +133,7 @@ public class PlayerManager {
 					clazz.addHealth(clazz.getMaxHealth() * 0.08D);
 				}
 				double d = clazz.getHealth() / clazz.getMaxHealth();
-				double maxHealth = clazz.getPlayer().getMaxHealth();
+				double maxHealth = ((Damageable) clazz.getPlayer()).getMaxHealth();
 				clazz.getPlayer().setHealth(maxHealth * (d > 1.0D ? 1.0D : d));
 				if (!GManager.isInGroup(clazz.getPlayer())) {
 					clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());

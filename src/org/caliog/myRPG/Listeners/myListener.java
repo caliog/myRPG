@@ -67,6 +67,7 @@ import org.caliog.myRPG.Utils.EntityUtils;
 import org.caliog.myRPG.Utils.GroupManager;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.SkillInventoryView;
+import org.caliog.myRPG.Utils.Utils;
 
 public class myListener implements Listener {
 	private HashMap<Integer, Integer> entityTasks = new HashMap<Integer, Integer>();
@@ -400,10 +401,11 @@ public class myListener implements Listener {
 			newExp = 0F;
 		}
 		event.getEntity().setExp(newExp);
-		if (myConfig.keepInventory()) {
-			event.getDrops().clear();// TODO test v1_7_R4
-		}
-		event.setKeepInventory(myConfig.keepInventory());
+
+		if (Utils.isBukkitMethod("org.bukkit.event.entity.PlayerDeathEvent", "setKeepInventory", Boolean.class))
+			event.setKeepInventory(myConfig.keepInventory());
+		else if (myConfig.keepInventory())
+			event.getDrops().clear();// TODO test
 		Msg.sendMessage(event.getEntity(), "dead-message");
 	}
 
