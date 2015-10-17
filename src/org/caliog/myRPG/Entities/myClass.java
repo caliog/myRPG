@@ -17,6 +17,7 @@ import org.caliog.myRPG.Items.ItemEffect.ItemEffectType;
 import org.caliog.myRPG.Lib.Barkeeper.BottomBar.BottomBar;
 import org.caliog.myRPG.Spells.InvisibleSpell;
 import org.caliog.myRPG.Spells.Spell;
+import org.caliog.myRPG.Spells.SpellBarManager;
 import org.caliog.myRPG.Utils.FilePath;
 
 public class myClass extends myPlayer {
@@ -250,15 +251,16 @@ public class myClass extends myPlayer {
 		default:
 			return;
 		}
-		if ((this.spell[0] == -1) && (this.getPlayer().getItemInHand().getType().equals(Material.BOW) ? s == 0 : s == 1)
-				&& (!getPlayer().isSneaking())) {
+		if ((this.spell[0] == -1) && (this.getPlayer().getItemInHand().getType().equals(Material.BOW) ? s == 0 : s == 1) && (!getPlayer().isSneaking())) {
 			return;
 		}
 		for (int i = 0; i < this.spell.length; i++) {
 			if (this.spell[i] == -1) {
 				this.spell[i] = s;
 
-				BottomBar.display(getPlayer(), Playerface.spell(spell));
+				String cc = Playerface.spell(spell);
+				SpellBarManager.register(getPlayer(), "#castcode#", 30L);
+				BottomBar.display(getPlayer(), cc);
 
 				if (i == this.spell.length - 1) {
 					castSpell();
@@ -272,7 +274,7 @@ public class myClass extends myPlayer {
 							spell[i] = -1;
 						}
 					}
-				}, 40L);
+				}, 30L);
 
 				return;
 			}
