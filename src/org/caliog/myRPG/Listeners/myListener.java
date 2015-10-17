@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.EntityEffect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -274,6 +275,7 @@ public class myListener implements Listener {
 						e.setCustomName(mob.getCustomName());
 					}
 				}, 100L)));
+		event.getEntity().playEffect(EntityEffect.HURT);
 		if (mob.damage(damage)) {
 			mob.setKiller(player.getUniqueId());
 			e.setHealth(0.0D);
