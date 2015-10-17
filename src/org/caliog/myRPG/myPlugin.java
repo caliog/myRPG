@@ -70,6 +70,7 @@ public class myPlugin extends JavaPlugin {
 
 	private void initSupportedVersions() {
 		supportedVersions.add("v1_8_R3");
+		supportedVersions.add("v1_8_R2");
 		supportedVersions.add("v1_7_R4");
 	}
 
