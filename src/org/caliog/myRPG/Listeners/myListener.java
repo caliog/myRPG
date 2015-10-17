@@ -187,8 +187,11 @@ public class myListener implements Listener {
 				}
 			}, 2L);
 			damager.fight();
-
-			damage = damager.getDamage(!event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM));
+			boolean b = !event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM);
+			if (b)
+				damage = event.getDamage();
+			else
+				damage = damager.getDamage();
 		}
 		Mob mob;
 		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
@@ -220,17 +223,15 @@ public class myListener implements Listener {
 	public void onMobDamageByPlayer(EntityDamageByEntityEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
-		if (event.isCancelled()) {
+		if (event.isCancelled())
 			return;
-		}
-		if (!(event.getEntity() instanceof Damageable)) {
+		if (!(event.getEntity() instanceof Damageable))
 			return;
-		}
-		if (!(event.getEntity() instanceof LivingEntity)) {
+		if (!(event.getEntity() instanceof LivingEntity))
 			return;
-		}
 		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
 			return;
+
 		boolean shooterisplayer = false;
 		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
 				&& (((Projectile) event.getDamager()).getShooter() != null)

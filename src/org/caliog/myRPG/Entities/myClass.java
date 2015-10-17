@@ -69,17 +69,16 @@ public class myClass extends myPlayer {
 		return (int) Math.round(p * defense);
 	}
 
-	public int getDamage(boolean b) {
-		int damage = super.getDamage(b);
+	public int getDamage() {
+		int damage = super.getDamage();
 		double p = 1.0D + getRStrength() / 100.0D;
 		if ((getCritical() > 0) && ((getRIntelligence() / 20.0F + getCritical()) / 100.0F > Math.random())) {
 			p = 2.0D;
 		}
-		for (Spell s : this.spells.values()) {
-			if (s.isActive()) {
+		for (Spell s : this.spells.values())
+			if (s.isActive())
 				damage += s.getDamage();
-			}
-		}
+
 		return (int) Math.round(p * damage);
 	}
 

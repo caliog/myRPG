@@ -50,9 +50,9 @@ public abstract class myPlayer extends Fighter {
 		return defense;
 	}
 
-	public int getDamage(boolean b) {
+	public int getDamage() {
 		int damage = Math.round((float) (getMaximumHealth() / 4.0D));
-		if ((b) && (Weapon.isWeapon((myClass) this, getPlayer().getItemInHand()))) {
+		if ((Weapon.isWeapon((myClass) this, getPlayer().getItemInHand()))) {
 			damage += Weapon.getInstance((myClass) this, getPlayer().getItemInHand()).getRandomDamage();
 		} else if (damage == 0) {
 			damage++;
