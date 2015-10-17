@@ -137,7 +137,7 @@ public class Manager {
 			public void run() {
 				Bukkit.getScheduler().cancelTask(taskId);
 			}
-		}, l);
+		}, l + i);
 		return taskId;
 	}
 
