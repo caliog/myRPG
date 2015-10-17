@@ -45,6 +45,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.Fighter;
@@ -91,10 +92,8 @@ public class myListener implements Listener {
 			return;
 		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
 			return;
-		if (((event.getCause().equals(EntityDamageEvent.DamageCause.FALL))
-				|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
-				|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))
-				&& ((event.getEntity() instanceof Player))) {
+		if (((event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) || (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
+				|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK))) && ((event.getEntity() instanceof Player))) {
 			if (PlayerManager.getPlayer(event.getEntity().getUniqueId()).damage(event.getDamage())) {
 				playerDeathEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ""));
 				respawn((Player) event.getEntity());
@@ -102,8 +101,7 @@ public class myListener implements Listener {
 			event.setDamage(0.0D);
 		}
 		if ((VolatileEntities.getMob(event.getEntity().getUniqueId()) != null)
-				&& ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
-						|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))) {
+				&& ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) || (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))) {
 			event.setCancelled(true);
 			event.getEntity().setFireTicks(0);
 		}
@@ -120,8 +118,7 @@ public class myListener implements Listener {
 			return;
 		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
 			return;
-		if (((event.getDamager() instanceof Player))
-				&& (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
+		if (((event.getDamager() instanceof Player)) && (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
 			if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getItemInHand())) {
 				event.setCancelled(true);
 				return;
@@ -154,8 +151,7 @@ public class myListener implements Listener {
 			return;
 		}
 		boolean shooter = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
-				&& (((Projectile) event.getDamager()).getShooter() != null)
+		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile)) && (((Projectile) event.getDamager()).getShooter() != null)
 				&& ((((Projectile) event.getDamager()).getShooter() instanceof LivingEntity))) {
 			shooter = true;
 		}
@@ -208,12 +204,10 @@ public class myListener implements Listener {
 				}
 			}
 		}
-		if (((event.getEntity() instanceof Player))
-				&& (PlayerManager.getPlayer(event.getEntity().getUniqueId()) != null)
+		if (((event.getEntity() instanceof Player)) && (PlayerManager.getPlayer(event.getEntity().getUniqueId()) != null)
 				&& (PlayerManager.getPlayer(event.getEntity().getUniqueId()).damage(damage))) {
 			PlayerManager.getPlayer(event.getEntity().getUniqueId()).setKiller(mdamager.getUniqueId());
-			playerDeathEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0,
-					ChatColor.GOLD + "You were killed!"));
+			playerDeathEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ChatColor.GOLD + "You were killed!"));
 			respawn((Player) event.getEntity());
 			damage = 0.0D;
 			event.getEntity().setFireTicks(0);
@@ -234,8 +228,7 @@ public class myListener implements Listener {
 			return;
 
 		boolean shooterisplayer = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
-				&& (((Projectile) event.getDamager()).getShooter() != null)
+		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile)) && (((Projectile) event.getDamager()).getShooter() != null)
 				&& (((Projectile) event.getDamager()).getShooter() instanceof Player)) {
 			shooterisplayer = true;
 		}
@@ -258,8 +251,7 @@ public class myListener implements Listener {
 		}
 		if (mob.isBoss()) {
 			if (PlayerManager.getPlayer(player.getUniqueId()).isBossFight()) {
-				VolatileEntities.getMob(PlayerManager.getPlayer(player.getUniqueId()).getBossId())
-						.removeAttacker(player.getUniqueId());
+				VolatileEntities.getMob(PlayerManager.getPlayer(player.getUniqueId()).getBossId()).removeAttacker(player.getUniqueId());
 			}
 			PlayerManager.getPlayer(player.getUniqueId()).setBossId(mob.getId());
 			mob.addAttacker(player.getUniqueId());
@@ -269,12 +261,11 @@ public class myListener implements Listener {
 			damage = 0.0D;
 		}
 		e.setCustomName(EntityUtils.getBar(mob.getHealth() - damage, mob.getHP()));
-		this.entityTasks.put(Integer.valueOf(event.getEntity().getEntityId()),
-				Integer.valueOf(Manager.scheduleTask(new Runnable() {
-					public void run() {
-						e.setCustomName(mob.getCustomName());
-					}
-				}, 100L)));
+		this.entityTasks.put(Integer.valueOf(event.getEntity().getEntityId()), Integer.valueOf(Manager.scheduleTask(new Runnable() {
+			public void run() {
+				e.setCustomName(mob.getCustomName());
+			}
+		}, 100L)));
 		event.getEntity().playEffect(EntityEffect.HURT);
 		if (mob.damage(damage)) {
 			mob.setKiller(player.getUniqueId());
@@ -293,8 +284,7 @@ public class myListener implements Listener {
 			return;
 		event.setDroppedExp(0);
 		event.getDrops().clear();
-		if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime))
-				&& (!(event.getEntity() instanceof Ghast))) {
+		if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime)) && (!(event.getEntity() instanceof Ghast))) {
 			return;
 		}
 		final Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
@@ -335,8 +325,8 @@ public class myListener implements Listener {
 		} else if (diff < 100.0D) {
 			diff = 100.0D;
 		}
-		event.getEntity().setCustomName(ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ "
-				+ Playerface.killed(player.getPlayer(), mob) + " XP  " + ChatColor.BLACK + "]");
+		event.getEntity().setCustomName(
+				ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ " + Playerface.killed(player.getPlayer(), mob) + " XP  " + ChatColor.BLACK + "]");
 		for (ItemStack stack : mob.drops().keySet()) {
 			if (Math.random() * diff < ((Float) mob.drops().get(stack)).floatValue()) {
 				Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stack);
@@ -350,8 +340,7 @@ public class myListener implements Listener {
 			int level = w.getLevel();
 			int mLevel = w.getMinLevel();
 			int max = (level + 2) * (mLevel + 2);
-			float p = (this.bows.containsKey(player.getPlayer().getUniqueId())
-					? ((Short) this.bows.get(player.getPlayer().getUniqueId())).shortValue()
+			float p = (this.bows.containsKey(player.getPlayer().getUniqueId()) ? ((Short) this.bows.get(player.getPlayer().getUniqueId())).shortValue()
 					: (float) hand.getDurability()) / (float) w.getType().getMaxDurability();
 			int current = Math.round(p == 0.0F ? 0.0F : (1.0F - p) * max);
 			current++;
@@ -379,11 +368,10 @@ public class myListener implements Listener {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
 		if (myConfig.isFireworkEnabled()) {
-			Firework firework = (Firework) event.getEntity().getWorld().spawn(event.getEntity().getLocation(),
-					Firework.class);
+			Firework firework = (Firework) event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class);
 			FireworkMeta data = firework.getFireworkMeta();
-			data.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(false).withColor(Color.RED)
-					.withFade(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build() });
+			data.addEffects(new FireworkEffect[] {
+					FireworkEffect.builder().flicker(false).withColor(Color.RED).withFade(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build() });
 			data.setPower(new Random().nextInt(2) + 1);
 			firework.setFireworkMeta(data);
 		}
@@ -433,8 +421,7 @@ public class myListener implements Listener {
 					if (event.getNewLevel() > 60) {
 						c = Color.LIME;
 					}
-					data.addEffects(new FireworkEffect[] {
-							FireworkEffect.builder().withColor(c).with(FireworkEffect.Type.STAR).build() });
+					data.addEffects(new FireworkEffect[] { FireworkEffect.builder().withColor(c).with(FireworkEffect.Type.STAR).build() });
 					data.setPower(0);
 
 					firework.setFireworkMeta(data);
@@ -458,12 +445,10 @@ public class myListener implements Listener {
 		if (!(event.getPlayer() instanceof Player)) {
 			return;
 		}
-		if ((event.getInventory().getType().equals(InventoryType.PLAYER))
-				|| (event.getInventory().getType().equals(InventoryType.CRAFTING))) {
+		if ((event.getInventory().getType().equals(InventoryType.PLAYER)) || (event.getInventory().getType().equals(InventoryType.CRAFTING))) {
 			ItemStack[] armor = (ItemStack[]) event.getPlayer().getInventory().getArmorContents().clone();
 			for (int i = 0; i < armor.length; i++) {
-				if ((armor[i] != null) && (!armor[i].getType().equals(Material.AIR))
-						&& (!ItemUtils.checkForUse((Player) event.getPlayer(), armor[i]))) {
+				if ((armor[i] != null) && (!armor[i].getType().equals(Material.AIR)) && (!ItemUtils.checkForUse((Player) event.getPlayer(), armor[i]))) {
 					Playerface.giveItem((Player) event.getPlayer(), armor[i]);
 					armor[i] = null;
 				}
@@ -499,10 +484,8 @@ public class myListener implements Listener {
 		if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
 			return;
 		ItemStack stack = event.getPlayer().getItemInHand();
-		if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
-				&& (Skillstar.isSkillstar(stack))) {
-			event.getPlayer()
-					.openInventory(new SkillInventoryView(event.getPlayer(), event.getPlayer().getInventory()));
+		if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) && (Skillstar.isSkillstar(stack))) {
+			event.getPlayer().openInventory(new SkillInventoryView(event.getPlayer(), event.getPlayer().getInventory()));
 		}
 	}
 
@@ -552,6 +535,30 @@ public class myListener implements Listener {
 		if (!Playerface.isAccessible(event.getPlayer(), event.getItem())) {
 			event.setCancelled(true);
 		} else {
+			// potions stack
+			ItemStack stack = event.getItem().getItemStack();
+			if (stack != null && stack.getItemMeta() != null && stack.getItemMeta().getDisplayName() != null) {
+				String name = event.getItem().getItemStack().getItemMeta().getDisplayName();
+				for (ItemStack hp : HealthPotion.all())
+					if (name.equalsIgnoreCase(hp.getItemMeta().getDisplayName())) {
+						ItemStack[] contents = event.getPlayer().getInventory().getContents();
+						for (int i = 0; i < contents.length; i++) {
+							if (contents[i] == null)
+								continue;
+							ItemMeta meta = null;
+							if ((meta = contents[i].getItemMeta()) != null && meta.getDisplayName() != null)
+								if (meta.getDisplayName().equalsIgnoreCase(hp.getItemMeta().getDisplayName())) {
+									contents[i].setAmount(contents[i].getAmount() + 1);
+									event.getItem().remove();
+									event.setCancelled(true);
+									return;
+								}
+						}
+
+					}
+			}
+			//
+
 			event.setCancelled(false);
 		}
 	}
@@ -631,8 +638,7 @@ public class myListener implements Listener {
 	public void onBowShoot(EntityShootBowEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
-		if ((!(event.getEntity() instanceof Player))
-				|| (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
+		if ((!(event.getEntity() instanceof Player)) || (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
 			return;
 		}
 		final Player player = (Player) event.getEntity();

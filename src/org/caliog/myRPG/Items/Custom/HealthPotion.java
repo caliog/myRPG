@@ -46,4 +46,12 @@ public class HealthPotion {
 		stack.setItemMeta(meta);
 		return stack;
 	}
+
+	public static List<ItemStack> all() {
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		list.add(getHP1(1));
+		list.add(getHP2(1));
+		list.add(getHP3(1));
+		return list;
+	}
 }
