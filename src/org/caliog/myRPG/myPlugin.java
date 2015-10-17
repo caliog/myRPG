@@ -161,9 +161,10 @@ public class myPlugin extends JavaPlugin {
 		if (myConfig.isSpellCollectionEnabled()) {
 			try {
 				File file = new File(FilePath.spellCollection);
-				if (!file.exists())
+				if (!file.exists()) {
 					file.createNewFile();
-				fc.copyFile(FilePath.spellCollection, "SpellCollection.jar");
+					fc.copyFile(FilePath.spellCollection, "SpellCollection.jar");
+				}
 			} catch (IOException e) {
 				getLogger().warning("Failed to create SpellCollection.jar!");
 			}
