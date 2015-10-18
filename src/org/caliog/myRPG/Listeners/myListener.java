@@ -184,12 +184,14 @@ public class myListener implements Listener {
 				}
 			}, 2L);
 			damager.fight();
-			boolean b = !event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM);
+			boolean b = event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM);
 			if (b)
 				damage = event.getDamage();
 			else
 				damage = damager.getDamage();
+
 		}
+
 		Mob mob;
 		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
 			damage -= mob.getDefense();
@@ -215,7 +217,7 @@ public class myListener implements Listener {
 		event.setDamage(damage);
 	}
 
-	public void onMobDamageByPlayer(EntityDamageByEntityEvent event) {
+	public void onMobDamageByPlayer(final EntityDamageByEntityEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
 		if (event.isCancelled())
@@ -393,7 +395,7 @@ public class myListener implements Listener {
 		if (Utils.isBukkitMethod("org.bukkit.event.entity.PlayerDeathEvent", "setKeepInventory", Boolean.class))
 			event.setKeepInventory(myConfig.keepInventory());
 		else if (myConfig.keepInventory())
-			event.getDrops().clear();// TODO test
+			event.getDrops().clear();
 		Msg.sendMessage(event.getEntity(), "dead-message");
 	}
 

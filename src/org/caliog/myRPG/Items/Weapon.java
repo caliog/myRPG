@@ -29,7 +29,7 @@ public class Weapon extends CustomItemInstance {
 		String[] s = this.config.getString("damage").split(",");
 		int[] a = new int[s.length];
 		for (int i = 0; i < s.length; i++) {
-			a[i] = (Integer.parseInt(s[i]) + getLevel());
+			a[i] = (Integer.parseInt(s[i]) + getLevel() - 1);
 		}
 		return a;
 	}
@@ -44,8 +44,7 @@ public class Weapon extends CustomItemInstance {
 		if (Utils.isBukkitClass("org.bukkit.inventory.ItemFlag"))
 			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		List<String> lore = new ArrayList<String>();
-		String damage = getDamage().length == 1 ? String.valueOf(getDamage()[0])
-				: (getDamage()[0] + "-" + getDamage()[(getDamage().length - 1)]);
+		String damage = getDamage().length == 1 ? String.valueOf(getDamage()[0]) : (getDamage()[0] + "-" + getDamage()[(getDamage().length - 1)]);
 		lore.add(ChatColor.ITALIC + "" + ChatColor.BLUE + "Dmg: " + damage);
 		for (ItemEffect effect : getEffects()) {
 			if (effect.getPower() > 0)
