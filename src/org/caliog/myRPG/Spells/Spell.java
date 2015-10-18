@@ -18,11 +18,11 @@ public abstract class Spell {
 
 	public abstract int getFood();
 
-	public abstract int getPower();
+	public abstract float getPower();
 
-	public abstract int getDamage();
+	public abstract double getDamage();
 
-	public abstract int getDefense();
+	public abstract double getDefense();
 
 	public boolean isActive() {
 		return this.active;

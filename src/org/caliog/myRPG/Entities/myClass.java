@@ -59,19 +59,19 @@ public class myClass extends myPlayer {
 		}
 	}
 
-	public int getDefense() {
-		int defense = super.getDefense();
+	public double getDefense() {
+		double defense = super.getDefense();
 		double p = 1.0D + (getRStrength() + getRDexterity()) / 200.0D;
 		for (Spell s : this.spells.values()) {
 			if (s.isActive()) {
 				defense += s.getDefense();
 			}
 		}
-		return (int) Math.round(p * defense);
+		return p * defense;
 	}
 
-	public int getDamage() {
-		int damage = super.getDamage();
+	public double getDamage() {
+		double damage = super.getDamage();
 		double p = 1.0D + getRStrength() / 100.0D;
 		if ((getCritical() > 0) && ((getRIntelligence() / 20.0F + getCritical()) / 100.0F > Math.random())) {
 			p = 2.0D;
@@ -80,7 +80,7 @@ public class myClass extends myPlayer {
 			if (s.isActive())
 				damage += s.getDamage();
 
-		return (int) Math.round(p * damage);
+		return p * damage;
 	}
 
 	public int getRStrength() {

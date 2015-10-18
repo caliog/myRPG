@@ -88,11 +88,11 @@ public class MobInstance extends Mob {
 		return this.mobConfig.getInt("extra-spawn-time");
 	}
 
-	public int getDefense() {
+	public double getDefense() {
 		return this.mobConfig.getInt("defense");
 	}
 
-	public int getDamage() {
+	public double getDamage() {
 		return this.mobConfig.getInt("damage");
 	}
 

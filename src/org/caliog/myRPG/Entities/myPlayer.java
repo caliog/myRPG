@@ -39,7 +39,7 @@ public abstract class myPlayer extends Fighter {
 		return this.player;
 	}
 
-	public int getDefense() {
+	public double getDefense() {
 		int defense = Math.round((float) (getMaximumHealth() / 4.0D));
 		for (ItemStack s : getPlayer().getInventory().getArmorContents()) {
 			if (Armor.isArmor(s)) {
@@ -50,7 +50,7 @@ public abstract class myPlayer extends Fighter {
 		return defense;
 	}
 
-	public int getDamage() {
+	public double getDamage() {
 		int damage = Math.round((float) (getMaximumHealth() / 4.0D));
 		if ((Weapon.isWeapon((myClass) this, getPlayer().getItemInHand()))) {
 			damage += Weapon.getInstance((myClass) this, getPlayer().getItemInHand()).getRandomDamage();

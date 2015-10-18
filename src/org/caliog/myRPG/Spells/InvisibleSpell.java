@@ -6,56 +6,57 @@ import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.myClass;
 
 public class InvisibleSpell extends Spell {
-    public InvisibleSpell(myClass player) {
-	super(player, "Tarnung");
-    }
-
-    public boolean execute() {
-	if (!super.execute()) {
-	    return false;
+	public InvisibleSpell(myClass player) {
+		super(player, "Tarnung");
 	}
-	if (getPlayer().isFighting()) {
-	    return false;
+
+	public boolean execute() {
+		if (!super.execute()) {
+			return false;
+		}
+		if (getPlayer().isFighting()) {
+			return false;
+		}
+		int time = Math.round(getPower() * 20L);
+		activate(time);
+		Manager.scheduleRepeatingTask(new Runnable() {
+			public void run() {
+				getPlayer().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1200, 2));
+			}
+		}, 0L, 200L, time);
+		Manager.scheduleTask(new Runnable() {
+			public void run() {
+				getPlayer().getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+			}
+		}, time);
+
+		return true;
 	}
-	activate(getPower() * 20);
-	Manager.scheduleRepeatingTask(new Runnable() {
-	    public void run() {
-		getPlayer().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1200, 2));
-	    }
-	}, 0L, 200L, getPower() * 20L);
-	Manager.scheduleTask(new Runnable() {
-	    public void run() {
-		getPlayer().getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
-	    }
-	}, getPower() * 20L);
 
-	return true;
-    }
-
-    public int getMinLevel() {
-	return 5;
-    }
-
-    public int getFood() {
-	return Math.round(getPower() / 90.0F * 12.0F);
-    }
-
-    public int getPower() {
-	int level = getPlayer().getLevel();
-	if (level <= 10) {
-	    return level * 5;
+	public int getMinLevel() {
+		return 5;
 	}
-	if (level <= 20) {
-	    return level * 2 + 10;
+
+	public int getFood() {
+		return Math.round(getPower() / 90.0F * 12.0F);
 	}
-	return 90;
-    }
 
-    public int getDamage() {
-	return 0;
-    }
+	public float getPower() {
+		int level = getPlayer().getLevel();
+		if (level <= 10) {
+			return level * 5;
+		}
+		if (level <= 20) {
+			return level * 2 + 10;
+		}
+		return 90;
+	}
 
-    public int getDefense() {
-	return 0;
-    }
+	public double getDamage() {
+		return 0;
+	}
+
+	public double getDefense() {
+		return 0;
+	}
 }

@@ -16,9 +16,9 @@ public abstract class Fighter {
 		}
 	}
 
-	public abstract int getDefense();
+	public abstract double getDefense();
 
-	public abstract int getDamage();
+	public abstract double getDamage();
 
 	public boolean isFighting() {
 		return this.fighting;
