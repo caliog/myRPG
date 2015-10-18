@@ -61,12 +61,10 @@ public class MobInstance extends Mob {
 		int e = 0;
 		try {
 			if (s.length() >= 5 && s.split("%").length == 2 && s.split("-").length == 2) {
-				e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]),
-						Integer.parseInt(s.split("%")[1].split("-")[1]))
+				e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]), Integer.parseInt(s.split("%")[1].split("-")[1]))
 						* (Integer.parseInt(s.split("%")[0]) / 100.0F));
 			} else if (s.contains("%")) {
-				e = (int) (Playerface.getExpDifference(getLevel(), getLevel() + 1)
-						* (Integer.parseInt(s.replace("%", "")) / 100F));
+				e = (int) (Playerface.getExpDifference(getLevel(), getLevel() + 1) * (Integer.parseInt(s.replace("%", "")) / 100F));
 			} else
 				throw new Exception();
 		} catch (Exception exc) {
@@ -80,8 +78,7 @@ public class MobInstance extends Mob {
 		List<String> list = this.mobConfig.getStringList("drops");
 		for (String l : list) {
 			if (l.contains("%") && l.split("%").length == 2) {
-				this.drops.put(ItemUtils.getItem(l.split("%")[1]),
-						Float.valueOf(Integer.parseInt(l.split("%")[0]) / 100.0F));
+				this.drops.put(ItemUtils.getItem(l.split("%")[1]), Float.valueOf(Integer.parseInt(l.split("%")[0]) / 100.0F));
 			}
 		}
 		return this.drops;
