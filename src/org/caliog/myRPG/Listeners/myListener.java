@@ -101,7 +101,8 @@ public class myListener implements Listener {
 			event.setDamage(0.0D);
 		}
 		if ((VolatileEntities.getMob(event.getEntity().getUniqueId()) != null)
-				&& ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) || (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))) {
+				&& ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
+						|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))) {
 			event.setCancelled(true);
 			event.getEntity().setFireTicks(0);
 		}
@@ -151,7 +152,8 @@ public class myListener implements Listener {
 			return;
 		}
 		boolean shooter = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile)) && (((Projectile) event.getDamager()).getShooter() != null)
+		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
+				&& (((Projectile) event.getDamager()).getShooter() != null)
 				&& ((((Projectile) event.getDamager()).getShooter() instanceof LivingEntity))) {
 			shooter = true;
 		}
@@ -209,7 +211,8 @@ public class myListener implements Listener {
 		if (((event.getEntity() instanceof Player)) && (PlayerManager.getPlayer(event.getEntity().getUniqueId()) != null)
 				&& (PlayerManager.getPlayer(event.getEntity().getUniqueId()).damage(damage))) {
 			PlayerManager.getPlayer(event.getEntity().getUniqueId()).setKiller(mdamager.getUniqueId());
-			playerDeathEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ChatColor.GOLD + "You were killed!"));
+			playerDeathEvent(
+					new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ChatColor.GOLD + "You were killed!"));
 			respawn((Player) event.getEntity());
 			damage = 0.0D;
 			event.getEntity().setFireTicks(0);
@@ -230,7 +233,8 @@ public class myListener implements Listener {
 			return;
 
 		boolean shooterisplayer = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile)) && (((Projectile) event.getDamager()).getShooter() != null)
+		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
+				&& (((Projectile) event.getDamager()).getShooter() != null)
 				&& (((Projectile) event.getDamager()).getShooter() instanceof Player)) {
 			shooterisplayer = true;
 		}
@@ -286,7 +290,8 @@ public class myListener implements Listener {
 			return;
 		event.setDroppedExp(0);
 		event.getDrops().clear();
-		if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime)) && (!(event.getEntity() instanceof Ghast))) {
+		if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime))
+				&& (!(event.getEntity() instanceof Ghast))) {
 			return;
 		}
 		final Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
@@ -327,8 +332,8 @@ public class myListener implements Listener {
 		} else if (diff < 100.0D) {
 			diff = 100.0D;
 		}
-		event.getEntity().setCustomName(
-				ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ " + Playerface.killed(player.getPlayer(), mob) + " XP  " + ChatColor.BLACK + "]");
+		event.getEntity().setCustomName(ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ " + Playerface.killed(player.getPlayer(), mob)
+				+ " XP  " + ChatColor.BLACK + "]");
 		for (ItemStack stack : mob.drops().keySet()) {
 			if (Math.random() * diff < ((Float) mob.drops().get(stack)).floatValue()) {
 				Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stack);
@@ -342,8 +347,9 @@ public class myListener implements Listener {
 			int level = w.getLevel();
 			int mLevel = w.getMinLevel();
 			int max = (level + 2) * (mLevel + 2);
-			float p = (this.bows.containsKey(player.getPlayer().getUniqueId()) ? ((Short) this.bows.get(player.getPlayer().getUniqueId())).shortValue()
-					: (float) hand.getDurability()) / (float) w.getType().getMaxDurability();
+			float p = (this.bows.containsKey(player.getPlayer().getUniqueId())
+					? ((Short) this.bows.get(player.getPlayer().getUniqueId())).shortValue() : (float) hand.getDurability())
+					/ (float) w.getType().getMaxDurability();
 			int current = Math.round(p == 0.0F ? 0.0F : (1.0F - p) * max);
 			current++;
 			if ((current == max) && (w.getLevel() != 9)) {
@@ -372,8 +378,8 @@ public class myListener implements Listener {
 		if (myConfig.isFireworkEnabled()) {
 			Firework firework = (Firework) event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class);
 			FireworkMeta data = firework.getFireworkMeta();
-			data.addEffects(new FireworkEffect[] {
-					FireworkEffect.builder().flicker(false).withColor(Color.RED).withFade(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build() });
+			data.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(false).withColor(Color.RED).withFade(Color.FUCHSIA)
+					.with(FireworkEffect.Type.CREEPER).build() });
 			data.setPower(new Random().nextInt(2) + 1);
 			firework.setFireworkMeta(data);
 		}
@@ -447,10 +453,12 @@ public class myListener implements Listener {
 		if (!(event.getPlayer() instanceof Player)) {
 			return;
 		}
-		if ((event.getInventory().getType().equals(InventoryType.PLAYER)) || (event.getInventory().getType().equals(InventoryType.CRAFTING))) {
+		if ((event.getInventory().getType().equals(InventoryType.PLAYER))
+				|| (event.getInventory().getType().equals(InventoryType.CRAFTING))) {
 			ItemStack[] armor = (ItemStack[]) event.getPlayer().getInventory().getArmorContents().clone();
 			for (int i = 0; i < armor.length; i++) {
-				if ((armor[i] != null) && (!armor[i].getType().equals(Material.AIR)) && (!ItemUtils.checkForUse((Player) event.getPlayer(), armor[i]))) {
+				if ((armor[i] != null) && (!armor[i].getType().equals(Material.AIR))
+						&& (!ItemUtils.checkForUse((Player) event.getPlayer(), armor[i]))) {
 					Playerface.giveItem((Player) event.getPlayer(), armor[i]);
 					armor[i] = null;
 				}
@@ -486,7 +494,8 @@ public class myListener implements Listener {
 		if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
 			return;
 		ItemStack stack = event.getPlayer().getItemInHand();
-		if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) && (Skillstar.isSkillstar(stack))) {
+		if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
+				&& (Skillstar.isSkillstar(stack))) {
 			event.getPlayer().openInventory(new SkillInventoryView(event.getPlayer(), event.getPlayer().getInventory()));
 		}
 	}
@@ -551,6 +560,7 @@ public class myListener implements Listener {
 							if ((meta = contents[i].getItemMeta()) != null && meta.getDisplayName() != null)
 								if (meta.getDisplayName().equalsIgnoreCase(hp.getItemMeta().getDisplayName())) {
 									contents[i].setAmount(contents[i].getAmount() + 1);
+									event.getPlayer().playSound(event.getItem().getLocation(), Sound.ITEM_PICKUP, 0.2F, 0.2F);
 									event.getItem().remove();
 									event.setCancelled(true);
 									return;
