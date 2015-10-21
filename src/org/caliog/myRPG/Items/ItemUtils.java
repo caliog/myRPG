@@ -28,7 +28,7 @@ public class ItemUtils {
 			i = Armor.getInstance(name, a, t);
 		}
 		if (i == null) {
-			i = Weapon.getInstance(name, a, t);
+			i = Weapon.getInstance(name, a, 0, t);
 		}
 		return i;
 	}

@@ -29,7 +29,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -74,7 +73,6 @@ import org.caliog.myRPG.Utils.Utils;
 public class myListener implements Listener {
 	private HashMap<Integer, Integer> entityTasks = new HashMap<Integer, Integer>();
 	private HashMap<UUID, UUID> damaged = new HashMap<UUID, UUID>();
-	private HashMap<UUID, Short> bows = new HashMap<UUID, Short>();
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void creatureSpawnEvent(CreatureSpawnEvent event) {
@@ -126,15 +124,16 @@ public class myListener implements Listener {
 			} else {
 				final Player p = (Player) event.getDamager();
 				final short d = p.getItemInHand().getDurability();
-				if (!p.getItemInHand().getType().equals(Material.BOW)) {
-					Manager.scheduleTask(new Runnable() {
-						public void run() {
-							p.getItemInHand().setDurability(d);
-						}
-					});
-				}
+
+				Manager.scheduleTask(new Runnable() {
+					public void run() {
+						p.getItemInHand().setDurability(d);
+					}
+				});
+
 			}
 		}
+
 		onEntityDamageByEntity(event);
 		onMobDamageByPlayer(event);
 		event.setDamage(0.0D);
@@ -347,26 +346,14 @@ public class myListener implements Listener {
 			int level = w.getLevel();
 			int mLevel = w.getMinLevel();
 			int max = (level + 2) * (mLevel + 2);
-			float p = (this.bows.containsKey(player.getPlayer().getUniqueId())
-					? ((Short) this.bows.get(player.getPlayer().getUniqueId())).shortValue() : (float) hand.getDurability())
-					/ (float) w.getType().getMaxDurability();
-			int current = Math.round(p == 0.0F ? 0.0F : (1.0F - p) * max);
+			int current = w.getKills();
 			current++;
 			if ((current == max) && (w.getLevel() != 9)) {
 				w.raiseLevel(player.getPlayer());
 				String[] a = { Msg.WEAPON, Msg.LEVEL }, b = { w.getName(), String.valueOf(w.getLevel()) };
 				Msg.sendMessage(player.getPlayer(), "level-weapon", a, b);
 			} else {
-				p = 1.0F - (float) current / (float) max;
-				final short newD = (short) Math.round(p * w.getType().getMaxDurability());
-				Manager.scheduleTask(new Runnable() {
-					public void run() {
-						if (bows.containsKey(player.getPlayer().getUniqueId())) {
-							bows.put(player.getPlayer().getUniqueId(), Short.valueOf(newD));
-						}
-						hand.setDurability(newD);
-					}
-				});
+				w.kill(player.getPlayer());
 			}
 		}
 	}
@@ -646,37 +633,22 @@ public class myListener implements Listener {
 		player.teleport(l);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onBowShoot(EntityShootBowEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if ((!(event.getEntity() instanceof Player)) || (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
-			return;
-		}
-		final Player player = (Player) event.getEntity();
-		ItemStack stack = event.getBow();
-		myClass clazz = PlayerManager.getPlayer(player.getUniqueId());
-		if (clazz == null) {
-			return;
-		}
-		if (Weapon.isWeapon(clazz, stack)) {
-			Weapon weapon = Weapon.getInstance(clazz, stack);
-			if (weapon.getType().equals(Material.BOW)) {
-				short d = (short) (stack.getDurability() - 1);
-				if (d < 0) {
-					d = 0;
-				}
-				this.bows.put(player.getUniqueId(), Short.valueOf(d));
-				Manager.scheduleTask(new Runnable() {
-					public void run() {
-						short d = ((Short) bows.get(player.getUniqueId())).shortValue();
-						player.getItemInHand().setDurability(d);
-						bows.remove(player.getUniqueId());
-					}
-				});
-			}
-		}
-	}
+	/*
+	 * @EventHandler(priority = EventPriority.NORMAL)
+	 * 
+	 * public void onBowShoot(EntityShootBowEvent event) { if
+	 * (myConfig.isWorldDisabled(event.getEntity().getWorld())) return; if
+	 * ((!(event.getEntity() instanceof Player)) ||
+	 * (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
+	 * return; } final Player player = (Player) event.getEntity(); ItemStack
+	 * stack = event.getBow(); myClass clazz =
+	 * PlayerManager.getPlayer(player.getUniqueId()); if (clazz == null) {
+	 * return; } if (Weapon.isWeapon(clazz, stack)) { Weapon weapon =
+	 * Weapon.getInstance(clazz, stack); if
+	 * (weapon.getType().equals(Material.BOW)) { final short d = (short)
+	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public
+	 * void run() { player.getItemInHand().setDurability(d); } }); } } }
+	 */
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPotion(final PlayerInteractEvent event) {
