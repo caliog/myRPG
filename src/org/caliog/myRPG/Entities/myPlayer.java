@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.Quest;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Commands.Utils.Permissions;
 import org.caliog.myRPG.Items.Armor;
 import org.caliog.myRPG.Items.CustomItem;
@@ -20,9 +21,16 @@ public abstract class myPlayer extends Fighter {
 	private HashMap<String, QuestStatus> quests = new HashMap<String, QuestStatus>();
 	private Set<String> permissions;
 
-	public myPlayer(Player player) {
+	public myPlayer(final Player player) {
 		this.player = player;
-		setPermissions(Permissions.getPermissions(player));
+		Manager.scheduleTask(new Runnable() {
+
+			@Override
+			public void run() {
+				setPermissions(Permissions.getPermissions(player));
+			}
+		}, 30L);
+
 	}
 
 	public double getMaximumHealth() {
