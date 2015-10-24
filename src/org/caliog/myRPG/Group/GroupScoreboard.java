@@ -9,31 +9,31 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class GroupScoreboard {
-    private HashMap<Integer, String> map = new HashMap<Integer, String>();
-    private Objective obj;
+	private HashMap<Integer, String> map = new HashMap<Integer, String>();
+	private Objective obj;
 
-    public void add(String str) {
-	for (int i = this.map.keySet().size(); i >= 0; i--) {
-	    this.map.put(Integer.valueOf(i + 1), (String) this.map.get(Integer.valueOf(i)));
+	public void add(String str) {
+		for (int i = this.map.keySet().size(); i >= 0; i--) {
+			this.map.put(Integer.valueOf(i + 1), (String) this.map.get(Integer.valueOf(i)));
+		}
+		if (str.length() > 16) {
+			str = str.substring(0, 16);
+		}
+		this.map.put(Integer.valueOf(1), str);
 	}
-	if (str.length() > 16) {
-	    str = str.substring(0, 16);
-	}
-	this.map.put(Integer.valueOf(1), str);
-    }
 
-    public Scoreboard setScoreboard(String title, String displayName, Player player) {
-	if (player == null) {
-	    return null;
+	public Scoreboard setScoreboard(String title, String displayName, Player player) {
+		if (player == null) {
+			return null;
+		}
+		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+		this.obj = board.registerNewObjective(title, "dummy");
+		this.obj.setDisplayName(displayName);
+		for (int i = this.map.keySet().size(); i > 0; i--) {
+			this.obj.getScore((String) this.map.get(Integer.valueOf(i))).setScore(i);
+		}
+		this.obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		player.setScoreboard(board);
+		return board;
 	}
-	Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-	this.obj = board.registerNewObjective(title, "dummy");
-	this.obj.setDisplayName(displayName);
-	for (int i = this.map.keySet().size(); i > 0; i--) {
-	    this.obj.getScore((String) this.map.get(Integer.valueOf(i))).setScore(i);
-	}
-	this.obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-	player.setScoreboard(board);
-	return board;
-    }
 }
