@@ -31,7 +31,7 @@ comment11a: '#Disable natural spawn of the usual minecraft mobs#'
 disable-natural-spawn: false
 comment12: '#If this is false, myRPG will install (by command or reload)#' 
 comment13: '#the Mobs&Items Creator which allows you to create custom mobs & items#'
-disable-mic: true
+disable-mic: false
 comment13a: '#If you this is enabled, myRPG will extract the SpellCollection#'
 comment13b: '#It contains usefull standard spells for myRPG#'
 enable-spell-collection: true

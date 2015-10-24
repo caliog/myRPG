@@ -117,7 +117,7 @@ public class myConfig {
 	public static boolean isMICDisabled() {
 		if (config == null)
 			return true;
-		return config.getBoolean("disable-mic", true);
+		return config.getBoolean("disable-mic", false);
 	}
 
 	public static int getMaxBackups() {
