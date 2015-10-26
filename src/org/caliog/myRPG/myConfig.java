@@ -62,14 +62,15 @@ public class myConfig {
 		String str = config.getString("default-class");
 		if (ClazzLoader.isClass(str))
 			return str;
-		else if (ClazzLoader.isClass("Warrior"))
-			return "Warrior";
-		else {
+		else if ((str = ClazzLoader.getFirstClass()) != null) {
+			Manager.plugin.getLogger().warning("Could not find your default class in classes.yml! Using " + str + " instead.");
+			return str;
+		} else {
 			Manager.plugin.getLogger().log(Level.WARNING,
-					"Could not find default class (config.yml) in your class.yml! Disabling myRPG...");
+					"Could not find default class (config.yml) in your classes.yml! Disabling myRPG...");
 			Manager.plugin.getServer().getPluginManager().disablePlugin(Manager.plugin);
+			return null;
 		}
-		return null;
 	}
 
 	public static List<String> getDisabledWorlds() {

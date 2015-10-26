@@ -1,8 +1,11 @@
 package org.caliog.myRPG.Entities;
 
+import java.util.Set;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Spells.Spell;
 import org.caliog.myRPG.Spells.SpellLoader;
@@ -38,11 +41,28 @@ public class ClazzLoader {
 			}
 			clazz.setHealth(clazz.getMaximumHealth());
 			return clazz;
+		} else {
+			String cl = myConfig.getDefaultClass();
+			if (cl != null && isClass(cl)) {
+				Manager.plugin.getLogger().info("Could not find " + player.getName() + "'s class: " + c);
+				Manager.plugin.getLogger().info("Load class " + cl + " instead.");
+				return create(player, cl);
+			}
 		}
+		Manager.plugin.getLogger().warning("Could not find a class for " + player.getName());
+		Manager.plugin.getLogger().warning(player.getName() + " will not be able to use myRPG safely.");
 		return null;
 	}
 
 	public static boolean isClass(String name) {
 		return classes.isConfigurationSection(name);
+	}
+
+	public static String getFirstClass() {
+		Set<String> keys = classes.getKeys(false);
+		if (keys != null && !keys.isEmpty())
+			for (String k : keys)
+				return k;
+		return null;
 	}
 }
