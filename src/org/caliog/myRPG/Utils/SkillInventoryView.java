@@ -14,32 +14,32 @@ import org.caliog.myRPG.Items.Books.StrBook;
 import org.caliog.myRPG.Items.Books.VitBook;
 
 public class SkillInventoryView extends InventoryView {
-    private HumanEntity entity;
-    private Inventory inventory;
+	private HumanEntity entity;
+	private Inventory inventory;
 
-    public SkillInventoryView(Player player, Inventory inv) {
-	this.entity = player;
-	this.inventory = inv;
-    }
+	public SkillInventoryView(Player player, Inventory inv) {
+		this.entity = player;
+		this.inventory = inv;
+	}
 
-    public Inventory getBottomInventory() {
-	return this.inventory;
-    }
+	public Inventory getBottomInventory() {
+		return this.inventory;
+	}
 
-    public HumanEntity getPlayer() {
-	return this.entity;
-    }
+	public HumanEntity getPlayer() {
+		return this.entity;
+	}
 
-    public Inventory getTopInventory() {
-	Inventory inv = Bukkit.createInventory(null, 9, "Your Skills");
-	inv.addItem(new ItemStack[] { new StrBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
-	inv.addItem(new ItemStack[] { new DexBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
-	inv.addItem(new ItemStack[] { new IntBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
-	inv.addItem(new ItemStack[] { new VitBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
-	return inv;
-    }
+	public Inventory getTopInventory() {
+		Inventory inv = Bukkit.createInventory(null, 9, "Your Skills");
+		inv.addItem(new ItemStack[] { new StrBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
+		inv.addItem(new ItemStack[] { new DexBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
+		inv.addItem(new ItemStack[] { new IntBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
+		inv.addItem(new ItemStack[] { new VitBook(PlayerManager.getPlayer(this.entity.getUniqueId())) });
+		return inv;
+	}
 
-    public InventoryType getType() {
-	return this.inventory.getType();
-    }
+	public InventoryType getType() {
+		return this.inventory.getType();
+	}
 }

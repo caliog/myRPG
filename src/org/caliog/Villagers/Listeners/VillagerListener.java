@@ -151,8 +151,8 @@ public class VillagerListener implements Listener {
 						for (String i : p.getUnCompletedQuests()) {
 							Quest q = QManager.getQuest(i);
 							if (q != null && q.getMobs() != null && !q.getMobs().isEmpty()) {
-								if (q.getMobs().containsKey(m.getName()) && q.getMobs().get(m.getName()) > QuestKill
-										.getKilled(p.getPlayer(), m.getName())) {
+								if (q.getMobs().containsKey(m.getName())
+										&& q.getMobs().get(m.getName()) > QuestKill.getKilled(p.getPlayer(), m.getName())) {
 									QuestKill.killed(p.getPlayer(), m);
 									QManager.updateQuestBook(p);
 									break;

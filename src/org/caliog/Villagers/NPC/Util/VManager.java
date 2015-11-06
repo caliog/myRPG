@@ -204,8 +204,7 @@ public class VManager {
 					if (q != null) {
 						Location l = q.getTargetLocation(PlayerManager.getPlayer(e.getUniqueId()));
 						if (l == null) {
-							if (player.getQuestStatus(q.getName()).equals(QuestStatus.UNACCEPTED)
-									|| q.couldComplete(player))
+							if (player.getQuestStatus(q.getName()).equals(QuestStatus.UNACCEPTED) || q.couldComplete(player))
 								l = v.getEntityLocation();
 							else
 								continue;

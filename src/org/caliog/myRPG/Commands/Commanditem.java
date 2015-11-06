@@ -14,35 +14,35 @@ import org.caliog.myRPG.Messages.CmdMessage;
 
 public class Commanditem extends Commands {
 
-    @Override
-    public List<Command> getCommands() {
-	/*
-	 * Name: item
-	 * 
-	 * Permission: myrpg.item
-	 * 
-	 * Usage: /item <name> [level|amount] [tradeable]
-	 */
-	cmds.add(new Command("item", "myrpg.item", new CommandExecutable() {
+	@Override
+	public List<Command> getCommands() {
+		/*
+		 * Name: item
+		 * 
+		 * Permission: myrpg.item
+		 * 
+		 * Usage: /item <name> [level|amount] [tradeable]
+		 */
+		cmds.add(new Command("item", "myrpg.item", new CommandExecutable() {
 
-	    @Override
-	    public void execute(String[] args, Player player) {
-		String name = args[0];
-		int a = 1;
-		if (args.length > 1)
-		    a = Integer.parseInt(args[1]);
-		boolean t = true;
-		if (args.length > 2) {
-		    t = Boolean.valueOf(args[2]);
-		}
-		if (Playerface.giveItem(player, ItemUtils.getItem(name + ":" + a + ":" + t)))
-		    player.sendMessage(CmdMessage.gaveYouItem);
-		else
-		    player.sendMessage(CmdMessage.gaveYouItemNot);
-	    }
-	}, new CommandField("name", FieldProperty.REQUIRED), new CommandField("level|amount", "positive integer",
-		FieldProperty.OPTIONAL), new CommandField("tradeable", "true|false", FieldProperty.OPTIONAL)));
+			@Override
+			public void execute(String[] args, Player player) {
+				String name = args[0];
+				int a = 1;
+				if (args.length > 1)
+					a = Integer.parseInt(args[1]);
+				boolean t = true;
+				if (args.length > 2) {
+					t = Boolean.valueOf(args[2]);
+				}
+				if (Playerface.giveItem(player, ItemUtils.getItem(name + ":" + a + ":" + t)))
+					player.sendMessage(CmdMessage.gaveYouItem);
+				else
+					player.sendMessage(CmdMessage.gaveYouItemNot);
+			}
+		}, new CommandField("name", FieldProperty.REQUIRED), new CommandField("level|amount", "positive integer", FieldProperty.OPTIONAL),
+				new CommandField("tradeable", "true|false", FieldProperty.OPTIONAL)));
 
-	return cmds;
-    }
+		return cmds;
+	}
 }

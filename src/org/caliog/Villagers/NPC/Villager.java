@@ -51,9 +51,9 @@ public class Villager extends VillagerNPC {
 				for (int i : texts.keySet())
 					messages.add(i + ":" + texts.get(i).toString());
 			}
-			writer.append(getName() + "&" + LocationUtil.toString(getLocation()) + "&" + type.name() + "&"
-					+ DataSaver.save(messages) + "&" + DataSaver.save(quests) + "&" + getProfession().name() + "&"
-					+ this.getPathName() + ((type.equals(VillagerType.TRADER)) ? "&" : "\r"));
+			writer.append(getName() + "&" + LocationUtil.toString(getLocation()) + "&" + type.name() + "&" + DataSaver.save(messages) + "&"
+					+ DataSaver.save(quests) + "&" + getProfession().name() + "&" + this.getPathName()
+					+ ((type.equals(VillagerType.TRADER)) ? "&" : "\r"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

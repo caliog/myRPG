@@ -6,16 +6,16 @@ import org.caliog.myRPG.Entities.myClass;
 
 public abstract class ChatTask {
 
-    protected Quest quest;
+	protected Quest quest;
 
-    public ChatTask(Quest quest) {
-	this.quest = quest;
-    }
+	public ChatTask(Quest quest) {
+		this.quest = quest;
+	}
 
-    public ChatTask() {
-	quest = null;
-    }
+	public ChatTask() {
+		quest = null;
+	}
 
-    public abstract void execute(myClass player, Villager villager);
+	public abstract void execute(myClass player, Villager villager);
 
 }

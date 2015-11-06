@@ -276,9 +276,7 @@ public class Updater {
 		YamlConfiguration config = new YamlConfiguration();
 		config.options()
 				.header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )"
-						+ '\n'
-						+ "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below."
-						+ '\n'
+						+ '\n' + "If you wish to use your API key, read http://wiki.bukkit.org/ServerMods_API and place it below." + '\n'
 						+ "Some updating systems will not adhere to the disabled value, but these may be turned off in their plugin's configuration.");
 		config.addDefault(API_KEY_CONFIG_KEY, API_KEY_DEFAULT);
 		config.addDefault(DISABLE_CONFIG_KEY, DISABLE_DEFAULT);
@@ -321,8 +319,7 @@ public class Updater {
 		try {
 			this.url = new URL(Updater.HOST + Updater.QUERY + this.id);
 		} catch (final MalformedURLException e) {
-			this.plugin.getLogger().log(Level.SEVERE,
-					"The project ID provided for updating, " + this.id + " is invalid.", e);
+			this.plugin.getLogger().log(Level.SEVERE, "The project ID provided for updating, " + this.id + " is invalid.", e);
 			this.result = UpdateResult.FAIL_BADID;
 		}
 
@@ -461,8 +458,7 @@ public class Updater {
 				}
 			}
 		} catch (Exception ex) {
-			this.plugin.getLogger().log(Level.WARNING,
-					"The auto-updater tried to download a new update, but was unsuccessful.", ex);
+			this.plugin.getLogger().log(Level.WARNING, "The auto-updater tried to download a new update, but was unsuccessful.", ex);
 			this.result = Updater.UpdateResult.FAIL_DOWNLOAD;
 		} finally {
 			try {
@@ -511,8 +507,7 @@ public class Updater {
 			while (e.hasMoreElements()) {
 				ZipEntry entry = e.nextElement();
 				File destinationFilePath = new File(zipPath, entry.getName());
-				this.fileIOOrError(destinationFilePath.getParentFile(), destinationFilePath.getParentFile().mkdirs(),
-						true);
+				this.fileIOOrError(destinationFilePath.getParentFile(), destinationFilePath.getParentFile().mkdirs(), true);
 				if (!entry.isDirectory()) {
 					final BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
 					int b;
@@ -539,8 +534,7 @@ public class Updater {
 			moveNewZipFiles(zipPath);
 
 		} catch (final IOException e) {
-			this.plugin.getLogger().log(Level.SEVERE,
-					"The auto-updater tried to unzip a new update file, but was unsuccessful.", e);
+			this.plugin.getLogger().log(Level.SEVERE, "The auto-updater tried to unzip a new update file, but was unsuccessful.", e);
 			this.result = Updater.UpdateResult.FAIL_DOWNLOAD;
 		} finally {
 			this.fileIOOrError(fSourceZip, fSourceZip.delete(), false);
@@ -635,8 +629,7 @@ public class Updater {
 				// The file's name did not contain the string 'vVersion'
 				final String authorInfo = this.plugin.getDescription().getAuthors().isEmpty() ? ""
 						: " (" + this.plugin.getDescription().getAuthors().get(0) + ")";
-				this.plugin.getLogger().warning(
-						"The author of this plugin" + authorInfo + " has misconfigured their Auto Update system");
+				this.plugin.getLogger().warning("The author of this plugin" + authorInfo + " has misconfigured their Auto Update system");
 				this.plugin.getLogger().warning("File versions should follow the format 'PluginName vVERSION'");
 				this.plugin.getLogger().warning("Please notify the author of this error.");
 				this.result = Updater.UpdateResult.FAIL_NOVERSION;
@@ -739,8 +732,7 @@ public class Updater {
 			return true;
 		} catch (final IOException e) {
 			if (e.getMessage().contains("HTTP response code: 403")) {
-				this.plugin.getLogger()
-						.severe("dev.bukkit.org rejected the API key provided in plugins/Updater/config.yml");
+				this.plugin.getLogger().severe("dev.bukkit.org rejected the API key provided in plugins/Updater/config.yml");
 				this.plugin.getLogger().severe("Please double-check your configuration to ensure it is correct.");
 				this.result = UpdateResult.FAIL_APIKEY;
 			} else {
@@ -766,16 +758,15 @@ public class Updater {
 	 */
 	private void fileIOOrError(File file, boolean result, boolean create) {
 		if (!result) {
-			this.plugin.getLogger().severe(
-					"The updater could not " + (create ? "create" : "delete") + " file at: " + file.getAbsolutePath());
+			this.plugin.getLogger()
+					.severe("The updater could not " + (create ? "create" : "delete") + " file at: " + file.getAbsolutePath());
 		}
 	}
 
 	private File[] listFilesOrError(File folder) {
 		File[] contents = folder.listFiles();
 		if (contents == null) {
-			this.plugin.getLogger()
-					.severe("The updater could not access files at: " + this.updateFolder.getAbsolutePath());
+			this.plugin.getLogger().severe("The updater could not access files at: " + this.updateFolder.getAbsolutePath());
 			return new File[0];
 		} else {
 			return contents;

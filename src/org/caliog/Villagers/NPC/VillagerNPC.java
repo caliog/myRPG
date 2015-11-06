@@ -12,84 +12,84 @@ import org.caliog.myRPG.Manager;
 
 public class VillagerNPC extends CPMoveable {
 
-    private float interactionRadius = 4F;
-    private String name;
-    protected Profession profession;
+	private float interactionRadius = 4F;
+	private String name;
+	protected Profession profession;
 
-    public VillagerNPC(org.bukkit.entity.Villager entity, Location loc, String name) {
-	super(loc);
-	this.setEntity(entity);
-	this.name = name;
-	Manager.scheduleTask(new Runnable() {
+	public VillagerNPC(org.bukkit.entity.Villager entity, Location loc, String name) {
+		super(loc);
+		this.setEntity(entity);
+		this.name = name;
+		Manager.scheduleTask(new Runnable() {
 
-	    @Override
-	    public void run() {
-		init();
-	    }
-	});
+			@Override
+			public void run() {
+				init();
+			}
+		});
 
-    }
-
-    public String getName() {
-	return name;
-    }
-
-    public UUID getUniqueId() {
-	return getVillager().getUniqueId();
-    }
-
-    public float getInteractionRadius() {
-	return interactionRadius;
-    }
-
-    public void setInteractionRadius(float interactionRadius) {
-	this.interactionRadius = interactionRadius;
-    }
-
-    public org.bukkit.entity.Villager getVillager() {
-	return (Villager) getBukkitEntity();
-    }
-
-    public void toggleProfession() {
-	Profession profession = getProfession();
-	switch (profession) {
-	case BLACKSMITH:
-	    profession = Profession.BUTCHER;
-	    break;
-	case BUTCHER:
-	    profession = Profession.FARMER;
-	    break;
-	case FARMER:
-	    profession = Profession.LIBRARIAN;
-	    break;
-	case LIBRARIAN:
-	    profession = Profession.PRIEST;
-	    break;
-	case PRIEST:
-	    profession = Profession.BLACKSMITH;
-	    break;
 	}
 
-	setProfession(profession);
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Profession getProfession() {
-	return getVillager().getProfession();
-    }
+	public UUID getUniqueId() {
+		return getVillager().getUniqueId();
+	}
 
-    public void setProfession(Profession prof) {
-	getVillager().setProfession(prof);
+	public float getInteractionRadius() {
+		return interactionRadius;
+	}
 
-    }
+	public void setInteractionRadius(float interactionRadius) {
+		this.interactionRadius = interactionRadius;
+	}
 
-    protected void init() {
-	NMSUtil util = NMS.getUtil();
-	if (util != null)
-	    util.initVillager(this);
-    }
+	public org.bukkit.entity.Villager getVillager() {
+		return (Villager) getBukkitEntity();
+	}
 
-    public void despawn() {
-	getVillager().remove();
-    }
+	public void toggleProfession() {
+		Profession profession = getProfession();
+		switch (profession) {
+		case BLACKSMITH:
+			profession = Profession.BUTCHER;
+			break;
+		case BUTCHER:
+			profession = Profession.FARMER;
+			break;
+		case FARMER:
+			profession = Profession.LIBRARIAN;
+			break;
+		case LIBRARIAN:
+			profession = Profession.PRIEST;
+			break;
+		case PRIEST:
+			profession = Profession.BLACKSMITH;
+			break;
+		}
+
+		setProfession(profession);
+	}
+
+	public Profession getProfession() {
+		return getVillager().getProfession();
+	}
+
+	public void setProfession(Profession prof) {
+		getVillager().setProfession(prof);
+
+	}
+
+	protected void init() {
+		NMSUtil util = NMS.getUtil();
+		if (util != null)
+			util.initVillager(this);
+	}
+
+	public void despawn() {
+		getVillager().remove();
+	}
 
 }

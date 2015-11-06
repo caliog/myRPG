@@ -251,7 +251,8 @@ public class myClass extends myPlayer {
 		default:
 			return;
 		}
-		if ((this.spell[0] == -1) && (this.getPlayer().getItemInHand().getType().equals(Material.BOW) ? s == 0 : s == 1) && (!getPlayer().isSneaking())) {
+		if ((this.spell[0] == -1) && (this.getPlayer().getItemInHand().getType().equals(Material.BOW) ? s == 0 : s == 1)
+				&& (!getPlayer().isSneaking())) {
 			return;
 		}
 		for (int i = 0; i < this.spell.length; i++) {

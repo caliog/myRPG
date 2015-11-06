@@ -22,111 +22,110 @@ import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.Vector;
 
 public class VolatileEntities {
-    private static List<Mob> mobs = new ArrayList<Mob>();
-    private static Set<UUID> register = new HashSet<UUID>();
+	private static List<Mob> mobs = new ArrayList<Mob>();
+	private static Set<UUID> register = new HashSet<UUID>();
 
-    public static void save() throws IOException {
-	File f = new File(FilePath.mobsFile);
-	FileWriter writer = new FileWriter(f);
-	String text = "";
-	for (World w : Manager.getWorlds())
-	    if (w != null)
-		for (Entity e : w.getEntities()) {
-		    Mob m = getMob(e.getUniqueId());
-		    if (m != null) {
-			text = text + m.getName() + "=" + m.getId().toString() + "=" + m.getSpawnZone().toString()
-				+ "\r";
-		    }
-		}
-
-	writer.write(text);
-	writer.close();
-	register.clear();
-    }
-
-    public static void load() throws Exception {
-	File f = new File(FilePath.mobsFile);
-	if (!f.exists()) {
-	    return;
-	}
-	BufferedReader reader = new BufferedReader(new FileReader(f));
-	String line = "";
-	while ((line = reader.readLine()) != null) {
-	    String m = line.split("=")[0];
-	    if (EntityUtils.isMobClass(m)) {
-		UUID uuid = UUID.fromString(line.split("=")[1]);
-
-		getMobs().add(new MobInstance(m, uuid, Vector.fromString(line.split("=")[2])));
-		register(uuid);
+	public static void save() throws IOException {
+		File f = new File(FilePath.mobsFile);
+		FileWriter writer = new FileWriter(f);
+		String text = "";
 		for (World w : Manager.getWorlds())
-		    if (w != null)
-			for (Entity entity : w.getEntities()) {
+			if (w != null)
+				for (Entity e : w.getEntities()) {
+					Mob m = getMob(e.getUniqueId());
+					if (m != null) {
+						text = text + m.getName() + "=" + m.getId().toString() + "=" + m.getSpawnZone().toString() + "\r";
+					}
+				}
 
-			    if ((entity.getUniqueId().equals(uuid)) && (!MobSpawner.isNearSpawnZone(entity))) {
-				remove(uuid);
-				entity.remove();
-			    }
+		writer.write(text);
+		writer.close();
+		register.clear();
+	}
 
+	public static void load() throws Exception {
+		File f = new File(FilePath.mobsFile);
+		if (!f.exists()) {
+			return;
+		}
+		BufferedReader reader = new BufferedReader(new FileReader(f));
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			String m = line.split("=")[0];
+			if (EntityUtils.isMobClass(m)) {
+				UUID uuid = UUID.fromString(line.split("=")[1]);
+
+				getMobs().add(new MobInstance(m, uuid, Vector.fromString(line.split("=")[2])));
+				register(uuid);
+				for (World w : Manager.getWorlds())
+					if (w != null)
+						for (Entity entity : w.getEntities()) {
+
+							if ((entity.getUniqueId().equals(uuid)) && (!MobSpawner.isNearSpawnZone(entity))) {
+								remove(uuid);
+								entity.remove();
+							}
+
+						}
 			}
-	    }
+		}
+		reader.close();
+		f.delete();
 	}
-	reader.close();
-	f.delete();
-    }
 
-    public static boolean remove(UUID entityId) {
-	for (Mob m : mobs) {
-	    if (m.getId().equals(entityId)) {
-		m.delete();
-		mobs.remove(m);
-		unregister(m.getId());
-		return true;
-	    }
+	public static boolean remove(UUID entityId) {
+		for (Mob m : mobs) {
+			if (m.getId().equals(entityId)) {
+				m.delete();
+				mobs.remove(m);
+				unregister(m.getId());
+				return true;
+			}
+		}
+		return false;
 	}
-	return false;
-    }
 
-    public static void register(Mob mob) {
-	remove(mob.getId());
-	register(mob.getId());
-	mobs.add(mob);
-    }
-
-    public static Mob getMob(UUID entityId) {
-	for (Mob m : mobs) {
-	    if (m.getId().equals(entityId)) {
-		return m;
-	    }
+	public static void register(Mob mob) {
+		remove(mob.getId());
+		register(mob.getId());
+		mobs.add(mob);
 	}
-	return null;
-    }
 
-    public static void register(UUID id) {
-	register.add(id);
-    }
-
-    public static void unregister(UUID id) {
-	register.remove(id);
-    }
-
-    public static boolean isRegistered(UUID uuid) {
-	return register.contains(uuid);
-    }
-
-    public static List<Mob> getMobs() {
-	return mobs;
-    }
-
-    public static void setMobs(List<Mob> mobs) {
-	VolatileEntities.mobs = mobs;
-    }
-
-    public static void killAllMobs() {
-	for (Mob m : mobs) {
-	    m.delete();
-	    unregister(m.getId());
+	public static Mob getMob(UUID entityId) {
+		for (Mob m : mobs) {
+			if (m.getId().equals(entityId)) {
+				return m;
+			}
+		}
+		return null;
 	}
-	mobs.clear();
 
-    }
+	public static void register(UUID id) {
+		register.add(id);
+	}
+
+	public static void unregister(UUID id) {
+		register.remove(id);
+	}
+
+	public static boolean isRegistered(UUID uuid) {
+		return register.contains(uuid);
+	}
+
+	public static List<Mob> getMobs() {
+		return mobs;
+	}
+
+	public static void setMobs(List<Mob> mobs) {
+		VolatileEntities.mobs = mobs;
+	}
+
+	public static void killAllMobs() {
+		for (Mob m : mobs) {
+			m.delete();
+			unregister(m.getId());
+		}
+		mobs.clear();
+
+	}
 }

@@ -13,37 +13,37 @@ import org.caliog.myRPG.Manager;
 
 public class BarListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onLogout(PlayerQuitEvent event) {
-	TopBar.removeBar(event.getPlayer());
-    }
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onLogout(PlayerQuitEvent event) {
+		TopBar.removeBar(event.getPlayer());
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onKick(PlayerKickEvent event) {
-	TopBar.removeBar(event.getPlayer());
-    }
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onKick(PlayerKickEvent event) {
+		TopBar.removeBar(event.getPlayer());
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onTeleport(PlayerTeleportEvent event) {
-	teleport(event.getPlayer(), event.getTo().clone());
-    }
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onTeleport(PlayerTeleportEvent event) {
+		teleport(event.getPlayer(), event.getTo().clone());
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onRespawn(PlayerRespawnEvent event) {
-	teleport(event.getPlayer(), event.getRespawnLocation().clone());
-    }
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onRespawn(PlayerRespawnEvent event) {
+		teleport(event.getPlayer(), event.getRespawnLocation().clone());
+	}
 
-    private void teleport(final Player player, final Location loc) {
-	Manager.scheduleTask(new Runnable() {
+	private void teleport(final Player player, final Location loc) {
+		Manager.scheduleTask(new Runnable() {
 
-	    @Override
-	    public void run() {
-		FakeEntity entity = TopBar.getEntity(player);
-		if (entity != null) {
-		    TopBar.updateBar(player, entity.getName(), entity.getHealth() / entity.getMaxHealth(), loc);
-		}
+			@Override
+			public void run() {
+				FakeEntity entity = TopBar.getEntity(player);
+				if (entity != null) {
+					TopBar.updateBar(player, entity.getName(), entity.getHealth() / entity.getMaxHealth(), loc);
+				}
 
-	    }
-	}, 2L);
-    }
+			}
+		}, 2L);
+	}
 }

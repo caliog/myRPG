@@ -88,10 +88,8 @@ public class Commandvg extends Commands {
 					player.sendMessage(ChatColor.RED + "Visit myRPG wiki to get some information about this command!");
 				}
 			}
-		}, new CommandField("talk", FieldProperty.IDENTIFIER),
-				new CommandField("id", "not-negative integer", FieldProperty.REQUIRED),
-				new CommandField("message", FieldProperty.REQUIRED),
-				new CommandField("type", "END|QUESTION|TEXT", FieldProperty.REQUIRED),
+		}, new CommandField("talk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer", FieldProperty.REQUIRED),
+				new CommandField("message", FieldProperty.REQUIRED), new CommandField("type", "END|QUESTION|TEXT", FieldProperty.REQUIRED),
 				new CommandField("target", "not-negative integer", FieldProperty.OPTIONAL)));
 
 		/*
@@ -118,8 +116,7 @@ public class Commandvg extends Commands {
 					player.sendMessage(ChatColor.GOLD + "Removed all messages!");
 				}
 			}
-		}, new CommandField("deltalk", FieldProperty.IDENTIFIER),
-				new CommandField("id", "not-negative integer", FieldProperty.OPTIONAL)));
+		}, new CommandField("deltalk", FieldProperty.IDENTIFIER), new CommandField("id", "not-negative integer", FieldProperty.OPTIONAL)));
 
 		/*
 		 * Name: vg SubName: quest

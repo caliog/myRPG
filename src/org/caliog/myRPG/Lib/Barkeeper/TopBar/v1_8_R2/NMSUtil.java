@@ -25,8 +25,7 @@ public class NMSUtil extends org.caliog.myRPG.Lib.Barkeeper.TopBar.NMSUtil {
 	@Override
 	public void sendSpawnPacket(Player player, FakeEntity fakeEntity) {
 		EntityEnderDragon dragon = new EntityEnderDragon(getHandle(fakeEntity.getWorld()));
-		dragon.setLocation(fakeEntity.getX(), fakeEntity.getY(), fakeEntity.getZ(), fakeEntity.getPitch(),
-				fakeEntity.getYaw());
+		dragon.setLocation(fakeEntity.getX(), fakeEntity.getY(), fakeEntity.getZ(), fakeEntity.getPitch(), fakeEntity.getYaw());
 		dragon.setInvisible(true);
 		dragon.setCustomName(fakeEntity.getName());
 		dragon.setHealth(fakeEntity.getHealth());
@@ -70,8 +69,8 @@ public class NMSUtil extends org.caliog.myRPG.Lib.Barkeeper.TopBar.NMSUtil {
 	@Override
 	public void sendTeleport(Player player, FakeEntity entity) {
 		Location loc = TopBar.transform(player.getLocation());
-		PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport(entity.getId(), loc.getBlockX() * 32,
-				loc.getBlockY() * 32, loc.getBlockZ() * 32, Byte.valueOf((byte) ((int) loc.getYaw() * 256 / 360)),
+		PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport(entity.getId(), loc.getBlockX() * 32, loc.getBlockY() * 32,
+				loc.getBlockZ() * 32, Byte.valueOf((byte) ((int) loc.getYaw() * 256 / 360)),
 				Byte.valueOf((byte) ((int) loc.getPitch() * 256 / 360)), false);
 		sendPacket(player, packet);
 

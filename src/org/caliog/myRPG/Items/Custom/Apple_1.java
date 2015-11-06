@@ -10,36 +10,36 @@ import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Items.ItemEffect;
 
 public class Apple_1 extends CustomItem {
-    public Apple_1(int amount) {
-	super(Material.GOLDEN_APPLE, "Apple I", false);
-	setAmount(amount);
-	syncItemStack();
-    }
-
-    public void syncItemStack() {
-	ItemMeta meta = getItemMeta();
-	meta.setDisplayName(ChatColor.DARK_GRAY + getName());
-	List<String> lore = new ArrayList<String>();
-
-	lore.add(" ");
-	lore.add(ChatColor.GOLD + "This apple gives you 50% of your lifepoints!");
-	lore.add(" ");
-	if (!isTradeable()) {
-	    lore.add(ChatColor.RED + "soulbound!");
+	public Apple_1(int amount) {
+		super(Material.GOLDEN_APPLE, "Apple I", false);
+		setAmount(amount);
+		syncItemStack();
 	}
-	meta.setLore(lore);
-	setItemMeta(meta);
-    }
 
-    public List<ItemEffect> getEffects() {
-	return this.effects;
-    }
+	public void syncItemStack() {
+		ItemMeta meta = getItemMeta();
+		meta.setDisplayName(ChatColor.DARK_GRAY + getName());
+		List<String> lore = new ArrayList<String>();
 
-    public int getMinLevel() {
-	return 0;
-    }
+		lore.add(" ");
+		lore.add(ChatColor.GOLD + "This apple gives you 50% of your lifepoints!");
+		lore.add(" ");
+		if (!isTradeable()) {
+			lore.add(ChatColor.RED + "soulbound!");
+		}
+		meta.setLore(lore);
+		setItemMeta(meta);
+	}
 
-    public String getClazz() {
-	return null;
-    }
+	public List<ItemEffect> getEffects() {
+		return this.effects;
+	}
+
+	public int getMinLevel() {
+		return 0;
+	}
+
+	public String getClazz() {
+		return null;
+	}
 }

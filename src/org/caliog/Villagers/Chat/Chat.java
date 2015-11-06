@@ -14,103 +14,102 @@ import org.caliog.myRPG.Entities.myClass;
 
 public class Chat {
 
-    private final myClass player;
-    private final Villager villager;
+	private final myClass player;
+	private final Villager villager;
 
-    private int current = 0;
-    private final HashMap<Integer, CMessage> messages;
-    private final Quest q;
-    private boolean ended = false;
-    private int taskId;
+	private int current = 0;
+	private final HashMap<Integer, CMessage> messages;
+	private final Quest q;
+	private boolean ended = false;
+	private int taskId;
 
-    public Chat(Player p, Villager v) {
-	player = PlayerManager.getPlayer(p.getUniqueId());
-	this.villager = v;
-	this.q = QManager.searchFittingQuest(player, villager);
-	if (q != null) {
-	    messages = q.getMessages();
+	public Chat(Player p, Villager v) {
+		player = PlayerManager.getPlayer(p.getUniqueId());
+		this.villager = v;
+		this.q = QManager.searchFittingQuest(player, villager);
+		if (q != null) {
+			messages = q.getMessages();
 
-	    current = q.getMessageStart(player) - 1;
+			current = q.getMessageStart(player) - 1;
 
-	} else
-	    messages = villager.getMessages();
-	if (messages.isEmpty())
-	    end();
-    }
-
-    public void chat() {
-	current++;
-	if (getCurrent() == null) {
-	    end();
-	    return;
-	}
-	String name = villager.getName();
-	if (name == null || name.equals("null")) {
-	    name = "Villager";
+		} else
+			messages = villager.getMessages();
+		if (messages.isEmpty())
+			end();
 	}
 
-	player.getPlayer().sendMessage(
-		ChatColor.GOLD + name + ChatColor.WHITE + ": " + ChatColor.BOLD + "" + ChatColor.GOLD + '"'
-			+ getCurrent().getMessage() + ChatColor.GOLD + '"');
+	public void chat() {
+		current++;
+		if (getCurrent() == null) {
+			end();
+			return;
+		}
+		String name = villager.getName();
+		if (name == null || name.equals("null")) {
+			name = "Villager";
+		}
 
-	Manager.scheduleTask(new Runnable() {
+		player.getPlayer().sendMessage(ChatColor.GOLD + name + ChatColor.WHITE + ": " + ChatColor.BOLD + "" + ChatColor.GOLD + '"'
+				+ getCurrent().getMessage() + ChatColor.GOLD + '"');
 
-	    @Override
-	    public void run() {
-		getCurrent().execute(player, villager);
+		Manager.scheduleTask(new Runnable() {
 
-	    }
-	});
+			@Override
+			public void run() {
+				getCurrent().execute(player, villager);
 
-	if (getCurrent().getType().equals(MessageType.END))
-	    end();
-	else if (getCurrent().getType().equals(MessageType.TEXT)) {
-	    Manager.scheduleTask(new Runnable() {
+			}
+		});
 
-		@Override
-		public void run() {
-		    chat();
+		if (getCurrent().getType().equals(MessageType.END))
+			end();
+		else if (getCurrent().getType().equals(MessageType.TEXT)) {
+			Manager.scheduleTask(new Runnable() {
+
+				@Override
+				public void run() {
+					chat();
+
+				}
+			}, getCurrent().getTime());
 
 		}
-	    }, getCurrent().getTime());
 
-	}
+		if (!ended) {
+			Manager.cancelTask(taskId);
+			taskId = Manager.scheduleTask(new Runnable() {
 
-	if (!ended) {
-	    Manager.cancelTask(taskId);
-	    taskId = Manager.scheduleTask(new Runnable() {
-
-		@Override
-		public void run() {
-		    end();
+				@Override
+				public void run() {
+					end();
+				}
+			}, 20L * 10);
 		}
-	    }, 20L * 10);
+
 	}
 
-    }
+	public void answer(boolean t) {
+		if (!t && getCurrent().getType().equals(MessageType.QUESTION))
+			current = getCurrent().getTarget() - 1;
+		chat();
 
-    public void answer(boolean t) {
-	if (!t && getCurrent().getType().equals(MessageType.QUESTION))
-	    current = getCurrent().getTarget() - 1;
-	chat();
+	}
 
-    }
+	public boolean isListening() {
+		return getCurrent().getType().equals(MessageType.QUESTION);
+	}
 
-    public boolean isListening() {
-	return getCurrent().getType().equals(MessageType.QUESTION);
-    }
+	public CMessage getCurrent() {
+		return messages.get(current);
+	}
 
-    public CMessage getCurrent() {
-	return messages.get(current);
-    }
+	public boolean isEnded() {
+		return ended;
+	}
 
-    public boolean isEnded() {
-	return ended;
-    }
-
-    private void end() {
-	ended = true;
-	ChatManager.end(this);
-    }
+	private void end() {
+		ended = true;
+		ChatManager.end(this);
+	}
 
 }

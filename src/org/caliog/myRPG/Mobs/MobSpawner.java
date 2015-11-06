@@ -74,8 +74,7 @@ public class MobSpawner {
 		if (m != null) {
 			for (MobSpawnZone zone : zones) {
 				if (zone.getM().equals(m.getSpawnZone())) {
-					if (m.getSpawnZone().distanceSquared(e.getLocation()) <= 3.5D * zone.getRadius()
-							* zone.getRadius()) {
+					if (m.getSpawnZone().distanceSquared(e.getLocation()) <= 3.5D * zone.getRadius() * zone.getRadius()) {
 						return true;
 					}
 					return false;
@@ -114,8 +113,8 @@ public class MobSpawner {
 							} else if (m != null) {
 								ids.add(e.getUniqueId());
 								for (Entity p : e.getNearbyEntities(6.0D, 4.0D, 6.0D)) {
-									if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null)
-											&& (m.isAgressive()) && ((e instanceof Creature))) {
+									if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null) && (m.isAgressive())
+											&& ((e instanceof Creature))) {
 										((Creature) e).setTarget((Player) p);
 									}
 								}

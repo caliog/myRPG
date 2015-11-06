@@ -83,8 +83,8 @@ public abstract class Mob extends Fighter {
 	public abstract double getHP();
 
 	public String getCustomName() {
-		return (fightsBack() ? ChatColor.RED : ChatColor.BLUE) + "" + (isAgressive() ? ChatColor.ITALIC : "")
-				+ getName() + " Lv " + getLevel();
+		return (fightsBack() ? ChatColor.RED : ChatColor.BLUE) + "" + (isAgressive() ? ChatColor.ITALIC : "") + getName() + " Lv "
+				+ getLevel();
 	}
 
 	public abstract EntityType getType();
