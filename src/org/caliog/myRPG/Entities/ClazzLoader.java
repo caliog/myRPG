@@ -55,6 +55,8 @@ public class ClazzLoader {
 	}
 
 	public static boolean isClass(String name) {
+		if (name == null)
+			return false;
 		return classes.isConfigurationSection(name);
 	}
 

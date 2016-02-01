@@ -161,10 +161,11 @@ public class myPlugin extends JavaPlugin {
 		if (myConfig.isSpellCollectionEnabled()) {
 			try {
 				File file = new File(FilePath.spellCollection);
-				if (!file.exists()) {
+				if (!file.exists())
 					file.createNewFile();
-					fc.copyFile(FilePath.spellCollection, "SpellCollection.jar");
-				}
+
+				fc.copyFile(FilePath.spellCollection, "SpellCollection.jar");
+
 			} catch (IOException e) {
 				getLogger().warning("Failed to create SpellCollection.jar!");
 			}
@@ -215,8 +216,8 @@ public class myPlugin extends JavaPlugin {
 				@Override
 				public void onFinish(Updater updater) {
 					if (updater.getResult().equals(Updater.UpdateResult.UPDATE_AVAILABLE))
-						getLogger().info("There is a new version ("
-								+ updater.getLatestName().replace("myRPG", "").trim() + ") of myRPG available!");
+						getLogger().info(
+								"There is a new version (" + updater.getLatestName().replace("myRPG", "").trim() + ") of myRPG available!");
 
 				}
 			});

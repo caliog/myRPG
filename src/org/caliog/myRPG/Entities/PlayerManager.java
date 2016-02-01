@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
+import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Utils.FilePath;
 
@@ -51,20 +52,24 @@ public class PlayerManager {
 			File ff = new File(f.getAbsolutePath() + "/" + "players" + ".yml");
 			if (!ff.exists()) {
 				ff.createNewFile();
+				return false;
 			}
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(ff);
 			String type = config.getString(player.getName());
+			if (type == null)
+				return false;
 			myClass p = getPlayer(player, type);
 			register(p);
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public static void logout(Player player) {
 		f.mkdir();
-		myPlayer p = (myPlayer) players.get(player.getUniqueId());
+		myPlayer p = players.get(player.getUniqueId());
 		if (p == null) {
 			return;
 		}
@@ -78,7 +83,6 @@ public class PlayerManager {
 
 	public static myClass getPlayer(Player player, String clazz) {
 		myClass p = null;
-
 		p = ClazzLoader.create(player, clazz);
 		if (p == null) {
 			return null;
@@ -98,13 +102,13 @@ public class PlayerManager {
 	}
 
 	public static myClass getPlayer(UUID player) {
-		return (myClass) players.get(player);
+		return players.get(player);
 	}
 
 	public static myClass getPlayer(String string) {
 		for (UUID i : players.keySet()) {
-			if (((myClass) players.get(i)).getName().equals(string)) {
-				return (myClass) players.get(i);
+			if ((players.get(i)).getName().equals(string)) {
+				return players.get(i);
 			}
 		}
 		return null;
@@ -112,6 +116,8 @@ public class PlayerManager {
 
 	public static void task(long time) {
 		for (myClass clazz : players.values()) {
+			if (myConfig.isWorldDisabled(clazz.getPlayer().getWorld()))
+				continue;
 			int i = clazz.getIntelligence();
 			int s = 1;
 			if (i < 20) {
