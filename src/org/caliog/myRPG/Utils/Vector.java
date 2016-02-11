@@ -33,6 +33,8 @@ public class Vector {
 	}
 
 	public double distanceSquared(Vector v) {
+		if (!v.getWorld().equals(world))
+			return Double.POSITIVE_INFINITY;
 		int dx = v.x - this.x;
 		int dy = v.y - this.y;
 		int dz = v.z - this.z;
