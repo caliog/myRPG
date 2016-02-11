@@ -64,6 +64,7 @@ public class MobSpawner {
 		String text = "";
 		for (MobSpawnZone z : zones) {
 			text = text + z.getM().toString() + "/" + z.getMob() + "/" + z.getRadius() + "/" + z.getAmount() + "\r";
+			z.killAll();
 		}
 		writer.write(text);
 		writer.close();
@@ -97,12 +98,11 @@ public class MobSpawner {
 				for (World w : Manager.getWorlds()) {
 					if (w == null)
 						continue;
-					for (MobSpawnZone z : MobSpawner.zones) {
+					for (MobSpawnZone z : MobSpawner.zones)
 						if (z.getWorld().equals(w.getName()))
-							if (Math.random() < 0.6D) {
+							if (Math.random() < 0.6D)
 								z.askForSpawn();
-							}
-					}
+
 					Mob m;
 					for (Entity e : w.getEntities()) {
 						if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {

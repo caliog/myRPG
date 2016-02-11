@@ -47,7 +47,7 @@ public class Manager {
 				if (timer >= 72000)
 					timer = 0;
 				if (Manager.timer % 5L == 0L) {
-					MobSpawner.getTask().run();
+					Manager.scheduleTask(MobSpawner.getTask());
 					GManager.doLogics();
 					if (Manager.timer % 20L == 0L)
 						VManager.doLogics();

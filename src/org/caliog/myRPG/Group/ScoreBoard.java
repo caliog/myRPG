@@ -8,18 +8,18 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-public class GroupScoreboard {
+public class ScoreBoard {
 	private HashMap<Integer, String> map = new HashMap<Integer, String>();
 	private Objective obj;
 
 	public void add(String str) {
 		for (int i = this.map.keySet().size(); i >= 0; i--) {
-			this.map.put(Integer.valueOf(i + 1), (String) this.map.get(Integer.valueOf(i)));
+			this.map.put(i + 1, this.map.get(i));
 		}
 		if (str.length() > 16) {
 			str = str.substring(0, 16);
 		}
-		this.map.put(Integer.valueOf(1), str);
+		this.map.put(1, str);
 	}
 
 	public Scoreboard setScoreboard(String title, String displayName, Player player) {
