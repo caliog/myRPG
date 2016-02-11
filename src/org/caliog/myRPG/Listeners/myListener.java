@@ -79,7 +79,7 @@ public class myListener implements Listener {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
 		if (!event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-			if (myConfig.isNaturalSpawnDisabled())
+			if (myConfig.isNaturalSpawnDisabled(event.getEntity().getWorld().getName()))
 				event.setCancelled(true);
 		}
 	}

@@ -165,8 +165,8 @@ public class myConfig {
 		return config.getBoolean("enable-update-check", true);
 	}
 
-	public static boolean isNaturalSpawnDisabled() {
-		return config.getBoolean("disable-natural-spawn", false);
+	public static boolean isNaturalSpawnDisabled(String world) {
+		return config.getBoolean("disable-natural-spawn." + world, false);
 	}
 
 }

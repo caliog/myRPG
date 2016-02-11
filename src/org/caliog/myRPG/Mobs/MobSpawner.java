@@ -108,7 +108,7 @@ public class MobSpawner {
 						if (((e instanceof Creature)) || ((e instanceof Slime)) || ((e instanceof Ghast))) {
 							m = VolatileEntities.getMob(e.getUniqueId());
 							if (!VolatileEntities.isRegistered(e.getUniqueId())) {
-								if (myConfig.isNaturalSpawnDisabled())
+								if (myConfig.isNaturalSpawnDisabled(w.getName()))
 									e.remove();
 							} else if (m != null) {
 								ids.add(e.getUniqueId());
