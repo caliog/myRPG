@@ -1,5 +1,6 @@
 package org.caliog.myRPG.Entities;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Mobs.Mob;
+import org.caliog.myRPG.Utils.ChestHelper;
 
 public class Playerface {
 	private static HashMap<UUID, UUID> playerDrops = new HashMap<UUID, UUID>();
@@ -98,15 +100,15 @@ public class Playerface {
 		}
 	}
 
-	public static boolean giveItem(Player p, ItemStack s) {
+	public static boolean giveItem(Player p, ItemStack... s) {
 		if (s == null) {
 			return false;
 		}
 		if (p.getInventory().firstEmpty() != -1) {
-			p.getInventory().addItem(new ItemStack[] { s });
+			p.getInventory().addItem(s);
 			return true;
 		} else {
-			dropItem(p, p.getLocation(), s);
+			dropItem(p, p.getLocation(), Arrays.asList(s));
 			return true;
 		}
 	}
@@ -140,11 +142,16 @@ public class Playerface {
 		return true;
 	}
 
-	public static void dropItem(Player player, Location loc, ItemStack stack) {
-		if ((stack == null) || (player == null) || (loc == null)) {
+	public static void dropItem(Player player, Location loc, List<ItemStack> stacks) {
+		if ((stacks == null) || (player == null) || (loc == null)) {
 			return;
 		}
-		dropItem(player, loc, loc.getWorld().dropItemNaturally(loc, stack));
+		if (myConfig.isLootChestEnabled())
+			if (ChestHelper.dropItem(player, loc, stacks))
+				return;
+
+		for (ItemStack s : stacks)
+			dropItem(player, loc, loc.getWorld().dropItemNaturally(loc, s));
 	}
 
 	public static void dropItem(Player player, Location location, final Item item) {
@@ -157,8 +164,6 @@ public class Playerface {
 				Playerface.playerDrops.remove(id);
 			}
 		}, CustomItem.isItemTradeable(item.getItemStack()) ? 200L : (time * 20));
-		time = myConfig.getRemoveItemTime();
-		time = time <= 0 ? 0 : time;
 		if (time != 0)
 			Manager.scheduleTask(new Runnable() {
 				public void run() {

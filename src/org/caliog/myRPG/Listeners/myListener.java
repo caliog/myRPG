@@ -2,6 +2,7 @@ package org.caliog.myRPG.Listeners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Firework;
@@ -33,6 +35,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -64,11 +67,13 @@ import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.Mob;
 import org.caliog.myRPG.Mobs.MobSpawnZone;
 import org.caliog.myRPG.Mobs.MobSpawner;
+import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.EntityUtils;
 import org.caliog.myRPG.Utils.GroupManager;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.SkillInventoryView;
 import org.caliog.myRPG.Utils.Utils;
+import org.caliog.myRPG.Utils.Vector;
 
 public class myListener implements Listener {
 	private HashMap<Integer, Integer> entityTasks = new HashMap<Integer, Integer>();
@@ -304,6 +309,7 @@ public class myListener implements Listener {
 				for (MobSpawnZone z : MobSpawner.zones) {
 					if (z.getM().equals(mob.getSpawnZone())) {
 						z.askForSpawn(mob.getExtraTime());
+						break;
 					}
 				}
 			}
@@ -333,13 +339,14 @@ public class myListener implements Listener {
 		}
 		event.getEntity().setCustomName(ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ " + Playerface.killed(player.getPlayer(), mob)
 				+ " XP  " + ChatColor.BLACK + "]");
+		List<ItemStack> stacks = new ArrayList<ItemStack>();
 		for (ItemStack stack : mob.drops().keySet()) {
 			if (Math.random() * diff < ((Float) mob.drops().get(stack)).floatValue()) {
-				Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stack);
-				player.getPlayer().playSound(event.getEntity().getLocation(), Sound.LEVEL_UP, 0.6F, 2.0F);
-				break;
+				stacks.add(stack);
 			}
 		}
+		Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stacks);
+		player.getPlayer().playSound(event.getEntity().getLocation(), Sound.LEVEL_UP, 0.6F, 2.0F);
 		if ((player.getLevel() - mob.getLevel() < 4) && (Weapon.isWeapon(player, player.getPlayer().getItemInHand()))) {
 			final ItemStack hand = player.getPlayer().getItemInHand();
 			Weapon w = Weapon.getInstance(player, hand);
@@ -451,6 +458,12 @@ public class myListener implements Listener {
 				}
 			}
 			event.getPlayer().getInventory().setArmorContents(armor);
+		}
+
+		// chests
+		if (event.getInventory().getHolder() instanceof Chest) {
+			Chest chest = (Chest) event.getInventory().getHolder();
+			ChestHelper.loot(chest);
 		}
 	}
 
@@ -700,6 +713,15 @@ public class myListener implements Listener {
 
 				}
 			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onChestOpen(InventoryOpenEvent event) {
+		if (event.getInventory().getHolder() instanceof Chest) {
+			if (!ChestHelper.isAvailable(event.getPlayer().getUniqueId(),
+					new Vector(((Chest) event.getInventory().getHolder()).getLocation())))
+				event.setCancelled(true);
 		}
 	}
 

@@ -169,4 +169,8 @@ public class myConfig {
 		return config.getBoolean("disable-natural-spawn." + world, false);
 	}
 
+	public static boolean isLootChestEnabled() {
+		return config.getBoolean("enable-loot-chest");
+	}
+
 }
