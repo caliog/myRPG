@@ -54,7 +54,7 @@ public class Group {
 	}
 
 	public void updateScoreboard() {
-		GroupScoreboard board = new GroupScoreboard();
+		ScoreBoard board = new ScoreBoard();
 		board.add(ChatColor.YELLOW + "" + this.experience + " Exp!");
 		board.add(" ");
 		board.add(ChatColor.BLUE + "Members:");
