@@ -45,16 +45,14 @@ public class GroupManager {
 		if (max == -1)
 			return;
 
-		for (String g : permission.getGroups()) {
-			if (map.keySet().contains(g)) {
-				int lvl = map.get(g);
-
-				if (lvl <= level)
+		for (int i = level; i >= 0; i--) {
+			for (String g : permission.getGroups())
+				if (map.keySet().contains(g) && map.get(g) == i) {
+					String old = permission.getPrimaryGroup(player);
 					permission.playerAddGroup(player, g);
-				else
-					permission.playerRemoveGroup(player, g);
-
-			}
+					permission.playerRemoveGroup(player, old);
+					return;
+				}
 		}
 
 	}
