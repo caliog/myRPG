@@ -45,9 +45,8 @@ public abstract class Spell {
 			return false;
 		}
 		this.active = true;
-		if (!this.player.isBossFight()) {
-			SpellBarManager.timer(player.getPlayer(), name, time);
-		}
+
+		SpellBarManager.timer(player.getPlayer(), name, time);
 
 		Manager.scheduleTask(new Runnable() {
 
