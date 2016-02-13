@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.caliog.Villagers.Listeners.VillagerListener;
 import org.caliog.myRPG.Commands.Utils.CommandRegister;
 import org.caliog.myRPG.Entities.ClazzLoader;
+import org.caliog.myRPG.Listeners.DamageListener;
 import org.caliog.myRPG.Listeners.myListener;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Resource.FileCreator;
@@ -56,7 +57,8 @@ public class myPlugin extends JavaPlugin {
 		Manager.load();
 
 		getServer().getPluginManager().registerEvents(new myListener(), this);
-		getServer().getPluginManager().registerEvents(new VillagerListener(), this);// Villager
+		getServer().getPluginManager().registerEvents(new DamageListener(), this);
+		getServer().getPluginManager().registerEvents(new VillagerListener(), this);
 
 		Manager.scheduleRepeatingTask(Manager.getTask(), 20L, 1L);
 
