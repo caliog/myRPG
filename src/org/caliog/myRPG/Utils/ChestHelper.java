@@ -26,7 +26,12 @@ public class ChestHelper {
 				return true;
 			}
 		}
-
+		boolean empty = true;
+		for (ItemStack stack : stacks)
+			if (stack != null)
+				empty = false;
+		if (empty)
+			return false;
 		for (int h = 0; h < 7; h++) {
 			if (loc.getBlock().getType().equals(Material.AIR)) {
 				loc.getBlock().setType(Material.CHEST);
