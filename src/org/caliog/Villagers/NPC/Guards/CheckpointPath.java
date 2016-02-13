@@ -126,7 +126,7 @@ public class CheckpointPath {
 						Block b1 = l1.getBlock();
 						Location l2 = checkpoints[currentCP];
 						Block b2 = l2.getBlock();
-						if (l1 != null && l2 != null && (b1.getLocation().distance(b2.getLocation()) <= 0.001)) {
+						if (l1 != null && l2 != null && (b1.getLocation().distanceSquared(b2.getLocation()) <= 0.0001)) {
 							float delay;
 							if (currentCP == 0)
 								delay = initDelay;

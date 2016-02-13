@@ -63,7 +63,7 @@ public class GuardWatcher {
 						}
 					}
 				}
-			} else if (guard.isAttacking() && guard.getEntityLocation().distance(guard.getAttacking().getLocation()) <= r
+			} else if (guard.isAttacking() && guard.getEntityLocation().distanceSquared(guard.getAttacking().getLocation()) <= r * r
 					&& !guard.getAttacking().isDead()) {
 
 				if (((guard.getAttacking() instanceof Monster) && guard.isAttackMonster())
