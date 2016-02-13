@@ -29,6 +29,7 @@ public class Permissions {
 
 		permissions.add("myrpg.path.create");
 		permissions.add("myrpg.path.set");
+		permissions.add("myrpg.path.delete");
 
 		permissions.add("myrpg.msz.create");
 		permissions.add("myrpg.msz.remove");
@@ -46,6 +47,8 @@ public class Permissions {
 		permissions.add("myrpg.trader.recipe");
 
 		permissions.add("myrpg.priest.create");
+
+		permissions.add("myrpg.pet.create");
 
 	}
 

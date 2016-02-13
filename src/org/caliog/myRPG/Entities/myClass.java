@@ -3,9 +3,11 @@ package org.caliog.myRPG.Entities;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -15,6 +17,7 @@ import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Items.ItemEffect;
 import org.caliog.myRPG.Items.ItemEffect.ItemEffectType;
 import org.caliog.myRPG.Lib.Barkeeper.BottomBar.BottomBar;
+import org.caliog.myRPG.Mobs.Pet;
 import org.caliog.myRPG.Spells.InvisibleSpell;
 import org.caliog.myRPG.Spells.Spell;
 import org.caliog.myRPG.Spells.SpellBarManager;
@@ -30,7 +33,7 @@ public class myClass extends myPlayer {
 	private HashMap<String, Spell> spells = new HashMap<String, Spell>();
 	private final String type;
 	private int spellTask = -1;
-	private UUID boss = null;
+	private Set<Pet> pets = new HashSet<Pet>();
 	private boolean loaded = false;
 
 	public myClass(Player player, String type) {
@@ -343,18 +346,6 @@ public class myClass extends myPlayer {
 			return false;
 	}
 
-	public boolean isBossFight() {
-		return this.boss != null;
-	}
-
-	public UUID getBossId() {
-		return this.boss;
-	}
-
-	public void setBossId(UUID uuid) {
-		this.boss = uuid;
-	}
-
 	public boolean isInvisible() {
 		for (Spell spell : this.spells.values()) {
 			if (((spell instanceof InvisibleSpell)) && (spell.isActive())) {
@@ -384,6 +375,26 @@ public class myClass extends myPlayer {
 
 	public void addSpell(String id, Spell spell) {
 		spells.put(id, spell);
+	}
+
+	public boolean spawnPet(Location loc, String name, String customName) {
+		Pet pet = Pet.spawnPet(name, customName, loc);
+		if (pet == null)
+			return false;
+		pets.add(pet);
+		return true;
+	}
+
+	public void despawnPet(String customName) {
+		for (Pet p : pets)
+			if (p.getCustomName().contains(customName)) {
+				VolatileEntities.remove(p.getId());
+				break;
+			}
+	}
+
+	public Set<Pet> getPets() {
+		return pets;
 	}
 
 }

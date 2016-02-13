@@ -1,44 +1,32 @@
 package org.caliog.myRPG.Listeners;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.EntityEffect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -50,7 +38,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
-import org.caliog.myRPG.Entities.Fighter;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
@@ -65,8 +52,7 @@ import org.caliog.myRPG.Items.Custom.Skillstar;
 import org.caliog.myRPG.Lib.Barkeeper.CenterBar.CenterBar;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.Mob;
-import org.caliog.myRPG.Mobs.MobSpawnZone;
-import org.caliog.myRPG.Mobs.MobSpawner;
+import org.caliog.myRPG.Mobs.Pet;
 import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.EntityUtils;
 import org.caliog.myRPG.Utils.GroupManager;
@@ -76,327 +62,20 @@ import org.caliog.myRPG.Utils.Utils;
 import org.caliog.myRPG.Utils.Vector;
 
 public class myListener implements Listener {
-	private HashMap<Integer, Integer> entityTasks = new HashMap<Integer, Integer>();
-	private HashMap<UUID, UUID> damaged = new HashMap<UUID, UUID>();
+
+	HashMap<UUID, String[]> petMap = new HashMap<UUID, String[]>(); // player,
+																	// mob, name
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void creatureSpawnEvent(CreatureSpawnEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
+
 		if (!event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
 			if (myConfig.isNaturalSpawnDisabled(event.getEntity().getWorld().getName()))
 				event.setCancelled(true);
 		}
-	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onDamage(EntityDamageEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
-			return;
-		if (((event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) || (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
-				|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK))) && ((event.getEntity() instanceof Player))) {
-			if (PlayerManager.getPlayer(event.getEntity().getUniqueId()).damage(event.getDamage())) {
-				playerDeathEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ""));
-				respawn((Player) event.getEntity());
-			}
-			event.setDamage(0.0D);
-		}
-		if ((VolatileEntities.getMob(event.getEntity().getUniqueId()) != null)
-				&& ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
-						|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)))) {
-			event.setCancelled(true);
-			event.getEntity().setFireTicks(0);
-		}
-		myClass player = PlayerManager.getPlayer(event.getEntity().getUniqueId());
-		if ((player != null) && (!(event instanceof EntityDamageByEntityEvent))) {
-			player.damage(event.getDamage());
-			event.setDamage(0.0D);
-		}
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onDamageByPlayer(EntityDamageByEntityEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
-			return;
-		if (((event.getDamager() instanceof Player)) && (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
-			if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getItemInHand())) {
-				event.setCancelled(true);
-				return;
-			} else {
-				final Player p = (Player) event.getDamager();
-				final short d = p.getItemInHand().getDurability();
-
-				Manager.scheduleTask(new Runnable() {
-					public void run() {
-						p.getItemInHand().setDurability(d);
-					}
-				});
-
-			}
-		}
-
-		onEntityDamageByEntity(event);
-		onMobDamageByPlayer(event);
-		event.setDamage(0.0D);
-	}
-
-	public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
-		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
-			return;
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (event.isCancelled()) {
-			return;
-		}
-		if (!(event.getEntity() instanceof LivingEntity)) {
-			return;
-		}
-		boolean shooter = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
-				&& (((Projectile) event.getDamager()).getShooter() != null)
-				&& ((((Projectile) event.getDamager()).getShooter() instanceof LivingEntity))) {
-			shooter = true;
-		}
-		if ((!(event.getDamager() instanceof LivingEntity)) && (!shooter)) {
-			return;
-		}
-		LivingEntity mdamager;
-		if (shooter) {
-			mdamager = (LivingEntity) ((Projectile) event.getDamager()).getShooter();
-		} else {
-			mdamager = (LivingEntity) event.getDamager();
-		}
-
-		Fighter damager = PlayerManager.getPlayer(mdamager.getUniqueId());
-		if (damager == null) {
-			damager = VolatileEntities.getMob(mdamager.getUniqueId());
-		}
-		double damage = event.getDamage();
-		if (damager != null) {
-			if ((this.damaged.containsKey(event.getEntity().getUniqueId()))
-					&& (((UUID) this.damaged.get(event.getEntity().getUniqueId())).equals(mdamager.getUniqueId()))) {
-				event.setCancelled(true);
-				return;
-			}
-			this.damaged.put(event.getEntity().getUniqueId(), mdamager.getUniqueId());
-
-			Manager.scheduleTask(new Runnable() {
-				public void run() {
-					damaged.remove(event.getEntity().getUniqueId());
-				}
-			}, 2L);
-			damager.fight();
-			boolean b = event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM);
-			if (b)
-				damage = event.getDamage();
-			else
-				damage = damager.getDamage();
-
-		}
-
-		Mob mob;
-		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
-			damage -= mob.getDefense();
-			mob.fight();
-		} else {
-			myClass entity;
-			if ((entity = PlayerManager.getPlayer(event.getEntity().getUniqueId())) != null) {
-				damage -= entity.getDefense();
-				entity.fight();
-				if (entity.getDodge() / 100F > Math.random()) {
-					event.setCancelled(true);
-				}
-			}
-		}
-		if (((event.getEntity() instanceof Player)) && (PlayerManager.getPlayer(event.getEntity().getUniqueId()) != null)
-				&& (PlayerManager.getPlayer(event.getEntity().getUniqueId()).damage(damage))) {
-			PlayerManager.getPlayer(event.getEntity().getUniqueId()).setKiller(mdamager.getUniqueId());
-			playerDeathEvent(
-					new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ChatColor.GOLD + "You were killed!"));
-			respawn((Player) event.getEntity());
-			damage = 0.0D;
-			event.getEntity().setFireTicks(0);
-		}
-		event.setDamage(damage);
-	}
-
-	public void onMobDamageByPlayer(final EntityDamageByEntityEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (event.isCancelled())
-			return;
-		if (!(event.getEntity() instanceof Damageable))
-			return;
-		if (!(event.getEntity() instanceof LivingEntity))
-			return;
-		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
-			return;
-
-		boolean shooterisplayer = false;
-		if ((event.getDamager() != null) && ((event.getDamager() instanceof Projectile))
-				&& (((Projectile) event.getDamager()).getShooter() != null)
-				&& (((Projectile) event.getDamager()).getShooter() instanceof Player)) {
-			shooterisplayer = true;
-		}
-		if ((!(event.getDamager() instanceof Player)) && (!shooterisplayer)) {
-			return;
-		}
-		Player player = null;
-		if (shooterisplayer) {
-			player = (Player) ((Projectile) event.getDamager()).getShooter();
-		} else {
-			player = (Player) event.getDamager();
-		}
-		if (this.entityTasks.containsKey(Integer.valueOf(event.getEntity().getEntityId()))) {
-			Manager.cancelTask((Integer) this.entityTasks.get(Integer.valueOf(event.getEntity().getEntityId())));
-		}
-		final LivingEntity e = (LivingEntity) event.getEntity();
-		final Mob mob = VolatileEntities.getMob(e.getUniqueId());
-		if (mob == null) {
-			return;
-		}
-		if (mob.isBoss()) {
-			if (PlayerManager.getPlayer(player.getUniqueId()).isBossFight()) {
-				VolatileEntities.getMob(PlayerManager.getPlayer(player.getUniqueId()).getBossId()).removeAttacker(player.getUniqueId());
-			}
-			PlayerManager.getPlayer(player.getUniqueId()).setBossId(mob.getId());
-			mob.addAttacker(player.getUniqueId());
-		}
-		double damage = event.getDamage();
-		if (damage < 0.0D) {
-			damage = 0.0D;
-		}
-		e.setCustomName(EntityUtils.getBar(mob.getHealth() - damage, mob.getHP()));
-		this.entityTasks.put(Integer.valueOf(event.getEntity().getEntityId()), Integer.valueOf(Manager.scheduleTask(new Runnable() {
-			public void run() {
-				e.setCustomName(mob.getCustomName());
-			}
-		}, 100L)));
-		event.getEntity().playEffect(EntityEffect.HURT);
-		if (mob.damage(damage)) {
-			mob.setKiller(player.getUniqueId());
-			e.setHealth(0.0D);
-			EntityDeathEvent ed = new EntityDeathEvent(e, new ArrayList<ItemStack>());
-			Bukkit.getPluginManager().callEvent(ed);
-		}
-		event.setDamage(0.0D);
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onMobDeath(final EntityDeathEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
-			return;
-		event.setDroppedExp(0);
-		event.getDrops().clear();
-		if ((!(event.getEntity() instanceof Creature)) && (!(event.getEntity() instanceof Slime))
-				&& (!(event.getEntity() instanceof Ghast))) {
-			return;
-		}
-		final Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
-		if (mob == null) {
-			return;
-		}
-		mob.die();
-		Manager.scheduleTask(new Runnable() {
-			public void run() {
-				VolatileEntities.remove(event.getEntity().getUniqueId());
-				for (MobSpawnZone z : MobSpawner.zones) {
-					if (z.getM().equals(mob.getSpawnZone())) {
-						z.askForSpawn(mob.getExtraTime());
-						break;
-					}
-				}
-			}
-		}, 25L);
-
-		// Player related
-		final myClass player = PlayerManager.getPlayer(mob.getKillerId());
-		if (player == null) {
-			return;
-		}
-		mob.setKiller(null);
-
-		// Player related
-		double diff = player.getLevel() - mob.getLevel();
-		if (diff < 3.0D) {
-			diff = 1.0D;
-		} else if (diff < 6.0D) {
-			diff = 1.5D;
-		} else if (diff < 10.0D) {
-			diff = 2.0D;
-		} else if (diff < 25.0D) {
-			diff = 4.0D;
-		} else if (diff < 50.0D) {
-			diff = 10.0D;
-		} else if (diff < 100.0D) {
-			diff = 100.0D;
-		}
-		event.getEntity().setCustomName(ChatColor.BLACK + "[  " + ChatColor.YELLOW + "+ " + Playerface.killed(player.getPlayer(), mob)
-				+ " XP  " + ChatColor.BLACK + "]");
-		List<ItemStack> stacks = new ArrayList<ItemStack>();
-		for (ItemStack stack : mob.drops().keySet()) {
-			if (Math.random() * diff < ((Float) mob.drops().get(stack)).floatValue()) {
-				stacks.add(stack);
-			}
-		}
-		Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stacks);
-		player.getPlayer().playSound(event.getEntity().getLocation(), Sound.LEVEL_UP, 0.6F, 2.0F);
-		if ((player.getLevel() - mob.getLevel() < 4) && (Weapon.isWeapon(player, player.getPlayer().getItemInHand()))) {
-			final ItemStack hand = player.getPlayer().getItemInHand();
-			Weapon w = Weapon.getInstance(player, hand);
-			int level = w.getLevel();
-			int mLevel = w.getMinLevel();
-			int max = (level + 2) * (mLevel + 2);
-			int current = w.getKills();
-			current++;
-			if ((current == max) && (w.getLevel() != 9)) {
-				w.raiseLevel(player.getPlayer());
-				String[] a = { Msg.WEAPON, Msg.LEVEL }, b = { w.getName(), String.valueOf(w.getLevel()) };
-				Msg.sendMessage(player.getPlayer(), "level-weapon", a, b);
-			} else {
-				w.kill(player.getPlayer());
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void playerDeathEvent(PlayerDeathEvent event) {
-		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
-			return;
-		if (myConfig.isFireworkEnabled()) {
-			Firework firework = (Firework) event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class);
-			FireworkMeta data = firework.getFireworkMeta();
-			data.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(false).withColor(Color.RED).withFade(Color.FUCHSIA)
-					.with(FireworkEffect.Type.CREEPER).build() });
-			data.setPower(new Random().nextInt(2) + 1);
-			firework.setFireworkMeta(data);
-		}
-		myClass p = PlayerManager.getPlayer(event.getEntity().getUniqueId());
-		if (p.isBossFight()) {
-			UUID id = p.getBossId();
-			if ((id != null) && (VolatileEntities.getMob(id) != null)) {
-				VolatileEntities.getMob(id).removeAttacker(p.getPlayer().getUniqueId());
-			}
-			p.setBossId(null);
-		}
-
-		float newExp = event.getEntity().getExp() - myConfig.getExpLoseRate() * event.getEntity().getExp();
-		if (newExp < 0) {
-			newExp = 0F;
-		}
-		event.getEntity().setExp(newExp);
-
-		if (Utils.isBukkitMethod("org.bukkit.event.entity.PlayerDeathEvent", "setKeepInventory", Boolean.class))
-			event.setKeepInventory(myConfig.keepInventory());
-		else if (myConfig.keepInventory())
-			event.getDrops().clear();
-		Msg.sendMessage(event.getEntity(), "dead-message");
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -638,14 +317,6 @@ public class myListener implements Listener {
 		}
 	}
 
-	public void respawn(Player player) {
-		Location l = player.getBedSpawnLocation();
-		if (l == null)
-			l = player.getWorld().getSpawnLocation();
-		PlayerManager.getPlayer(player.getUniqueId()).resetHealth();
-		player.teleport(l);
-	}
-
 	/*
 	 * @EventHandler(priority = EventPriority.NORMAL)
 	 * 
@@ -723,6 +394,75 @@ public class myListener implements Listener {
 					new Vector(((Chest) event.getInventory().getHolder()).getLocation())))
 				event.setCancelled(true);
 		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onEggThrow(PlayerEggThrowEvent event) {
+		if (petMap.containsKey(event.getPlayer().getUniqueId())) {
+			String[] a = petMap.get(event.getPlayer().getUniqueId());
+			Location loc = event.getEgg().getLocation().getBlock().getLocation();
+			Manager.scheduleTask(new Runnable() {
+
+				@Override
+				public void run() {
+					PlayerManager.getPlayer(event.getPlayer().getUniqueId()).spawnPet(loc, a[0], a[1]);
+				}
+			});
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onEggThrow(PlayerInteractEvent event) {
+		myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
+		ItemStack egg = event.getItem();
+		if (egg == null)
+			return;
+		if (!egg.getType().equals(Material.EGG))
+			return;
+		if (egg.getItemMeta() == null)
+			return;
+		String eggName = egg.getItemMeta().getDisplayName();
+		String[] s = eggName.split("\\(");
+		String name = Utils.cleanString(s[0]);
+		String mob = Utils.cleanString(s[1].substring(0, s[1].length() - 1));
+		String[] a = { mob, name };
+		petMap.put(player.getPlayer().getUniqueId(), a);
+		Manager.scheduleTask(new Runnable() {
+
+			@Override
+			public void run() {
+				petMap.remove(event.getPlayer().getUniqueId());
+
+			}
+		}, 20L);
+
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onPetCall(PlayerInteractEvent event) {
+		myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
+		if (!player.getPlayer().isSneaking())
+			return;
+		ItemStack hand = player.getPlayer().getItemInHand();
+		if (hand == null || !hand.getType().equals(Material.LEASH))
+			return;
+		for (Pet pet : player.getPets()) {
+			Entity entity = EntityUtils.getEntity(pet.getId(), event.getPlayer().getWorld());
+			LivingEntity le = (LivingEntity) entity;
+			if (le.isLeashed())
+				if (le.getLeashHolder().getUniqueId().equals(player.getPlayer().getUniqueId()))
+					continue;
+			Location v = le.getLocation().subtract(player.getPlayer().getLocation());
+			Location loc = player.getPlayer().getLocation().add(v.toVector().normalize().multiply(3));
+			le.teleport(loc);
+			le.setLeashHolder(player.getPlayer());
+			if (hand.getAmount() == 1)
+				player.getPlayer().setItemInHand(null);
+			else
+				hand.setAmount(hand.getAmount() - 1);
+			break;
+		}
+
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

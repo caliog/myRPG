@@ -24,6 +24,7 @@ import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Lib.Barkeeper.TopBar.TopBar;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.MobSpawner;
+import org.caliog.myRPG.Mobs.PetController;
 import org.caliog.myRPG.Spells.SpellLoader;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
@@ -49,8 +50,11 @@ public class Manager {
 				if (Manager.timer % 5L == 0L) {
 					Manager.scheduleTask(MobSpawner.getTask());
 					GManager.doLogics();
-					if (Manager.timer % 20L == 0L)
+					if (Manager.timer % 20L == 0L) {
 						VManager.doLogics();
+						PetController.controll();
+					}
+
 				}
 
 				PlayerManager.task(timer);

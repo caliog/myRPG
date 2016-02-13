@@ -116,8 +116,10 @@ public class MobSpawner {
 									if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null) && (m.isAgressive())
 											&& ((e instanceof Creature))) {
 										((Creature) e).setTarget((Player) p);
+										break;
 									}
 								}
+
 							}
 						}
 					}

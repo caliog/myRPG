@@ -61,8 +61,8 @@ public class MobInstance extends Mob {
 		int e = 0;
 		try {
 			if (s.length() >= 5 && s.split("%").length == 2 && s.split("-").length == 2) {
-				e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]), Integer.parseInt(s.split("%")[1].split("-")[1]))
-						* (Integer.parseInt(s.split("%")[0]) / 100.0F));
+				e = (int) (Playerface.getExpDifference(Integer.parseInt(s.split("%")[1].split("-")[0]),
+						Integer.parseInt(s.split("%")[1].split("-")[1])) * (Integer.parseInt(s.split("%")[0]) / 100.0F));
 			} else if (s.contains("%")) {
 				e = (int) (Playerface.getExpDifference(getLevel(), getLevel() + 1) * (Integer.parseInt(s.replace("%", "")) / 100F));
 			} else
@@ -96,7 +96,7 @@ public class MobInstance extends Mob {
 		return this.mobConfig.getInt("damage");
 	}
 
-	public boolean isBoss() {
-		return this.mobConfig.getBoolean("boss");
+	public boolean isPet() {
+		return this.mobConfig.getBoolean("pet", false);
 	}
 }

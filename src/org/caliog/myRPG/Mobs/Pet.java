@@ -1,42 +1,58 @@
 package org.caliog.myRPG.Mobs;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
-import org.caliog.myRPG.Entities.Fighter;
+import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
+import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Utils.ParticleEffect;
+import org.caliog.myRPG.Utils.Utils;
 import org.caliog.myRPG.Utils.Vector;
 
-public abstract class Mob extends Fighter {
-	private final String name;
-	private final UUID id;
-	protected HashMap<ItemStack, Float> drops = new HashMap<ItemStack, Float>();
-	protected HashMap<String, ItemStack> eq = new HashMap<String, ItemStack>();
-	private final Vector spawnZone;
-	private int taskId = -1;
-	private boolean dead = false;
+import net.md_5.bungee.api.ChatColor;
 
-	public Mob(String name, UUID id, Vector m) {
-		this.name = name;
-		this.id = id;
-		this.spawnZone = m;
+public class Pet extends MobInstance {
+
+	private final String c_name;
+
+	public Pet(String name, String c_name, UUID id) {
+		super(name, id, new Vector(null));
+		this.c_name = c_name;
+
 	}
 
-	public static LivingEntity spawnEntity(String name, final Location loc, Vector m) {
+	@Override
+	public String getCustomName() {
+		return c_name;
+	}
+
+	public void die(myClass player) {
+		super.die();
+		VolatileEntities.remove(getId());
+		Pet.givePetEgg(player.getPlayer(), getName(), getCustomName());
+		player.getPets().remove(this);
+	}
+
+	public static Pet spawnPet(String name, String customName, final Location loc) {
 		Entity entity = null;
-		Mob mob = null;
+		Pet mob = null;
 
 		EntityType type = new MobInstance(name, null, null).getType();
 		entity = loc.getWorld().spawnEntity(loc, type);
-		mob = new MobInstance(name, entity.getUniqueId(), m);
+		mob = new Pet(name, customName, entity.getUniqueId());
 
 		Manager.scheduleRepeatingTask(new Runnable() {
 			public void run() {
@@ -65,60 +81,22 @@ public abstract class Mob extends Fighter {
 			}
 			VolatileEntities.register(mob);
 
-			return e;
+			return mob;
 		}
 		return null;
 	}
 
-	public abstract HashMap<String, ItemStack> eq();
-
-	public abstract double getHP();
-
-	public String getCustomName() {
-		return (fightsBack() ? ChatColor.RED : ChatColor.BLUE) + "" + (isAgressive() ? ChatColor.ITALIC : "") + getName() + " Lv "
-				+ getLevel();
+	public static void givePetEgg(Player player, String mob, String customName) {
+		ItemStack egg = new ItemStack(Material.EGG);
+		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(Material.EGG);
+		if (Utils.isBukkitClass("org.bukkit.inventory.ItemFlag"))
+			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.setDisplayName(ChatColor.GOLD + customName + "(" + mob + ")");
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "Spawns a " + mob + "!");
+		meta.setLore(lore);
+		egg.setItemMeta(meta);
+		Playerface.giveItem(player, egg);
 	}
 
-	public abstract EntityType getType();
-
-	public String getName() {
-		return this.name;
-	}
-
-	public abstract int getLevel();
-
-	public boolean fightsBack() {
-		return getDamage() > 0;
-	}
-
-	public abstract boolean isAgressive();
-
-	public abstract int getExp();
-
-	public abstract HashMap<ItemStack, Float> drops();
-
-	public UUID getId() {
-		return this.id;
-	}
-
-	public Vector getSpawnZone() {
-		return this.spawnZone;
-	}
-
-	public abstract int getExtraTime();
-
-	public abstract boolean isPet();
-
-	public void cancel() {
-		Manager.cancelTask(Integer.valueOf(taskId));
-		taskId = -1;
-	}
-
-	public void die() {
-		dead = true;
-	}
-
-	public boolean isDead() {
-		return dead;
-	}
 }
