@@ -69,7 +69,7 @@ public class Armor extends CustomItemInstance {
 		boolean soulbound = false;
 
 		String dn = item.getItemMeta().getDisplayName();
-		if ((dn == null) || (!dn.contains("" + ChatColor.GOLD))) {
+		if ((dn == null) || (!dn.contains("" + ChatColor.GOLD)) || (!dn.contains("" + ChatColor.DARK_GRAY))) {
 			return null;
 		}
 		name = dn.substring(dn.indexOf("" + ChatColor.DARK_GRAY) + 2, dn.indexOf("" + ChatColor.GOLD));
