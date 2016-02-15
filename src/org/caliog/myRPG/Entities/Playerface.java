@@ -104,6 +104,9 @@ public class Playerface {
 		if (s == null) {
 			return false;
 		}
+		for (ItemStack stack : s)
+			if (stack == null)
+				return false;
 		if (p.getInventory().firstEmpty() != -1) {
 			p.getInventory().addItem(s);
 			return true;
