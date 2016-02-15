@@ -40,10 +40,15 @@ public class Pet extends MobInstance {
 	}
 
 	public void die(myClass player) {
+		die(player, true);
+	}
+
+	public void die(myClass player, boolean t) {
 		super.die();
 		VolatileEntities.remove(getId());
 		Pet.givePetEgg(player.getPlayer(), getName(), getCustomName());
-		player.getPets().remove(this);
+		if (t)
+			player.getPets().remove(this);
 	}
 
 	public static Pet spawnPet(String name, String customName, final Location loc) {

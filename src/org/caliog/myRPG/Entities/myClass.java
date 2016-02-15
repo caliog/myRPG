@@ -388,7 +388,9 @@ public class myClass extends myPlayer {
 
 	public void despawnPets() {
 		for (Pet p : pets)
-			p.die();
+			if (p != null)
+				p.die(this, false);
+		pets.clear();
 	}
 
 	public Set<Pet> getPets() {
