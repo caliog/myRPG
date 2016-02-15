@@ -322,6 +322,7 @@ public class myClass extends myPlayer {
 		config.set("dex", Integer.valueOf(getDexterity()));
 		config.set("quests", getQString());
 		config.save(file);
+		despawnPets();
 	}
 
 	public boolean load() {
@@ -385,12 +386,9 @@ public class myClass extends myPlayer {
 		return true;
 	}
 
-	public void despawnPet(String customName) {
+	public void despawnPets() {
 		for (Pet p : pets)
-			if (p.getCustomName().contains(customName)) {
-				VolatileEntities.remove(p.getId());
-				break;
-			}
+			p.die();
 	}
 
 	public Set<Pet> getPets() {
