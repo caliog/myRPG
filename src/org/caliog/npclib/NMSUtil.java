@@ -2,7 +2,7 @@ package org.caliog.npclib;
 
 import org.bukkit.entity.Entity;
 
-public abstract class NMSUtil {
+public interface NMSUtil {
 
 	public abstract void setYaw(Entity entity, float yaw);
 

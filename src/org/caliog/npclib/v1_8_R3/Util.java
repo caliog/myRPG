@@ -15,7 +15,7 @@ import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 
-public class Util extends NMSUtil {
+public class Util implements NMSUtil {
 
 	public static net.minecraft.server.v1_8_R3.Entity getHandle(Entity e) {
 		return ((CraftEntity) e).getHandle();

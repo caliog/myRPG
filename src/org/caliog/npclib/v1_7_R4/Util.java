@@ -14,7 +14,7 @@ import org.caliog.npclib.Node;
 import net.minecraft.server.v1_7_R4.AxisAlignedBB;
 import net.minecraft.server.v1_7_R4.EntityLiving;
 
-public class Util extends NMSUtil {
+public class Util implements NMSUtil {
 
 	public static net.minecraft.server.v1_7_R4.Entity getHandle(Entity e) {
 		return ((CraftEntity) e).getHandle();

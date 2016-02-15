@@ -25,7 +25,7 @@ import net.minecraft.server.v1_7_R4.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_7_R4.PathfinderGoalRandomStroll;
 import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 
-public class Util extends NMSUtil {
+public class Util implements NMSUtil {
 
 	public static net.minecraft.server.v1_7_R4.Entity getHandle(Entity entity) {
 		return ((CraftEntity) entity).getHandle();

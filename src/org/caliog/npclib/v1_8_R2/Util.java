@@ -15,7 +15,7 @@ import net.minecraft.server.v1_8_R2.AxisAlignedBB;
 import net.minecraft.server.v1_8_R2.BlockPosition;
 import net.minecraft.server.v1_8_R2.EntityLiving;
 
-public class Util extends NMSUtil {
+public class Util implements NMSUtil {
 
 	public static net.minecraft.server.v1_8_R2.Entity getHandle(Entity e) {
 		return ((CraftEntity) e).getHandle();
@@ -47,12 +47,10 @@ public class Util extends NMSUtil {
 				float look = getHandle(a.getBukkitEntity()).pitch;
 				if ((a.last == null) || (a.runningPath.checkPath(n, a.last, true))) {
 					if (a.last != null) {
-						angle = (float) Math
-								.toDegrees(Math.atan2(a.last.b.getX() - n.b.getX(), n.b.getZ() - a.last.b.getZ()));
+						angle = (float) Math.toDegrees(Math.atan2(a.last.b.getX() - n.b.getX(), n.b.getZ() - a.last.b.getZ()));
 						look = (float) (Math.toDegrees(Math.asin(a.last.b.getY() - n.b.getY())) / 2.0D);
 					}
-					getHandle(a.getBukkitEntity()).setPositionRotation(n.b.getX() + 0.5D, n.b.getY(), n.b.getZ() + 0.5D,
-							angle, look);
+					getHandle(a.getBukkitEntity()).setPositionRotation(n.b.getX() + 0.5D, n.b.getY(), n.b.getZ() + 0.5D, angle, look);
 					setYaw(a.getBukkitEntity(), angle);
 				} else {
 					a.onFail.run();
@@ -60,9 +58,8 @@ public class Util extends NMSUtil {
 			}
 			a.last = n;
 		} else {
-			getHandle(a.getBukkitEntity()).setPositionRotation(a.runningPath.getEnd().getX(),
-					a.runningPath.getEnd().getY(), a.runningPath.getEnd().getZ(), a.runningPath.getEnd().getYaw(),
-					a.runningPath.getEnd().getPitch());
+			getHandle(a.getBukkitEntity()).setPositionRotation(a.runningPath.getEnd().getX(), a.runningPath.getEnd().getY(),
+					a.runningPath.getEnd().getZ(), a.runningPath.getEnd().getYaw(), a.runningPath.getEnd().getPitch());
 			setYaw(a.getBukkitEntity(), a.runningPath.getEnd().getYaw());
 			Bukkit.getServer().getScheduler().cancelTask(a.taskid);
 			a.taskid = 0;
@@ -81,8 +78,7 @@ public class Util extends NMSUtil {
 		if (node.b.getType() != Material.AIR) {
 
 			final AxisAlignedBB box = net.minecraft.server.v1_8_R2.Block.getById(node.b.getTypeId()).a(
-					((CraftWorld) node.b.getWorld()).getHandle(),
-					new BlockPosition(node.b.getX(), node.b.getY(), node.b.getZ()),
+					((CraftWorld) node.b.getWorld()).getHandle(), new BlockPosition(node.b.getX(), node.b.getY(), node.b.getZ()),
 					net.minecraft.server.v1_8_R2.Block.getByCombinedId(node.b.getTypeId()));
 			if (box != null) {
 				if (Math.abs(box.e - box.b) > 0.2) {
