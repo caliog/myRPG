@@ -13,11 +13,9 @@ import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
-import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Utils.EntityUtils;
 import org.caliog.myRPG.Utils.FilePath;
@@ -112,14 +110,6 @@ public class MobSpawner {
 									e.remove();
 							} else if (m != null) {
 								ids.add(e.getUniqueId());
-								for (Entity p : e.getNearbyEntities(6.0D, 4.0D, 6.0D)) {
-									if (((p instanceof Player)) && (PlayerManager.getPlayer(p.getUniqueId()) != null) && (m.isAgressive())
-											&& ((e instanceof Creature))) {
-										((Creature) e).setTarget((Player) p);
-										break;
-									}
-								}
-
 							}
 						}
 					}
