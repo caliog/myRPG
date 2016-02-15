@@ -29,6 +29,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -167,6 +168,17 @@ public class DamageListener implements Listener {
 		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
 			damage -= mob.getDefense();
 			mob.fight();
+			mob.setTarget(event.getEntity(), (LivingEntity) event.getDamager());
+			if (mob.damage(damage)) {
+				mob.setKiller(event.getDamager().getUniqueId());
+				((Damageable) event.getEntity()).setHealth(0.0D);
+				EntityDeathEvent ed = new EntityDeathEvent((LivingEntity) event.getEntity(), new ArrayList<ItemStack>());
+				Bukkit.getPluginManager().callEvent(ed);
+				if (damager instanceof Mob) {
+					((Mob) damager).killedAttack();
+				}
+			}
+			damage = 0;
 		} else {
 			myClass entity;
 			// player damaged by mob
@@ -176,18 +188,20 @@ public class DamageListener implements Listener {
 				if (entity.getDodge() / 100F > Math.random()) {
 					event.setCancelled(true);
 				}
+
 				// pets
 				Set<Pet> pets = entity.getPets();
 				for (Pet p : pets) {
 					if (p.fightsBack()) {
 						for (Entity en : event.getEntity().getNearbyEntities(10, 5, 10))
 							if (en.getUniqueId().equals(p.getId())) {
-								((Creature) en).setTarget(mdamager);
+								p.setTarget(en, mdamager);
 								break;
 							}
 
 					}
 				}
+
 			}
 		}
 		if (((event.getEntity() instanceof Player)) && (PlayerManager.getPlayer(event.getEntity().getUniqueId()) != null)
@@ -237,18 +251,21 @@ public class DamageListener implements Listener {
 		if (mob == null) {
 			return;
 		}
-		// Pets
+
+		// pets
 		Set<Pet> pets = PlayerManager.getPlayer(player.getUniqueId()).getPets();
 		for (Pet p : pets) {
-			if (p.isAgressive()) {
-				for (Entity en : player.getNearbyEntities(10, 5, 10))
+			if (p.fightsBack()) {
+				for (Entity en : event.getEntity().getNearbyEntities(10, 5, 10))
 					if (en.getUniqueId().equals(p.getId())) {
-						((Creature) en).setTarget(e);
+						p.setTarget(en, e);
+
 						break;
 					}
 
 			}
 		}
+
 		// pets end
 		double damage = event.getDamage();
 		if (damage < 0.0D) {
@@ -373,6 +390,43 @@ public class DamageListener implements Listener {
 		else if (myConfig.keepInventory())
 			event.getDrops().clear();
 		Msg.sendMessage(event.getEntity(), "dead-message");
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void entityTargetPlayer(EntityTargetEvent event) {
+		Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
+		if ((mob == null) || (event.getTarget() == null)) {
+			return;
+		}
+		myClass player = PlayerManager.getPlayer(event.getTarget().getUniqueId());
+		if (player == null)
+			return;
+		if ((player != null) && (player.isInvisible()) && ((!player.isFighting()) || (!mob.isFighting()))) {
+			event.setCancelled(true);
+		}
+		if ((!mob.isAgressive()) && (!mob.isFighting())) {
+			event.setCancelled(true);
+		}
+
+		if (mob instanceof Pet && player.getPets().contains(mob)) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void mobTargetMob(EntityTargetEvent event) {
+		Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
+		if ((mob == null) || (event.getTarget() == null)) {
+			return;
+		}
+		Mob target = VolatileEntities.getMob(event.getTarget().getUniqueId());
+		if (target == null)
+			return;
+		if (!(mob instanceof Pet) && !(target instanceof Pet))
+			event.setCancelled(true);
+		UUID attack = mob.getAttack();
+		if (attack == null || !attack.equals(target.getId()))
+			event.setCancelled(true);
 	}
 
 	public void respawn(Player player) {

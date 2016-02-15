@@ -19,7 +19,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -40,7 +39,6 @@ import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
-import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Group.GManager;
 import org.caliog.myRPG.Items.ItemUtils;
@@ -51,7 +49,6 @@ import org.caliog.myRPG.Items.Custom.HealthPotion;
 import org.caliog.myRPG.Items.Custom.Skillstar;
 import org.caliog.myRPG.Lib.Barkeeper.CenterBar.CenterBar;
 import org.caliog.myRPG.Messages.Msg;
-import org.caliog.myRPG.Mobs.Mob;
 import org.caliog.myRPG.Mobs.Pet;
 import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.EntityUtils;
@@ -203,21 +200,6 @@ public class myListener implements Listener {
 			GManager.leaveGroup(event.getPlayer());
 		}
 		PlayerManager.logout(event.getPlayer());
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void entityTarget(EntityTargetEvent event) {
-		Mob mob = VolatileEntities.getMob(event.getEntity().getUniqueId());
-		if ((mob == null) || (event.getTarget() == null)) {
-			return;
-		}
-		myClass player = PlayerManager.getPlayer(event.getTarget().getUniqueId());
-		if ((player != null) && (player.isInvisible()) && ((!player.isFighting()) || (!mob.isFighting()))) {
-			event.setCancelled(true);
-		}
-		if ((!mob.isAgressive()) && (!mob.isFighting())) {
-			event.setCancelled(true);
-		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -449,6 +431,8 @@ public class myListener implements Listener {
 		for (Pet pet : player.getPets()) {
 			Entity entity = EntityUtils.getEntity(pet.getId(), event.getPlayer().getWorld());
 			LivingEntity le = (LivingEntity) entity;
+			if (le == null)
+				continue;
 			if (le.isLeashed())
 				if (le.getLeashHolder().getUniqueId().equals(player.getPlayer().getUniqueId()))
 					continue;
