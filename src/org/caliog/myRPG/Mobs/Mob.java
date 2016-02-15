@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.Fighter;
 import org.caliog.myRPG.Entities.VolatileEntities;
+import org.caliog.myRPG.Mobs.nms.NMS;
+import org.caliog.myRPG.Mobs.nms.NMSUtil;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.Vector;
 
@@ -23,6 +25,7 @@ public abstract class Mob extends Fighter {
 	private final Vector spawnZone;
 	private int taskId = -1;
 	private boolean dead = false;
+	private UUID attack;
 
 	public Mob(String name, UUID id, Vector m) {
 		this.name = name;
@@ -120,5 +123,30 @@ public abstract class Mob extends Fighter {
 
 	public boolean isDead() {
 		return dead;
+	}
+
+	public void setTarget(Entity e, LivingEntity target) {
+		if (attack != null)
+			return;
+		attack = target.getUniqueId();
+		Manager.scheduleTask(new Runnable() {
+
+			@Override
+			public void run() {
+				attack = null;
+			}
+		}, 60L);
+		NMSUtil util = NMS.getUtil();
+		if (util != null)
+			util.setTarget(e, target);
+
+	}
+
+	public UUID getAttack() {
+		return attack;
+	}
+
+	public void killedAttack() {
+		attack = null;
 	}
 }
