@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -127,6 +128,8 @@ public abstract class Mob extends Fighter {
 
 	public void setTarget(Entity e, LivingEntity target) {
 		if (attack != null)
+			return;
+		if (!(target instanceof Creature))
 			return;
 		attack = target.getUniqueId();
 		Manager.scheduleTask(new Runnable() {
