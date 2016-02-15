@@ -23,7 +23,7 @@ public class Util implements NMSUtil {
 	@Override
 	public void setTarget(Entity e, LivingEntity target) {
 		EntityCreature entity = (EntityCreature) ((CraftEntity) e).getHandle();
-		EntityCreature t = (EntityCreature) ((CraftEntity) e).getHandle();
+		EntityCreature t = (EntityCreature) ((CraftEntity) target).getHandle();
 		try {
 			Field goalsField = EntityInsentient.class.getDeclaredField("goalSelector");
 			goalsField.setAccessible(true);

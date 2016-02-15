@@ -166,19 +166,23 @@ public class DamageListener implements Listener {
 
 		Mob mob;
 		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
+			// mob damaged by entity
 			damage -= mob.getDefense();
 			mob.fight();
-			mob.setTarget(event.getEntity(), (LivingEntity) event.getDamager());
-			if (mob.damage(damage)) {
-				mob.setKiller(event.getDamager().getUniqueId());
-				((Damageable) event.getEntity()).setHealth(0.0D);
-				EntityDeathEvent ed = new EntityDeathEvent((LivingEntity) event.getEntity(), new ArrayList<ItemStack>());
-				Bukkit.getPluginManager().callEvent(ed);
-				if (damager instanceof Mob) {
-					((Mob) damager).killedAttack();
+			// mob damaged by mob
+			if (damager instanceof Mob) {
+				mob.setTarget(event.getEntity(), (LivingEntity) event.getDamager());
+				if (mob.damage(damage)) {
+					mob.setKiller(event.getDamager().getUniqueId());
+					((Damageable) event.getEntity()).setHealth(0.0D);
+					EntityDeathEvent ed = new EntityDeathEvent((LivingEntity) event.getEntity(), new ArrayList<ItemStack>());
+					Bukkit.getPluginManager().callEvent(ed);
+					if (damager instanceof Mob) {
+						((Mob) damager).killedAttack();
+					}
 				}
+				damage = 0;
 			}
-			damage = 0;
 		} else {
 			myClass entity;
 			// player damaged by mob
@@ -193,7 +197,7 @@ public class DamageListener implements Listener {
 				Set<Pet> pets = entity.getPets();
 				for (Pet p : pets) {
 					if (p.fightsBack()) {
-						for (Entity en : event.getEntity().getNearbyEntities(10, 5, 10))
+						for (Entity en : event.getEntity().getNearbyEntities(12, 5, 12))
 							if (en.getUniqueId().equals(p.getId())) {
 								p.setTarget(en, mdamager);
 								break;
@@ -256,10 +260,9 @@ public class DamageListener implements Listener {
 		Set<Pet> pets = PlayerManager.getPlayer(player.getUniqueId()).getPets();
 		for (Pet p : pets) {
 			if (p.fightsBack()) {
-				for (Entity en : event.getEntity().getNearbyEntities(10, 5, 10))
+				for (Entity en : event.getEntity().getNearbyEntities(12, 5, 12))
 					if (en.getUniqueId().equals(p.getId())) {
 						p.setTarget(en, e);
-
 						break;
 					}
 
