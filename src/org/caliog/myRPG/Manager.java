@@ -26,6 +26,7 @@ import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Mobs.PetController;
 import org.caliog.myRPG.Spells.SpellLoader;
+import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.GroupManager;
@@ -70,6 +71,9 @@ public class Manager {
 			VolatileEntities.save();
 			PlayerManager.save();
 			Playerface.clear();
+
+			// Chets
+			ChestHelper.cleanUp();
 
 			// Villager stuff
 			VManager.save();

@@ -102,4 +102,22 @@ public class ChestHelper {
 
 	}
 
+	public static void cleanUp() {
+		for (String s : chests.keySet()) {
+			if (s != null) {
+				Vector v = Vector.fromString(s);
+				if (v != null) {
+					Block block = v.toLocation().getBlock();
+					if (block.getState() instanceof Chest) {
+						((Chest) block.getState()).getInventory().setContents(new ItemStack[0]);
+					}
+					block.setType(Material.AIR);
+				}
+			}
+
+		}
+		chests.clear();
+		tasks.clear();
+	}
+
 }
