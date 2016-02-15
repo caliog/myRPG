@@ -17,7 +17,7 @@ public class PetController {
 				Entity entity = EntityUtils.getEntity(pet.getId(), player.getPlayer().getWorld());
 				if (entity == null)
 					continue;
-				if (entity.getLocation().distanceSquared(player.getPlayer().getLocation()) > 400) {
+				if (entity.getLocation().distanceSquared(player.getPlayer().getLocation()) > 512) {
 					Manager.scheduleTask(new Runnable() {
 
 						@Override
