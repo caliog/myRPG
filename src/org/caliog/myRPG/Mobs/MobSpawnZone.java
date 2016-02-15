@@ -97,7 +97,7 @@ public class MobSpawnZone {
 		int counter = 0;
 
 		for (Mob m : VolatileEntities.getMobs()) {
-			if (!m.isDead())
+			if (!m.isDead() && !m.getSpawnZone().isNull())
 				if ((m != null) && (m.getSpawnZone().equals(this.m))) {
 					counter++;
 				}
