@@ -133,13 +133,4 @@ public class MobSpawnZone {
 		return this.world;
 	}
 
-	public void killAll() {
-		if (Bukkit.getWorld(this.world) != null) {
-			for (Mob m : VolatileEntities.getMobs()) {
-				if ((m != null) && (m.getSpawnZone().equals(this.m))) {
-					VolatileEntities.unregister(m.getId());
-				}
-			}
-		}
-	}
 }

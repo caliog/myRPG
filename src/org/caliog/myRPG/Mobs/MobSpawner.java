@@ -62,8 +62,8 @@ public class MobSpawner {
 		String text = "";
 		for (MobSpawnZone z : zones) {
 			text = text + z.getM().toString() + "/" + z.getMob() + "/" + z.getRadius() + "/" + z.getAmount() + "\r";
-			z.killAll();
 		}
+		VolatileEntities.killAllMobs();
 		writer.write(text);
 		writer.close();
 	}
