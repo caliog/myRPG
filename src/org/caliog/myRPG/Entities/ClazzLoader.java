@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
@@ -39,7 +40,8 @@ public class ClazzLoader {
 
 				}
 			}
-			clazz.setHealth(clazz.getMaximumHealth());
+			double maxHealth = ((Damageable) player).getMaxHealth();
+			clazz.getPlayer().setHealth(maxHealth);
 			return clazz;
 		} else {
 			String cl = myConfig.getDefaultClass();
