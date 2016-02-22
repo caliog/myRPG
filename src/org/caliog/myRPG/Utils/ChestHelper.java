@@ -22,7 +22,7 @@ public class ChestHelper {
 		// search chest
 		for (final String s : tasks.keySet()) {
 			if (Vector.fromString(s).distanceSquared(loc) <= 36) {
-				placeInChest(s, stacks);
+				placeInChest(player, s, stacks);
 				return true;
 			}
 		}
@@ -35,7 +35,8 @@ public class ChestHelper {
 		for (int h = 0; h < 7; h++) {
 			if (loc.getBlock().getType().equals(Material.AIR)) {
 				loc.getBlock().setType(Material.CHEST);
-				placeInChest(new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), loc.getWorld().getName()).toString(), stacks);
+				placeInChest(player, new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), loc.getWorld().getName()).toString(),
+						stacks);
 				return true;
 			}
 			loc.add(0, 1, 0);
@@ -43,9 +44,10 @@ public class ChestHelper {
 		return false;
 	}
 
-	private static void placeInChest(final String s, List<ItemStack> stacks) {
+	private static void placeInChest(Player player, final String s, List<ItemStack> stacks) {
 		Chest chest = (Chest) Vector.fromString(s).toLocation().getBlock().getState();
 		chest.getInventory().addItem(stacks.toArray(new ItemStack[0]));
+		chests.put(s, player.getUniqueId());
 		Integer[] a = tasks.get(s);
 		if (a != null) {
 			Manager.cancelTask(a[0]);
