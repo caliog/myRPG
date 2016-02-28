@@ -20,7 +20,7 @@ public class Guard extends GNPC {
 
 	public Guard(String name, Location loc, int id, String eq) {
 		super(name, loc, id);
-		this.setIsLooking(true);
+		this.setIsLooking(false);
 		this.setAttackMonster(true);
 		equipment(eq);
 	}
