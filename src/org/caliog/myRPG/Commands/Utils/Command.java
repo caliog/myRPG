@@ -18,8 +18,10 @@ public class Command {
 		this.cmd = cmd;
 		if (permission == null)
 			this.permission = null;
-		else
+		else {
 			this.permission = new String(permission);
+			Permissions.add(this.permission);
+		}
 	}
 
 	private int calcMax(CommandField[] fields2) {

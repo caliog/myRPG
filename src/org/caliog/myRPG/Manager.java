@@ -15,7 +15,6 @@ import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;
 import org.caliog.Villagers.Utils.DataSaver;
-import org.caliog.myRPG.Commands.Utils.Permissions;
 import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
@@ -89,7 +88,6 @@ public class Manager {
 
 	public static void load() {
 		ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
-		Permissions.declare();
 		TopBar.init();
 
 		try {
