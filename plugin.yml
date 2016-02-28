@@ -2,7 +2,7 @@ name: myRPG
 author: caliog
 website: http://www.caliog.org
 main: org.caliog.myRPG.myPlugin
-version: 3.1.05
+version: 3.1.06
 softdepend: [Vault]
 
 commands:
