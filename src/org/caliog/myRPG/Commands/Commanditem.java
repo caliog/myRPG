@@ -36,7 +36,7 @@ public class Commanditem extends Commands {
 					t = Boolean.valueOf(args[2]);
 				}
 				if (Playerface.giveItem(player, ItemUtils.getItem(name + ":" + a + ":" + t)))
-					player.sendMessage(CmdMessage.gaveYouItem);
+					;
 				else
 					player.sendMessage(CmdMessage.gaveYouItemNot);
 			}
