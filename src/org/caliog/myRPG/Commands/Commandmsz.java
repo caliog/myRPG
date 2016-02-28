@@ -15,6 +15,7 @@ import org.caliog.myRPG.Messages.CmdMessage;
 import org.caliog.myRPG.Mobs.MobSpawnZone;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Utils.EntityUtils;
+import org.caliog.myRPG.Utils.Vector;
 
 public class Commandmsz extends Commands {
 
@@ -114,6 +115,43 @@ public class Commandmsz extends Commands {
 			}
 		}, new CommandField("info", FieldProperty.IDENTIFIER)));
 
+		/*
+		 * Name: msz SubName: next
+		 * 
+		 * Permission: myrpg.msz.next
+		 * 
+		 * Usage: /msz next
+		 */
+		cmds.add(new Command("msz", "myrpg.msz.next", new CommandExecutable() {
+
+			@Override
+			public void execute(final String[] args, final Player player) {
+				Vector next = new Vector(null);
+				String str = "";
+				for (MobSpawnZone z : MobSpawner.zones) {
+					if (!z.getWorld().equals(player.getWorld().getName()))
+						continue;
+					if (z.getM().distanceSquared(player.getLocation()) < next.distanceSquared(player.getLocation())) {
+						next = z.getM();
+						str = ChatColor.GOLD + "" + z.getAmount() + " of " + z.getMob() + " in a radius of " + z.getRadius() + "! ";
+					}
+					if (z.isInside(player.getLocation())) {
+						player.sendMessage(
+								ChatColor.GOLD + "" + z.getAmount() + " of " + z.getMob() + " in a radius of " + z.getRadius() + "! ");
+						return;
+					}
+				}
+				if (!next.isNull()) {
+					player.teleport(next.toLocation());
+					player.sendMessage(str);
+					return;
+				}
+				player.sendMessage(ChatColor.GOLD + "I could not find a spawn zone in your world!");
+				return;
+			}
+		}, new CommandField("next", FieldProperty.IDENTIFIER)));
+
 		return cmds;
+
 	}
 }
