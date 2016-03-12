@@ -16,9 +16,9 @@ public class ScoreBoard {
 		for (int i = this.map.keySet().size(); i >= 0; i--) {
 			this.map.put(i + 1, this.map.get(i));
 		}
-		if (str.length() > 16) {
-			str = str.substring(0, 16);
-		}
+		/*
+		 * if (str.length() > 16) { str = str.substring(0, 16); }
+		 */
 		this.map.put(1, str);
 	}
 
