@@ -10,10 +10,10 @@ public class PetController {
 
 	public static void controll() {
 
-		for (myClass player : PlayerManager.getPlayers()) {
+		for (final myClass player : PlayerManager.getPlayers()) {
 			if (player.getPets().isEmpty())
 				continue;
-			for (Pet pet : player.getPets()) {
+			for (final Pet pet : player.getPets()) {
 				Entity entity = EntityUtils.getEntity(pet.getId(), player.getPlayer().getWorld());
 				if (entity == null)
 					continue;

@@ -302,18 +302,11 @@ public class myListener implements Listener {
 	/*
 	 * @EventHandler(priority = EventPriority.NORMAL)
 	 * 
-	 * public void onBowShoot(EntityShootBowEvent event) { if
-	 * (myConfig.isWorldDisabled(event.getEntity().getWorld())) return; if
-	 * ((!(event.getEntity() instanceof Player)) ||
-	 * (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) {
-	 * return; } final Player player = (Player) event.getEntity(); ItemStack
-	 * stack = event.getBow(); myClass clazz =
-	 * PlayerManager.getPlayer(player.getUniqueId()); if (clazz == null) {
-	 * return; } if (Weapon.isWeapon(clazz, stack)) { Weapon weapon =
-	 * Weapon.getInstance(clazz, stack); if
-	 * (weapon.getType().equals(Material.BOW)) { final short d = (short)
-	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public
-	 * void run() { player.getItemInHand().setDurability(d); } }); } } }
+	 * public void onBowShoot(EntityShootBowEvent event) { if (myConfig.isWorldDisabled(event.getEntity().getWorld())) return; if ((!(event.getEntity()
+	 * instanceof Player)) || (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) { return; } final Player player = (Player) event.getEntity();
+	 * ItemStack stack = event.getBow(); myClass clazz = PlayerManager.getPlayer(player.getUniqueId()); if (clazz == null) { return; } if
+	 * (Weapon.isWeapon(clazz, stack)) { Weapon weapon = Weapon.getInstance(clazz, stack); if (weapon.getType().equals(Material.BOW)) { final short d = (short)
+	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public void run() { player.getItemInHand().setDurability(d); } }); } } }
 	 */
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -379,10 +372,10 @@ public class myListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onEggThrow(PlayerEggThrowEvent event) {
+	public void onEggThrow(final PlayerEggThrowEvent event) {
 		if (petMap.containsKey(event.getPlayer().getUniqueId())) {
-			String[] a = petMap.get(event.getPlayer().getUniqueId());
-			Location loc = event.getEgg().getLocation().getBlock().getLocation();
+			final String[] a = petMap.get(event.getPlayer().getUniqueId());
+			final Location loc = event.getEgg().getLocation().getBlock().getLocation();
 			Manager.scheduleTask(new Runnable() {
 
 				@Override
@@ -394,7 +387,7 @@ public class myListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onEggThrow(PlayerInteractEvent event) {
+	public void onEggThrow(final PlayerInteractEvent event) {
 		myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 		ItemStack egg = event.getItem();
 		if (egg == null)
