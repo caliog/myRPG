@@ -13,6 +13,7 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 import org.caliog.myRPG.Utils.Utils;
 
+@SuppressWarnings("deprecation")
 public class HealthPotion {
 
 	public static ItemStack getHP1(int amount) {

@@ -89,16 +89,16 @@ public class DamageListener implements Listener {
 		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
 			return;
 		if (((event.getDamager() instanceof Player)) && (PlayerManager.getPlayer(event.getDamager().getUniqueId()) != null)) {
-			if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getItemInHand())) {
+			if (!ItemUtils.checkForUse((Player) event.getDamager(), ((Player) event.getDamager()).getInventory().getItemInMainHand())) {
 				event.setCancelled(true);
 				return;
 			} else {
 				final Player p = (Player) event.getDamager();
-				final short d = p.getItemInHand().getDurability();
+				final short d = p.getInventory().getItemInMainHand().getDurability();
 
 				Manager.scheduleTask(new Runnable() {
 					public void run() {
-						p.getItemInHand().setDurability(d);
+						p.getInventory().getItemInMainHand().setDurability(d);
 					}
 				});
 
@@ -350,9 +350,9 @@ public class DamageListener implements Listener {
 			}
 		}
 		Playerface.dropItem(player.getPlayer(), event.getEntity().getLocation(), stacks);
-		player.getPlayer().playSound(event.getEntity().getLocation(), Sound.LEVEL_UP, 0.6F, 2.0F);
-		if ((player.getLevel() - mob.getLevel() < 4) && (Weapon.isWeapon(player, player.getPlayer().getItemInHand()))) {
-			final ItemStack hand = player.getPlayer().getItemInHand();
+		player.getPlayer().playSound(event.getEntity().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.6F, 2.0F);
+		if ((player.getLevel() - mob.getLevel() < 4) && (Weapon.isWeapon(player, player.getPlayer().getInventory().getItemInMainHand()))) {
+			final ItemStack hand = player.getPlayer().getInventory().getItemInMainHand();
 			Weapon w = Weapon.getInstance(player, hand);
 			int level = w.getLevel();
 			int mLevel = w.getMinLevel();

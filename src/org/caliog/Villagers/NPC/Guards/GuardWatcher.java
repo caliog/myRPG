@@ -99,7 +99,7 @@ public class GuardWatcher {
 				Player player = (Player) entity;
 
 				// LOOK
-				if (guard.isLooking() && !guard.isAttacking()) {
+				if (guard.isLooking() && !guard.isAttacking() && !guard.isRunning()) {
 					guard.getNpc().lookAtPoint(player.getEyeLocation());
 				}
 

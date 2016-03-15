@@ -12,7 +12,7 @@ import org.caliog.myRPG.Manager;
 public class Utils {
 	public static String cleanString(String str) {
 		char[] abc = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-				'x', 'y', 'z', ' ', 'ä', 'ö', 'ü' };
+				'x', 'y', 'z', ' ', 'ï¿½', 'ï¿½', 'ï¿½' };
 
 		String newString = "";
 		for (int i = 0; i < str.length(); i++) {
@@ -54,6 +54,16 @@ public class Utils {
 		try {
 			Class<?> cl = Manager.plugin.getClass().getClassLoader().loadClass(c);
 			cl.getMethod(m, param);
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
+	}
+
+	public static boolean isBukkitField(String c, String f) {
+		try {
+			Class<?> cl = Manager.plugin.getClass().getClassLoader().loadClass(c);
+			cl.getField(f);
 		} catch (Exception e) {
 			return false;
 		}

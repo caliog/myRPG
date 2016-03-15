@@ -8,6 +8,7 @@ public class CPMoveable extends Moveable {
 
 	private Location location;
 	private CheckpointPath cpPath = null;
+	private boolean running;
 
 	public CPMoveable(Location loc) {
 		this.location = loc;
@@ -63,6 +64,16 @@ public class CPMoveable extends Moveable {
 			this.cpPath.setRun(false);
 		this.cpPath = null;
 
+	}
+
+	@Override
+	public boolean isRunning() {
+		return running;
+
+	}
+
+	public void setRunning(boolean t) {
+		this.running = t;
 	}
 
 }

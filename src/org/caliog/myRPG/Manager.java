@@ -20,7 +20,6 @@ import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
-import org.caliog.myRPG.Lib.Barkeeper.TopBar.TopBar;
 import org.caliog.myRPG.Messages.Msg;
 import org.caliog.myRPG.Mobs.MobSpawner;
 import org.caliog.myRPG.Mobs.PetController;
@@ -88,7 +87,6 @@ public class Manager {
 
 	public static void load() {
 		ClazzLoader.classes = YamlConfiguration.loadConfiguration(new File(FilePath.classes));
-		TopBar.init();
 
 		try {
 			Msg.init();

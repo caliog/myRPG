@@ -56,8 +56,8 @@ public abstract class Mob extends Fighter {
 			e.setMaxHealth(mob.getHP());
 			e.setHealth(mob.getHP());
 			if ((mob.eq() != null) && (!mob.eq().isEmpty())) {
-				e.getEquipment().setItemInHand((ItemStack) mob.eq().get("HAND"));
-				e.getEquipment().setItemInHandDropChance(0.0F);
+				e.getEquipment().setItemInMainHand((ItemStack) mob.eq().get("HAND"));
+				e.getEquipment().setItemInMainHandDropChance(0.0F);
 				e.getEquipment().setHelmet((ItemStack) mob.eq().get("HELMET"));
 				e.getEquipment().setHelmetDropChance(0.0F);
 				e.getEquipment().setChestplate((ItemStack) mob.eq().get("CHESTPLATE"));

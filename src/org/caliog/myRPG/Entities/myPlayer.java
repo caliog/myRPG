@@ -60,8 +60,8 @@ public abstract class myPlayer extends Fighter {
 
 	public double getDamage() {
 		int damage = Math.round((float) (getMaximumHealth() / 4.0D));
-		if ((Weapon.isWeapon((myClass) this, getPlayer().getItemInHand()))) {
-			damage += Weapon.getInstance((myClass) this, getPlayer().getItemInHand()).getRandomDamage();
+		if ((Weapon.isWeapon((myClass) this, getPlayer().getInventory().getItemInMainHand()))) {
+			damage += Weapon.getInstance((myClass) this, getPlayer().getInventory().getItemInMainHand()).getRandomDamage();
 		} else if (damage == 0) {
 			damage++;
 		}
@@ -83,8 +83,8 @@ public abstract class myPlayer extends Fighter {
 				s.add(Armor.getInstance(stack));
 			}
 		}
-		if (Weapon.isWeapon((myClass) this, this.player.getItemInHand())) {
-			s.add(Weapon.getInstance((myClass) this, this.player.getItemInHand()));
+		if (Weapon.isWeapon((myClass) this, this.player.getInventory().getItemInMainHand())) {
+			s.add(Weapon.getInstance((myClass) this, this.player.getInventory().getItemInMainHand()));
 		}
 		while (s.contains(null)) {
 			s.remove(null);

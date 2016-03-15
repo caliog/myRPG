@@ -169,7 +169,7 @@ public class myListener implements Listener {
 	public void skillstar(PlayerInteractEvent event) {
 		if (myConfig.isWorldDisabled(event.getPlayer().getWorld()))
 			return;
-		ItemStack stack = event.getPlayer().getItemInHand();
+		ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
 		if (((event.getAction().equals(Action.RIGHT_CLICK_AIR)) || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))
 				&& (Skillstar.isSkillstar(stack))) {
 			event.getPlayer().openInventory(new SkillInventoryView(event.getPlayer(), event.getPlayer().getInventory()));
@@ -221,7 +221,7 @@ public class myListener implements Listener {
 							if ((meta = contents[i].getItemMeta()) != null && meta.getDisplayName() != null)
 								if (meta.getDisplayName().equalsIgnoreCase(hp.getItemMeta().getDisplayName())) {
 									contents[i].setAmount(contents[i].getAmount() + 1);
-									event.getPlayer().playSound(event.getItem().getLocation(), Sound.ITEM_PICKUP, 0.2F, 0.2F);
+									event.getPlayer().playSound(event.getItem().getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.2F, 0.2F);
 									event.getItem().remove();
 									event.setCancelled(true);
 									return;
@@ -306,7 +306,7 @@ public class myListener implements Listener {
 	 * instanceof Player)) || (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) { return; } final Player player = (Player) event.getEntity();
 	 * ItemStack stack = event.getBow(); myClass clazz = PlayerManager.getPlayer(player.getUniqueId()); if (clazz == null) { return; } if
 	 * (Weapon.isWeapon(clazz, stack)) { Weapon weapon = Weapon.getInstance(clazz, stack); if (weapon.getType().equals(Material.BOW)) { final short d = (short)
-	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public void run() { player.getItemInHand().setDurability(d); } }); } } }
+	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public void run() { player.getInventory().getItemInMainHand().setDurability(d); } }); } } }
 	 */
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -346,11 +346,11 @@ public class myListener implements Listener {
 				if (isApple) {
 					int amount = stack.getAmount() - 1;
 					if (amount > 0) {
-						event.getPlayer().getItemInHand().setAmount(amount);
+						event.getPlayer().getInventory().getItemInMainHand().setAmount(amount);
 					} else {
 						Manager.scheduleTask(new Runnable() {
 							public void run() {
-								event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+								event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 								event.getPlayer().updateInventory();
 							}
 						});
@@ -418,7 +418,7 @@ public class myListener implements Listener {
 		myClass player = PlayerManager.getPlayer(event.getPlayer().getUniqueId());
 		if (!player.getPlayer().isSneaking())
 			return;
-		ItemStack hand = player.getPlayer().getItemInHand();
+		ItemStack hand = player.getPlayer().getInventory().getItemInMainHand();
 		if (hand == null || !hand.getType().equals(Material.LEASH))
 			return;
 		for (Pet pet : player.getPets()) {
@@ -434,7 +434,7 @@ public class myListener implements Listener {
 			le.teleport(loc);
 			le.setLeashHolder(player.getPlayer());
 			if (hand.getAmount() == 1)
-				player.getPlayer().setItemInHand(null);
+				player.getPlayer().getInventory().setItemInMainHand(null);
 			else
 				hand.setAmount(hand.getAmount() - 1);
 			break;

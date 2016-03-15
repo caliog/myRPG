@@ -51,14 +51,14 @@ public class Commandtrader extends Commands {
 					return;
 				}
 				if (args.length == 2) {
-					if (player.getItemInHand() == null || player.getItemInHand().getType().equals(Material.AIR)) {
+					if (player.getInventory().getItemInMainHand() == null || player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 						player.sendMessage(ChatColor.RED + "You have to take the item you want to sell in your hand!");
 						return;
 					}
 					int price = Integer.parseInt(args[1]);
-					trader.addRecipe(player.getItemInHand(), price);
+					trader.addRecipe(player.getInventory().getItemInMainHand(), price);
 					player.sendMessage(ChatColor.GOLD + "The trader sells now: "
-							+ player.getItemInHand().getType().name().toLowerCase().replace("_", " ") + "!");
+							+ player.getInventory().getItemInMainHand().getType().name().toLowerCase().replace("_", " ") + "!");
 				} else {
 					ItemStack[] items = { player.getInventory().getItem(0), player.getInventory().getItem(1),
 							player.getInventory().getItem(2) };
@@ -94,11 +94,11 @@ public class Commandtrader extends Commands {
 					player.sendMessage(ChatColor.RED + "There is no trader around you!");
 					return;
 				}
-				if (player.getItemInHand() == null || player.getItemInHand().getType().equals(Material.AIR)) {
+				if (player.getInventory().getItemInMainHand() == null || player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 					player.sendMessage(ChatColor.RED + "You have to take the item the trader sells in your hand!");
 					return;
 				}
-				if (trader.delRecipe(player.getItemInHand()))
+				if (trader.delRecipe(player.getInventory().getItemInMainHand()))
 					player.sendMessage(ChatColor.GOLD + "Deleted this recipe!");
 				else
 					player.sendMessage(ChatColor.GOLD

@@ -20,7 +20,7 @@ public class Guard extends GNPC {
 
 	public Guard(String name, Location loc, int id, String eq) {
 		super(name, loc, id);
-		this.setIsLooking(false);
+		this.setIsLooking(true);
 		this.setAttackMonster(true);
 		equipment(eq);
 	}
@@ -111,7 +111,7 @@ public class Guard extends GNPC {
 		LivingEntity target = currentTargetEntity;
 		if (target != null) {
 			if (((!(target instanceof Player)) || (target instanceof Player && !((Player) target).isFlying()))) {
-				if (((Player) npc.getBukkitEntity()).getItemInHand().getType().equals(Material.BOW)) {
+				if (((Player) npc.getBukkitEntity()).getInventory().getItemInMainHand().getType().equals(Material.BOW)) {
 					Location loc = target.getEyeLocation();
 					if (loc != null)
 						if (lastShot + 20 < target.getWorld().getTime()
@@ -155,16 +155,16 @@ public class Guard extends GNPC {
 	}
 
 	public void setEquipment(ItemStack stack, ItemStack[] armor) {
-		this.getNpc().getInventory().setItemInHand(stack);
+		this.getNpc().getInventory().setItemInMainHand(stack);
 		this.getNpc().getInventory().setArmorContents(armor);
 		this.getNpc().updateEquipment();
 
 	}
 
 	public String getEquipmentString() {
-		return DataSaver.save(this.getNpc().getInventory().getItemInHand()) + "#" + DataSaver.save(this.getNpc().getInventory().getBoots())
-				+ "#" + DataSaver.save(this.getNpc().getInventory().getLeggings()) + "#"
-				+ DataSaver.save(this.getNpc().getInventory().getChestplate()) + "#"
+		return DataSaver.save(this.getNpc().getInventory().getItemInMainHand()) + "#"
+				+ DataSaver.save(this.getNpc().getInventory().getBoots()) + "#" + DataSaver.save(this.getNpc().getInventory().getLeggings())
+				+ "#" + DataSaver.save(this.getNpc().getInventory().getChestplate()) + "#"
 				+ DataSaver.save(this.getNpc().getInventory().getHelmet()) + "#";
 
 	}
@@ -179,4 +179,5 @@ public class Guard extends GNPC {
 	public void moveTo(Location loc) {
 		getNpc().moveTo(loc);
 	}
+
 }

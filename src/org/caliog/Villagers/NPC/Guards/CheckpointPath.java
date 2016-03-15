@@ -135,7 +135,7 @@ public class CheckpointPath {
 
 							if (!stopSleeping) {
 								sleepRound++;
-
+								abstractNPC.setRunning(false);
 								if (sleepRound * ((sleep / 20F)) >= delay)
 									stopSleeping = true;
 
@@ -149,6 +149,7 @@ public class CheckpointPath {
 									currentCP = 0;
 
 								abstractNPC.walkTo(checkpoints[currentCP], 13000);
+								abstractNPC.setRunning(true);
 							}
 
 						} else {
@@ -161,6 +162,7 @@ public class CheckpointPath {
 				else if (!run) {
 					abstractNPC.moveTo(checkpoints[0]);
 					Bukkit.getScheduler().cancelTask(taskID);
+					abstractNPC.setRunning(false);
 				}
 			}
 

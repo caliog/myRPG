@@ -155,7 +155,7 @@ public class Weapon extends CustomItemInstance {
 	public void raiseLevel(final Player p) {
 		if (this.level < 9) {
 			this.level += 1;
-			p.setItemInHand(new Weapon(getType(), getName(), this.level, 0, isTradeable(), this.config));
+			p.getInventory().setItemInMainHand(new Weapon(getType(), getName(), this.level, 0, isTradeable(), this.config));
 		}
 	}
 
@@ -186,6 +186,6 @@ public class Weapon extends CustomItemInstance {
 		}
 		meta.setLore(lore);
 		this.setItemMeta(meta);
-		player.setItemInHand(this);
+		player.getInventory().setItemInMainHand(this);
 	}
 }
