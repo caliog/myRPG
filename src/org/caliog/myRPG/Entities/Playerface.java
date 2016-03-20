@@ -109,6 +109,7 @@ public class Playerface {
 				return false;
 		if (p.getInventory().firstEmpty() != -1) {
 			p.getInventory().addItem(s);
+			p.updateInventory();
 			return true;
 		} else {
 			dropItem(p, p.getLocation(), Arrays.asList(s));
