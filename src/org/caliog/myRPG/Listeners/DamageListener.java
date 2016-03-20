@@ -55,11 +55,13 @@ public class DamageListener implements Listener {
 	private HashMap<Integer, Integer> entityTasks = new HashMap<Integer, Integer>();
 	private HashMap<UUID, UUID> damaged = new HashMap<UUID, UUID>();
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onDamage(EntityDamageEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
 		if (!(event.getEntity() instanceof Player) && !VolatileEntities.isRegistered(event.getEntity().getUniqueId()))
+			return;
+		if (event.isCancelled())
 			return;
 		if (((event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) || (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE))
 				|| (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK))) && ((event.getEntity() instanceof Player))) {
@@ -82,7 +84,7 @@ public class DamageListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onDamageByPlayer(EntityDamageByEntityEvent event) {
 		if (myConfig.isWorldDisabled(event.getEntity().getWorld()))
 			return;
