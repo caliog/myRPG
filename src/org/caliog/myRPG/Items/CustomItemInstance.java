@@ -21,6 +21,8 @@ public class CustomItemInstance extends CustomItem {
 	public List<ItemEffect> getEffects() {
 		ConfigurationSection sec = config.getConfigurationSection("item-effects");
 		this.effects.clear();
+		if (sec == null)
+			return effects;
 		for (ItemEffectType type : ItemEffectType.values()) {
 			if (sec.isInt(type.name())) {
 				this.effects.add(new ItemEffect(type, sec.getInt(type.name())));
