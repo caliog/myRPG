@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.Quests.QManager;
@@ -50,7 +51,7 @@ public abstract class myPlayer extends Fighter {
 	public double getDefense() {
 		int defense = Math.round((float) (getMaximumHealth() / 4.0D));
 		for (ItemStack s : getPlayer().getInventory().getArmorContents()) {
-			if (Armor.isArmor(s)) {
+			if (Armor.isArmor(s) && (!s.getType().equals(Material.SHIELD) || this.getPlayer().isBlocking())) {
 				Armor armor = Armor.getInstance(s);
 				defense += armor.getDefense();
 			}
