@@ -2,10 +2,11 @@ package org.caliog.myRPG.Spells;
 
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Entities.myPlayer;
 import org.caliog.myRPG.Messages.Msg;
 
 public abstract class Spell {
-	private final myClass player;
+	private final myPlayer player;
 	private boolean active = false;
 	private String name;
 
@@ -31,8 +32,7 @@ public abstract class Spell {
 	/**
 	 * This is an optional method to use in the execute override.<br>
 	 * It will tell the plugin that the spell is still active,<br>
-	 * while it is active {@link getDamage()},{@link getDefense()} will be added
-	 * to player's damage,defense.<br>
+	 * while it is active {@link getDamage()},{@link getDefense()} will be added to player's damage,defense.<br>
 	 * 
 	 * @param time
 	 *            The time (in ticks = 20 * seconds) the spell will be active
@@ -88,7 +88,7 @@ public abstract class Spell {
 		return true;
 	}
 
-	public myClass getPlayer() {
+	public myPlayer getPlayer() {
 		return this.player;
 	}
 
