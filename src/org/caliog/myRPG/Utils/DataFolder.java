@@ -16,6 +16,7 @@ import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Resource.FileCreator;
 
 public class DataFolder {
+
 	public static void backup() throws IOException {
 		int max = myConfig.getMaxBackups();
 		File dir = new File(FilePath.backup);
@@ -23,7 +24,13 @@ public class DataFolder {
 		File delete = null;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HHmmss");
 		Date date = new Date();
+		int counter = dir.listFiles().length + 1;
 		while (dir.listFiles().length >= max) {
+			counter--;
+			if (counter <= 0) {
+				Manager.plugin.getLogger().warning("Could not delete oldest backup folder!");
+				break;
+			}
 			for (File f : dir.listFiles())
 				if (f.lastModified() < a) {
 					a = f.lastModified();
