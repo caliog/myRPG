@@ -161,6 +161,14 @@ public class myListener implements Listener {
 
 		} else {
 			event.setCancelled(true);
+			Manager.scheduleTask(new Runnable() {
+
+				@Override
+				public void run() {
+					event.getPlayer().updateInventory();
+
+				}
+			});
 			return;
 		}
 	}
@@ -306,7 +314,8 @@ public class myListener implements Listener {
 	 * instanceof Player)) || (PlayerManager.getPlayer(event.getEntity().getUniqueId()) == null)) { return; } final Player player = (Player) event.getEntity();
 	 * ItemStack stack = event.getBow(); myClass clazz = PlayerManager.getPlayer(player.getUniqueId()); if (clazz == null) { return; } if
 	 * (Weapon.isWeapon(clazz, stack)) { Weapon weapon = Weapon.getInstance(clazz, stack); if (weapon.getType().equals(Material.BOW)) { final short d = (short)
-	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public void run() { player.getInventory().getItemInMainHand().setDurability(d); } }); } } }
+	 * (stack.getDurability()); Manager.scheduleTask(new Runnable() { public void run() { player.getInventory().getItemInMainHand().setDurability(d); } }); } }
+	 * }
 	 */
 
 	@EventHandler(priority = EventPriority.NORMAL)
