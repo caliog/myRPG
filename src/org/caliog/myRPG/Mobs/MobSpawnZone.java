@@ -75,10 +75,9 @@ public class MobSpawnZone {
 		int x = this.radius - (int) (Math.random() * this.radius * 2.0D);
 		int z = this.radius - (int) (Math.random() * this.radius * 2.0D);
 		long d = x * x + z * z;
-		while (d >= this.radius * this.radius) {
-			x = this.radius - (int) (Math.random() * this.radius * 2.0D);
-			z = this.radius - (int) (Math.random() * this.radius * 2.0D);
-			d = x * x + z * z;
+		if (d >= radius * radius) {
+			x *= radius / (2 * d);
+			z *= radius / (2 * d);
 		}
 		Location l1 = new Location(Bukkit.getWorld(this.world), this.m.getX() + x, this.m.getY(), this.m.getZ() + z);
 		int p = l1.getBlock().getType().equals(Material.AIR) ? -1 : 1;
