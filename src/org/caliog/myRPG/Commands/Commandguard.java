@@ -109,8 +109,9 @@ public class Commandguard extends Commands {
 					return;
 				}
 				ItemStack hand = player.getInventory().getItemInMainHand();
+				ItemStack shield = player.getInventory().getItemInOffHand();
 				ItemStack armor[] = player.getInventory().getArmorContents();
-				g.setEquipment(hand, armor);
+				g.setEquipment(hand, shield, armor);
 				player.sendMessage(ChatColor.GOLD + "Changed guard's equipment!");
 
 			}

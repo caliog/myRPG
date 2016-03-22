@@ -50,7 +50,11 @@ public abstract class myPlayer extends Fighter {
 
 	public double getDefense() {
 		int defense = Math.round((float) (getMaximumHealth() / 4.0D));
-		for (ItemStack s : getPlayer().getInventory().getArmorContents()) {
+		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
+		for (ItemStack stack : player.getInventory().getArmorContents())
+			list.add(stack);
+		list.add(player.getInventory().getItemInOffHand());
+		for (ItemStack s : list) {
 			if (Armor.isArmor(s) && (!s.getType().equals(Material.SHIELD) || this.getPlayer().isBlocking())) {
 				Armor armor = Armor.getInstance(s);
 				defense += armor.getDefense();

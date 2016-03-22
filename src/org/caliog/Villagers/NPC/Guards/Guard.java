@@ -29,12 +29,12 @@ public class Guard extends GNPC {
 		if (eq == null)
 			return;
 		String split[] = eq.split("#");
-		if (split.length != 5)
+		if (split.length != 6)
 			return;
 		ItemStack stack[] = new ItemStack[4];
-		for (int i = 1; i < 5; i++)
-			stack[i - 1] = DataSaver.getItem(split[i]);
-		this.setEquipment(DataSaver.getItem(split[0]), stack);
+		for (int i = 2; i < 6; i++)
+			stack[i - 2] = DataSaver.getItem(split[i]);
+		this.setEquipment(DataSaver.getItem(split[0]), DataSaver.getItem(split[1]), stack);
 
 	}
 
@@ -151,11 +151,12 @@ public class Guard extends GNPC {
 
 	@Override
 	public int getRadius() {
-		return 8;
+		return 30;
 	}
 
-	public void setEquipment(ItemStack stack, ItemStack[] armor) {
+	public void setEquipment(ItemStack stack, ItemStack shield, ItemStack[] armor) {
 		this.getNpc().getInventory().setItemInMainHand(stack);
+		this.getNpc().getInventory().setItemInOffHand(shield);
 		this.getNpc().getInventory().setArmorContents(armor);
 		this.getNpc().updateEquipment();
 
@@ -163,6 +164,7 @@ public class Guard extends GNPC {
 
 	public String getEquipmentString() {
 		return DataSaver.save(this.getNpc().getInventory().getItemInMainHand()) + "#"
+				+ DataSaver.save(this.getNpc().getInventory().getItemInOffHand()) + "#"
 				+ DataSaver.save(this.getNpc().getInventory().getBoots()) + "#" + DataSaver.save(this.getNpc().getInventory().getLeggings())
 				+ "#" + DataSaver.save(this.getNpc().getInventory().getChestplate()) + "#"
 				+ DataSaver.save(this.getNpc().getInventory().getHelmet()) + "#";
@@ -179,5 +181,4 @@ public class Guard extends GNPC {
 	public void moveTo(Location loc) {
 		getNpc().moveTo(loc);
 	}
-
 }
