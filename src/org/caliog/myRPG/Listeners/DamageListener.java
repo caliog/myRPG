@@ -79,7 +79,10 @@ public class DamageListener implements Listener {
 		}
 		myClass player = PlayerManager.getPlayer(event.getEntity().getUniqueId());
 		if ((player != null) && (!(event instanceof EntityDamageByEntityEvent))) {
-			player.damage(event.getDamage());
+			if (player.damage(event.getDamage())) {
+				Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((Player) event.getEntity(), new ArrayList<ItemStack>(), 0, ""));
+				player.getPlayer().setFireTicks(0);
+			}
 			event.setDamage(0.0D);
 		}
 	}
