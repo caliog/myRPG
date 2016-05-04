@@ -54,6 +54,7 @@ import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.EntityUtils;
 import org.caliog.myRPG.Utils.GroupManager;
 import org.caliog.myRPG.Utils.ParticleEffect;
+import org.caliog.myRPG.Utils.PlayerList;
 import org.caliog.myRPG.Utils.SkillInventoryView;
 import org.caliog.myRPG.Utils.Utils;
 import org.caliog.myRPG.Utils.Vector;
@@ -199,7 +200,7 @@ public class myListener implements Listener {
 			event.getPlayer().setLevel(1);
 		}
 		player.getPlayer().setSaturation(2.0F);
-		// respawn(player.getPlayer());
+		PlayerList.refreshList();
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)

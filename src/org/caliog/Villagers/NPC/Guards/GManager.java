@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.caliog.Villagers.Utils.LocationUtil;
 import org.caliog.myRPG.Utils.FilePath;
+import org.caliog.myRPG.Utils.PlayerList;
 import org.caliog.npclib.NPCManager;
 
 public class GManager {
@@ -109,6 +110,7 @@ public class GManager {
 
 		Guard g = new Guard(name, loc, id, null);
 		guards.add(g);
+		PlayerList.refreshList();
 	}
 
 	public static List<Guard> getGuards() {
