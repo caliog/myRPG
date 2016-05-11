@@ -13,6 +13,8 @@ comment4b: '#Chat format: %PLAYER%, %MESSAGE%, %GROUP%, %CLASS%, %LEVEL%#'
 comment4c: '#Leave it blank or set to none if you dont want to use it#'
 chat-format: '&9[&9%CLASS%&9]&8[&2%PLAYER% &6%LEVEL%&8]&f: %MESSAGE%'
 comment5a: '#Instead of droping items, chests will spawn on death#'
+comment5b: '#Decide if a player loses his inventory on death or not#'
+keep-inventory: true
 enable-loot-chest: true
 comment5: '#The time after droped items/chests will be removed (in seconds)#'
 remove-item-delay: 120

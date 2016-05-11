@@ -185,8 +185,8 @@ public class myListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void playerJoin(PlayerJoinEvent event) {
+	@EventHandler(priority = EventPriority.HIGH)
+	public void playerJoin(final PlayerJoinEvent event) {
 		if (!PlayerManager.login(event.getPlayer())) {
 			PlayerManager.register(event.getPlayer(), myConfig.getDefaultClass());
 		}
@@ -200,7 +200,14 @@ public class myListener implements Listener {
 			event.getPlayer().setLevel(1);
 		}
 		player.getPlayer().setSaturation(2.0F);
-		PlayerList.refreshList();
+		Manager.scheduleTask(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerList.refreshList(event.getPlayer());
+			}
+		}, 20L);
+
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)

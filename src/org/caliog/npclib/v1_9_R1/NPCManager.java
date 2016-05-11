@@ -19,6 +19,7 @@ import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -76,15 +77,17 @@ public class NPCManager extends org.caliog.npclib.NPCManager {
 			}
 		}
 
-		@EventHandler
+		@EventHandler(priority = EventPriority.LOW)
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			Player p = event.getPlayer();
 			if (p == null)
 				return;
+
 			for (NPC npc : npcs.values()) {
 				sendPacketsTo(p, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
 						new EntityPlayer[] { (EntityPlayer) npc.getEntity() }));
 			}
+
 		}
 	}
 
@@ -137,7 +140,7 @@ public class NPCManager extends org.caliog.npclib.NPCManager {
 		}
 	}
 
-	private void sendPacketsTo(Player player, Packet<?>... packet) {
+	public void sendPacketsTo(Player player, Packet<?>... packet) {
 		ArrayList<Player> it = new ArrayList<Player>();
 		it.add(player);
 		sendPacketsTo(it, packet);
