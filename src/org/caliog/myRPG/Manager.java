@@ -28,6 +28,7 @@ import org.caliog.myRPG.Utils.ChestHelper;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 import org.caliog.myRPG.Utils.GroupManager;
+import org.caliog.myRPG.Utils.PlayerList;
 import org.caliog.npclib.NMS;
 import org.caliog.npclib.NPCManager;
 
@@ -108,6 +109,7 @@ public class Manager {
 			VolatileEntities.load();
 
 			PlayerManager.load();
+			PlayerList.refreshList();
 
 			DataSaver.clean();// this has to be the last thing to do
 		} catch (Exception e) {

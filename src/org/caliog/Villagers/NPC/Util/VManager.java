@@ -223,14 +223,15 @@ public class VManager {
 		searchQuests();
 	}
 
-	public static synchronized void load(Chunk chunk) {
+	public static synchronized void load(final Chunk chunk) {
 		List<Villager> list = villagers;
 		for (final Villager v : list) {
-			if (v.getLocation().getChunk().equals(chunk)) {
+			if (v.getEntityLocation().getChunk().getX() == chunk.getX() && v.getEntityLocation().getChunk().getZ() == chunk.getZ()) {
 				Manager.scheduleTask(new Runnable() {
 
 					@Override
 					public void run() {
+						System.out.println("Respawn Villager in chunk(" + chunk.getX() + "," + chunk.getZ() + ")");
 						Villager villager = null;
 						if (v.getType().equals(VillagerType.TRADER)) {
 							villager = spawnTrader(v.getLocation(), v.getName(), ((Trader) v).getRecipe());

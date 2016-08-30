@@ -6,8 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.caliog.Villagers.NPC.Guards.CPMoveable;
-import org.caliog.Villagers.nms.NMS;
-import org.caliog.Villagers.nms.NMSUtil;
 import org.caliog.myRPG.Manager;
 
 public class VillagerNPC extends CPMoveable {
@@ -66,6 +64,12 @@ public class VillagerNPC extends CPMoveable {
 			profession = Profession.PRIEST;
 			break;
 		case PRIEST:
+			profession = Profession.HUSK;
+			break;
+		case HUSK:
+			profession = Profession.NORMAL;
+			break;
+		case NORMAL:
 			profession = Profession.BLACKSMITH;
 			break;
 		}
@@ -83,9 +87,7 @@ public class VillagerNPC extends CPMoveable {
 	}
 
 	protected void init() {
-		NMSUtil util = NMS.getUtil();
-		if (util != null)
-			util.initVillager(this);
+		NMSMethods.initVillager(this);
 	}
 
 	public void despawn() {

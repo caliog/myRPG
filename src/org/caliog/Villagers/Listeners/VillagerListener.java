@@ -125,7 +125,6 @@ public class VillagerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void chunkLoad(ChunkLoadEvent event) {
 		VManager.load(event.getChunk());
-
 	}
 
 	/*

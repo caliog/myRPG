@@ -13,8 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.Entities.Fighter;
 import org.caliog.myRPG.Entities.VolatileEntities;
-import org.caliog.myRPG.Mobs.nms.NMS;
-import org.caliog.myRPG.Mobs.nms.NMSUtil;
 import org.caliog.myRPG.Utils.ParticleEffect;
 import org.caliog.myRPG.Utils.Vector;
 
@@ -139,9 +137,8 @@ public abstract class Mob extends Fighter {
 				attack = null;
 			}
 		}, 60L);
-		NMSUtil util = NMS.getUtil();
-		if (util != null)
-			util.setTarget(e, target);
+
+		NMSMethods.setTarget(e, target);
 
 	}
 

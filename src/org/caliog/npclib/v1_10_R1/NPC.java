@@ -1,4 +1,4 @@
-package org.caliog.npclib.v1_9_R1;
+package org.caliog.npclib.v1_10_R1;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -10,16 +10,16 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.EnumItemSlot;
-import net.minecraft.server.v1_9_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_9_R1.PacketPlayOutEntityEquipment;
-import net.minecraft.server.v1_9_R1.WorldServer;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EnumItemSlot;
+import net.minecraft.server.v1_10_R1.PacketPlayOutAnimation;
+import net.minecraft.server.v1_10_R1.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_10_R1.WorldServer;
 
 public class NPC extends org.caliog.npclib.NPC {
-	private HashMap<EnumItemSlot, net.minecraft.server.v1_9_R1.ItemStack> previousEquipment = new HashMap<EnumItemSlot, net.minecraft.server.v1_9_R1.ItemStack>();
+	private HashMap<EnumItemSlot, net.minecraft.server.v1_10_R1.ItemStack> previousEquipment = new HashMap<EnumItemSlot, net.minecraft.server.v1_10_R1.ItemStack>();
 
 	public NPC(NPCEntity npcEntity) {
 		this.bukkitEntity = npcEntity.getBukkitEntity();
@@ -107,10 +107,10 @@ public class NPC extends org.caliog.npclib.NPC {
 	public void updateEquipment() {
 
 		int changes = 0;
-		HashMap<EnumItemSlot, net.minecraft.server.v1_9_R1.ItemStack> newI = new HashMap<EnumItemSlot, net.minecraft.server.v1_9_R1.ItemStack>();
+		HashMap<EnumItemSlot, net.minecraft.server.v1_10_R1.ItemStack> newI = new HashMap<EnumItemSlot, net.minecraft.server.v1_10_R1.ItemStack>();
 		for (EnumItemSlot i : EnumItemSlot.values()) {
-			net.minecraft.server.v1_9_R1.ItemStack previous = previousEquipment.get(i);
-			net.minecraft.server.v1_9_R1.ItemStack current = ((EntityPlayer) getEntity()).getEquipment(i);
+			net.minecraft.server.v1_10_R1.ItemStack previous = previousEquipment.get(i);
+			net.minecraft.server.v1_10_R1.ItemStack current = ((EntityPlayer) getEntity()).getEquipment(i);
 			newI.put(i, current);
 			if (current == null) {
 				if (previous != null) {
@@ -119,7 +119,7 @@ public class NPC extends org.caliog.npclib.NPC {
 					++changes;
 				}
 			} else {
-				if (!net.minecraft.server.v1_9_R1.ItemStack.equals(previous, current) || (previous != null && !previous.equals(current))) {
+				if (!net.minecraft.server.v1_10_R1.ItemStack.equals(previous, current) || (previous != null && !previous.equals(current))) {
 					NPCUtils.sendPacketNearby(getBukkitEntity().getLocation(),
 							new PacketPlayOutEntityEquipment(getEntity().getId(), i, current));
 					++changes;

@@ -11,11 +11,7 @@ import org.caliog.myRPG.Manager;
 
 public class BottomBar {
 	public static void display(Player player, String msg) {
-		NMSUtil util = NMS.getUtil();
-		if (util == null) {
-			return;
-		}
-		util.sendHotBar(player, ChatColor.translateAlternateColorCodes('&', msg));
+		NMSMethods.sendHotBar(player, ChatColor.translateAlternateColorCodes('&', msg));
 	}
 
 	public static void display(Player player, String msg, int speed) {
@@ -43,7 +39,7 @@ public class BottomBar {
 					this.message = msg.substring(0, this.counter);
 				}
 				String lc = this.message.substring(this.message.length() - 1);
-				while ((lc.equals(" ")) || (lc.equals("§"))) {
+				while ((lc.equals(" ")) || (lc.equals("ï¿½"))) {
 					this.counter += 1;
 					if (this.counter <= msg.length()) {
 						this.message = msg.substring(0, this.counter);

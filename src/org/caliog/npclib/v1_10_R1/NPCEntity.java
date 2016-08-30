@@ -1,17 +1,17 @@
-package org.caliog.npclib.v1_9_R1;
+package org.caliog.npclib.v1_10_R1;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.caliog.npclib.NpcEntityTargetEvent;
 
 import com.mojang.authlib.GameProfile;
 
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityHuman;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
-import net.minecraft.server.v1_9_R1.PlayerInteractManager;
-import net.minecraft.server.v1_9_R1.WorldSettings.EnumGamemode;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EnumGamemode;
+import net.minecraft.server.v1_10_R1.PlayerInteractManager;
 
 public class NPCEntity extends EntityPlayer {
 

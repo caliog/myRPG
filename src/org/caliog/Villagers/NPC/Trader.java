@@ -7,8 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.NPC.Util.Recipe;
-import org.caliog.Villagers.nms.NMS;
-import org.caliog.Villagers.nms.NMSUtil;
 
 public class Trader extends Villager {
 
@@ -20,10 +18,7 @@ public class Trader extends Villager {
 	}
 
 	public boolean openInventory(Player player) {
-		NMSUtil util = NMS.getUtil();
-		if (util != null)
-			return util.openInventory(this, player);
-		return false;
+		return NMSMethods.openInventory(this, player);
 	}
 
 	public void addRecipe(ItemStack s1, ItemStack s2, ItemStack s3) {

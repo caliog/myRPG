@@ -10,16 +10,13 @@ import org.caliog.myRPG.Utils.Utils;
 
 public class CenterBar {
 	public static void display(Player player, String title, String subtitle, int time, boolean t) {
-		NMSUtil util = NMS.getUtil();
 		if (title != null) {
 			title = ChatColor.translateAlternateColorCodes('&', title);
 		}
 		if (subtitle != null) {
 			subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
 		}
-		if (util != null) {
-			util.sendBar(player, title, subtitle, t ? 15 : 0, time, t ? 15 : 0);
-		}
+		NMSMethods.sendBar(player, title, subtitle, t ? 15 : 0, time, t ? 15 : 0);
 	}
 
 	public static void display(Player player, String title, int time) {

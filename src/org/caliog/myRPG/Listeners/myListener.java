@@ -32,6 +32,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -482,5 +483,18 @@ public class myListener implements Listener {
 			level = "";
 		String format = cf.replace("%CLASS%", clazz).replace("%GROUP%", group).replace("%LEVEL%", level);
 		event.setFormat(ChatColor.translateAlternateColorCodes('&', format));
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onTeleport(final PlayerTeleportEvent event) {
+		PlayerList.restoreList(event.getPlayer());
+		Manager.scheduleTask(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerList.refreshList(event.getPlayer());
+			}
+		}, 20L);
+
 	}
 }
