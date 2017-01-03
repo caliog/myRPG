@@ -10,21 +10,28 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.myRPG.Manager;
 
 public class GuardWatcher {
 
 	public static void run() {
-		List<Guard> guards = GManager.getGuards();
-		if (guards != null)
-			for (Guard npc : guards) {
-				((Player) npc.getNpc().getBukkitEntity()).setFireTicks(0);
-				checkForLava(npc.getEntityLocation().getBlock(), false);
-				if (npc != null) {
-					findAttacks(npc);
-					findPlayer(npc);
-				}
+		Manager.scheduleTask(new Runnable() {
 
+			@Override
+			public void run() {
+				List<Guard> guards = GManager.getGuards();
+				if (guards != null)
+					for (Guard npc : guards) {
+						((Player) npc.getNpc().getBukkitEntity()).setFireTicks(0);
+						checkForLava(npc.getEntityLocation().getBlock(), false);
+						if (npc != null) {
+							findAttacks(npc);
+							findPlayer(npc);
+						}
+
+					}
 			}
+		});
 
 	}
 

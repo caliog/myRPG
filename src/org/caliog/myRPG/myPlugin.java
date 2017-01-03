@@ -71,7 +71,7 @@ public class myPlugin extends JavaPlugin {
 	}
 
 	private void initSupportedVersions() {
-		supportedVersions.add("v1_10_R1");
+		supportedVersions.add("v1_11_R1");
 	}
 
 	public void onDisable() {

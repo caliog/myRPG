@@ -1,17 +1,18 @@
-package org.caliog.npclib.v1_10_R1;
+package org.caliog.npclib.v1_11_R1;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.caliog.npclib.NpcEntityTargetEvent;
 
 import com.mojang.authlib.GameProfile;
 
-import net.minecraft.server.v1_10_R1.Entity;
-import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.EntityPlayer;
-import net.minecraft.server.v1_10_R1.EnumGamemode;
-import net.minecraft.server.v1_10_R1.PlayerInteractManager;
+import net.minecraft.server.v1_11_R1.Entity;
+import net.minecraft.server.v1_11_R1.EntityHuman;
+import net.minecraft.server.v1_11_R1.EntityPlayer;
+import net.minecraft.server.v1_11_R1.EnumGamemode;
+import net.minecraft.server.v1_11_R1.EnumMoveType;
+import net.minecraft.server.v1_11_R1.PlayerInteractManager;
 
 public class NPCEntity extends EntityPlayer {
 
@@ -77,7 +78,7 @@ public class NPCEntity extends EntityPlayer {
 	}
 
 	@Override
-	public void move(double arg0, double arg1, double arg2) {
+	public void move(EnumMoveType type, double arg0, double arg1, double arg2) {
 		setPosition(arg0, arg1, arg2);
 	}
 

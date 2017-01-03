@@ -51,6 +51,7 @@ public class Pet extends MobInstance {
 			player.getPets().remove(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static Pet spawnPet(String name, String customName, final Location loc) {
 		Entity entity = null;
 		Pet mob = null;

@@ -40,6 +40,7 @@ public class ClazzLoader {
 
 				}
 			}
+			@SuppressWarnings("deprecation")
 			double maxHealth = ((Damageable) player).getMaxHealth();
 			clazz.getPlayer().setHealth(maxHealth);
 			return clazz;

@@ -32,6 +32,7 @@ public abstract class Mob extends Fighter {
 		this.spawnZone = m;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static LivingEntity spawnEntity(String name, final Location loc, Vector m) {
 		Entity entity = null;
 		Mob mob = null;

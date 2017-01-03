@@ -1,9 +1,8 @@
-package org.caliog.npclib.v1_10_R1;
+package org.caliog.npclib.v1_11_R1;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.caliog.myRPG.Manager;
 import org.caliog.npclib.Moveable;
@@ -11,13 +10,15 @@ import org.caliog.npclib.NMSUtil;
 import org.caliog.npclib.NPCManager;
 import org.caliog.npclib.Node;
 
-import net.minecraft.server.v1_10_R1.AxisAlignedBB;
-import net.minecraft.server.v1_10_R1.BlockPosition;
-import net.minecraft.server.v1_10_R1.EntityLiving;
+import net.minecraft.server.v1_11_R1.AxisAlignedBB;
+import net.minecraft.server.v1_11_R1.Block;
+import net.minecraft.server.v1_11_R1.BlockPosition;
+import net.minecraft.server.v1_11_R1.EntityLiving;
+import net.minecraft.server.v1_11_R1.IBlockAccess;
 
 public class Util implements NMSUtil {
 
-	public static net.minecraft.server.v1_10_R1.Entity getHandle(Entity e) {
+	public static net.minecraft.server.v1_11_R1.Entity getHandle(Entity e) {
 		return ((CraftEntity) e).getHandle();
 	}
 
@@ -27,10 +28,10 @@ public class Util implements NMSUtil {
 		while (yaw >= 180)
 			yaw -= 360;
 
-		net.minecraft.server.v1_10_R1.Entity e = getHandle(entity);
+		net.minecraft.server.v1_11_R1.Entity e = getHandle(entity);
 		e.yaw = yaw;
 		EntityLiving ee = (EntityLiving) e;
-		ee.aQ = yaw;
+		ee.aP = yaw;
 	}
 
 	public void pathStep(Moveable a) {
@@ -64,19 +65,23 @@ public class Util implements NMSUtil {
 
 	@Override
 	public NPCManager getNPCManager() {
-		return new org.caliog.npclib.v1_10_R1.NPCManager(Manager.plugin);
+		return new org.caliog.npclib.v1_11_R1.NPCManager(Manager.plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void nodeUpdate(Node node) {
 
 		node.setNotSolid(true);
 		if (node.b.getType() != Material.AIR) {
 
-			@SuppressWarnings("deprecation")
-			final AxisAlignedBB box = net.minecraft.server.v1_10_R1.Block.getById(node.b.getTypeId()).a(
-					net.minecraft.server.v1_10_R1.Block.getByCombinedId(node.b.getTypeId()), ((CraftWorld) node.b.getWorld()).getHandle(),
+			Block block = Block.getById(node.b.getTypeId());
+			IBlockAccess access = null;
+			final AxisAlignedBB box = block.a(Block.getByCombinedId(node.b.getTypeId()), access,
 					new BlockPosition(node.b.getX(), node.b.getY(), node.b.getZ()));
+			// final AxisAlignedBB box = net.minecraft.server.v1_11_R1.Block.getById(node.b.getTypeId()).a(
+			// net.minecraft.server.v1_11_R1.Block.getByCombinedId(node.b.getTypeId()), ((CraftWorld) node.b.getWorld()).getHandle(),
+			// new BlockPosition(node.b.getX(), node.b.getY(), node.b.getZ()));
 			if (box != null) {
 				if (Math.abs(box.e - box.b) > 0.2) {
 					node.setNotSolid(false);

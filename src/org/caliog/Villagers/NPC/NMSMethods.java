@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.NPC.Util.Recipe;
@@ -58,10 +59,10 @@ public class NMSMethods {
 		try {
 			Class<?> entityVillager = NMS.getNMSClass("EntityVillager");
 			Class<?> world = NMS.getNMSClass("World");
-			Class<?> craftPlayer = NMS.getNMSClass("CraftPlayer");
+			Class<?> craftPlayer = NMS.getCraftbukkitNMSClass("entity.CraftPlayer");
 			Class<?> entityPlayer = NMS.getNMSClass("EntityPlayer");
+			Class<?> entityHuman = NMS.getNMSClass("EntityHuman");
 			Class<?> merchantRecipeList = NMS.getNMSClass("MerchantRecipeList");
-			Class<?> merchantRecipe = NMS.getNMSClass("MerchantRecipe");
 			Class<?> imerchant = NMS.getNMSClass("IMerchant");
 			Class<?> statistic = NMS.getNMSClass("Statistic");
 			Class<?> statisticList = NMS.getNMSClass("StatisticList");
@@ -85,11 +86,15 @@ public class NMSMethods {
 				recipeListField.set(villager, recipeList);
 			}
 			merchantRecipeList.getMethod("clear").invoke(recipeList);
+
 			for (org.bukkit.inventory.ItemStack[] rec : recipe.getRecipe()) {
-				merchantRecipeList.getMethod("add", merchantRecipe).invoke(recipeList, createRecipe(rec[0], rec[1], rec[2]));
+				if (rec[2] == null || rec[2].getType().equals(Material.AIR))
+					continue;
+				merchantRecipeList.getMethod("add", Object.class).invoke(recipeList, createRecipe(rec[0], rec[1], rec[2]));
 			}
-			entityVillager.getMethod("setTradingPlayer", entityPlayer).invoke(villager, handle);
-			entityPlayer.getMethod("openTrape", imerchant).invoke(handle, villager);
+			recipeListField.set(villager, recipeList);
+			entityVillager.getMethod("setTradingPlayer", entityHuman).invoke(villager, handle);
+			entityPlayer.getMethod("openTrade", imerchant).invoke(handle, villager);
 
 			// TODO method name "b" and field name "F" are variable
 			entityPlayer.getMethod("b", statistic).invoke(handle, statisticList.getField("F").get(null));
@@ -105,6 +110,8 @@ public class NMSMethods {
 	private static Object createRecipe(ItemStack item1, ItemStack item2, ItemStack item3) {
 		Object recipe = null;
 		Field maxUsesField;
+		if (item2 == null)
+			item2 = new ItemStack(Material.AIR);
 		try {
 			Class<?> merchantRecipe = NMS.getNMSClass("MerchantRecipe");
 			Class<?> itemStack = NMS.getNMSClass("ItemStack");
@@ -123,8 +130,8 @@ public class NMSMethods {
 	private static Object getHandle(ItemStack item) throws Exception {
 		if (item == null)
 			return null;
-		Class<?> craftItemStack = NMS.getNMSClass("CraftItemStack");
-		return craftItemStack.getMethod("asNMSCopy", item.getClass()).invoke(null, item);
+		Class<?> craftItemStack = NMS.getCraftbukkitNMSClass("inventory.CraftItemStack");
+		return craftItemStack.getMethod("asNMSCopy", org.bukkit.inventory.ItemStack.class).invoke(null, item);
 	}
 
 }

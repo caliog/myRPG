@@ -1,11 +1,18 @@
 package org.caliog.myRPG.Lib.Barkeeper.CenterBar;
 
 import org.bukkit.entity.Player;
+import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.NMS.NMS;
 
 public class NMSMethods {
 
-	// TODO method name "b" is variable
+	public static String getNMSMethodChar() {
+		if (Manager.plugin.getVersion().equals("v1_10_R1"))
+			return "b";
+		else
+			return "b";
+	}
+
 	public static void sendBar(Player player, String title, String subtitle, int fadein, int active, int fadeout) {
 		try {
 			Class<?> iChatBaseComponent = NMS.getNMSClass("IChatBaseComponent");
@@ -13,13 +20,13 @@ public class NMSMethods {
 			Class<?> packetPlayOutTitle = NMS.getNMSClass("PacketPlayOutTitle");
 			Class<?> enumTitleAction = NMS.getNMSClass("PacketPlayOutTitle$EnumTitleAction");
 			if (title != null) {
-				Object bc = chatSerializer.getMethod("b", String.class).invoke(null, "{\"text\":\"" + title + "\"}");
+				Object bc = chatSerializer.getMethod(getNMSMethodChar(), String.class).invoke(null, "{\"text\":\"" + title + "\"}");
 				Object packet = packetPlayOutTitle.getConstructor(enumTitleAction, iChatBaseComponent, int.class, int.class, int.class)
 						.newInstance(enumTitleAction.getField("TITLE").get(null), bc, fadein, active, fadeout);
 				NMS.sendPacket(player, packet);
 			}
 			if (subtitle != null) {
-				Object bc = chatSerializer.getMethod("b", String.class).invoke(null, "{\"text\":\"" + subtitle + "\"}");
+				Object bc = chatSerializer.getMethod(getNMSMethodChar(), String.class).invoke(null, "{\"text\":\"" + subtitle + "\"}");
 				Object packet = packetPlayOutTitle.getConstructor(enumTitleAction, iChatBaseComponent, int.class, int.class, int.class)
 						.newInstance(enumTitleAction.getField("SUBTITLE").get(null), bc, fadein, active, fadeout);
 				NMS.sendPacket(player, packet);

@@ -72,6 +72,8 @@ public class VillagerNPC extends CPMoveable {
 		case NORMAL:
 			profession = Profession.BLACKSMITH;
 			break;
+		default:
+			break;
 		}
 
 		setProfession(profession);

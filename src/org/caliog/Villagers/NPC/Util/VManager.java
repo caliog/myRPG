@@ -231,7 +231,6 @@ public class VManager {
 
 					@Override
 					public void run() {
-						System.out.println("Respawn Villager in chunk(" + chunk.getX() + "," + chunk.getZ() + ")");
 						Villager villager = null;
 						if (v.getType().equals(VillagerType.TRADER)) {
 							villager = spawnTrader(v.getLocation(), v.getName(), ((Trader) v).getRecipe());

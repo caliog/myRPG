@@ -138,12 +138,11 @@ public class PlayerManager {
 					clazz.addHealth(clazz.getMaxHealth() * 0.08D);
 				}
 				double d = clazz.getHealth() / clazz.getMaxHealth();
+				@SuppressWarnings("deprecation")
 				double maxHealth = ((Damageable) clazz.getPlayer()).getMaxHealth();
 				clazz.getPlayer().setHealth(maxHealth * (d > 1.0D ? 1.0D : d));
 				/*
-				 * if (!GManager.isInGroup(clazz.getPlayer())) {
-				 * clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager()
-				 * .getNewScoreboard()); }
+				 * if (!GManager.isInGroup(clazz.getPlayer())) { clazz.getPlayer().setScoreboard(Bukkit.getScoreboardManager() .getNewScoreboard()); }
 				 */
 			}
 		}

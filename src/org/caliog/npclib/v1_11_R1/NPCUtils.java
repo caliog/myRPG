@@ -1,13 +1,13 @@
-package org.caliog.npclib.v1_10_R1;
+package org.caliog.npclib.v1_11_R1;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.minecraft.server.v1_10_R1.Packet;
+import net.minecraft.server.v1_11_R1.Packet;
 
 public class NPCUtils {
 	public static void sendPacketNearby(Location location, Packet<?> packet) {
