@@ -39,7 +39,7 @@ public class BottomBar {
 					this.message = msg.substring(0, this.counter);
 				}
 				String lc = this.message.substring(this.message.length() - 1);
-				while ((lc.equals(" ")) || (lc.equals("�"))) {
+				while ((lc.equals(" ")) || (lc.equals("§"))) {
 					this.counter += 1;
 					if (this.counter <= msg.length()) {
 						this.message = msg.substring(0, this.counter);

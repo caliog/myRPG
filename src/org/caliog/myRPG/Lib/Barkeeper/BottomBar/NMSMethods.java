@@ -7,8 +7,8 @@ import org.caliog.myRPG.NMS.NMS;
 public class NMSMethods {
 
 	public static String getNMSMethodChar() {
-		if (Manager.plugin.getVersion().equals("v1_10_R1"))
-			return "b";
+		if (Manager.plugin.getVersion().equals("v1_8_R2") || Manager.plugin.getVersion().equals("v1_8_R3"))
+			return "a";
 		else
 			return "b";
 	}
