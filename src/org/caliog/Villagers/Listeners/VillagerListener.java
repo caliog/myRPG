@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.caliog.Villagers.Chat.ChatManager;
@@ -17,10 +18,11 @@ import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
 import org.caliog.Villagers.NPC.Guards.GManager;
 import org.caliog.Villagers.NPC.Guards.Guard;
-import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.Quest;
 import org.caliog.Villagers.Quests.QuestKill;
+import org.caliog.Villagers.Utils.QuestInventory;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
@@ -185,5 +187,23 @@ public class VillagerListener implements Listener {
 			event.setCancelled(true);
 		}
 
+	}
+
+	/*
+	 * @Name: InventoryClick
+	 * 
+	 * @Listen TO: Inventory
+	 * 
+	 * @Cancel: true
+	 * 
+	 * @Category: Quest
+	 * 
+	 */
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void inventoryClick(final InventoryClickEvent event) {
+		if (event.getView() instanceof QuestInventory) {
+			boolean cancel = ((QuestInventory) event.getView()).inventoryClick(event);
+			event.setCancelled(cancel);
+		}
 	}
 }
