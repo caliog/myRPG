@@ -33,7 +33,7 @@ comment11: '#You can set a additional individual amount of time in the mob file#
 mob-spawn-time: 15
 comment11a: '#Disable natural spawn of the usual minecraft mobs in given world#'
 disable-natural-spawn:
-  world: true
+  world: false
   world_nether: false
   world_the_end: false
 comment17: '#Player with mtaching level will be moved into these groups#'
