@@ -180,11 +180,8 @@ public class DamageListener implements Listener {
 				if (mob.damage(damage)) {
 					mob.setKiller(event.getDamager().getUniqueId());
 					((Damageable) event.getEntity()).setHealth(0.0D);
-					EntityDeathEvent ed = new EntityDeathEvent((LivingEntity) event.getEntity(), new ArrayList<ItemStack>());
-					Bukkit.getPluginManager().callEvent(ed);
-					if (damager instanceof Mob) {
-						((Mob) damager).killedAttack();
-					}
+					((Mob) damager).killedAttack();
+
 				}
 				damage = 0;
 			}
@@ -289,8 +286,6 @@ public class DamageListener implements Listener {
 		if (mob.damage(damage)) {
 			mob.setKiller(player.getUniqueId());
 			e.setHealth(0.0D);
-			EntityDeathEvent ed = new EntityDeathEvent(e, new ArrayList<ItemStack>());
-			Bukkit.getPluginManager().callEvent(ed);
 		}
 		event.setDamage(0.0D);
 	}
