@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
-import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;

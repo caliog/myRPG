@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.Chat.CMessage;
 import org.caliog.Villagers.Chat.ChatTask;
 import org.caliog.Villagers.NPC.Villager;
-import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.myClass;
 import org.caliog.myRPG.Items.ItemUtils;

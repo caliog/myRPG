@@ -11,10 +11,10 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.caliog.Villagers.Chat.ChatManager;
 import org.caliog.Villagers.NPC.Guards.GManager;
-import org.caliog.Villagers.NPC.Util.VManager;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.QuestKill;
 import org.caliog.Villagers.Utils.DataSaver;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
@@ -52,7 +52,7 @@ public class Manager {
 				if (Manager.timer % 5L == 0L) {
 					Manager.scheduleTask(MobSpawner.getTask());
 					if (Manager.timer % 20L == 0L) {
-						VManager.doLogics();
+						VManager.doLogics(timer);
 						PetController.controll();
 					}
 

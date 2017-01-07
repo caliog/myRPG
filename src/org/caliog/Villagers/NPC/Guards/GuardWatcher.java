@@ -9,7 +9,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Manager;
 
 public class GuardWatcher {

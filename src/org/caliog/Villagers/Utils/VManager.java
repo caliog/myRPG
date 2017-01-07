@@ -1,4 +1,4 @@
-package org.caliog.Villagers.NPC.Util;
+package org.caliog.Villagers.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,11 +21,11 @@ import org.caliog.Villagers.NPC.Trader;
 import org.caliog.Villagers.NPC.Villager;
 import org.caliog.Villagers.NPC.Villager.VillagerType;
 import org.caliog.Villagers.NPC.Guards.CheckpointPath;
+import org.caliog.Villagers.NPC.Util.Recipe;
 import org.caliog.Villagers.Quests.QManager;
 import org.caliog.Villagers.Quests.Quest;
-import org.caliog.Villagers.Utils.DataSaver;
-import org.caliog.Villagers.Utils.LocationUtil;
 import org.caliog.myRPG.Manager;
+import org.caliog.myRPG.myConfig;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
@@ -219,8 +219,21 @@ public class VManager {
 
 	}
 
-	public static void doLogics() {
+	public static void doLogics(long timer) {
 		searchQuests();
+
+		// Destroy possible bug copies
+		if (timer % 100 == 0) {
+			for (Villager v : villagers) {
+				if (!myConfig.isNaturalSpawnDisabled(v.getBukkitEntity().getWorld().getName()))
+					for (Entity e : v.getBukkitEntity().getNearbyEntities(10, 4, 10)) {
+						if (e instanceof org.bukkit.entity.Villager) {
+							e.getName().equals(v.getName());
+							e.remove();
+						}
+					}
+			}
+		}
 	}
 
 	public static synchronized void load(final Chunk chunk) {

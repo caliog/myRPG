@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.caliog.Villagers.NPC.Trader;
-import org.caliog.Villagers.NPC.Util.VManager;
+import org.caliog.Villagers.Utils.VManager;
 import org.caliog.myRPG.Commands.Utils.Command;
 import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
