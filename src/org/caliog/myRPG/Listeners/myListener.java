@@ -38,6 +38,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.caliog.myRPG.Manager;
 import org.caliog.myRPG.myConfig;
+import org.caliog.myRPG.Entities.ClazzLoader;
 import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.myClass;
@@ -481,7 +482,9 @@ public class myListener implements Listener {
 			group = "";
 		if (level == null)
 			level = "";
-		String format = cf.replace("%CLASS%", clazz).replace("%GROUP%", group).replace("%LEVEL%", level);
+		String chatColor = ClazzLoader.getClassColor(clazz);
+		chatColor = chatColor == null ? "" : chatColor;
+		String format = cf.replace("%CLASS%", chatColor + clazz).replace("%GROUP%", group).replace("%LEVEL%", level);
 		event.setFormat(ChatColor.translateAlternateColorCodes('&', format));
 	}
 

@@ -1,4 +1,5 @@
 Warrior:
+  chat-color: '&7'
   int: 0
   vit: 10
   dex: 0
@@ -8,6 +9,7 @@ Warrior:
     oxx: SwordSpell
     oxo: ArmorSpell
 Archer:
+  chat-color: '&9'
   int: 0
   vit: 10
   dex: 10
@@ -18,6 +20,7 @@ Archer:
     xxo: ArrowHail
     xox: InvisibleSpell
 Mage:
+  chat-color: '&3'
   int: 10
   vit: 10
   dex: 0

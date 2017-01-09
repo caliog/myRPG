@@ -70,4 +70,8 @@ public class ClazzLoader {
 				return k;
 		return null;
 	}
+
+	public static String getClassColor(String name) {
+		return classes.getString(name + ".chat-color");
+	}
 }
