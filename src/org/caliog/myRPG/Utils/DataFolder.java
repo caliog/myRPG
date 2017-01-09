@@ -50,7 +50,7 @@ public class DataFolder {
 		}
 	}
 
-	private static void copyFolder(File src, File dest) throws IOException {
+	public static void copyFolder(File src, File dest) throws IOException {
 		if (src.getName().equals(new File(FilePath.backup).getName()))
 			return;
 		if (src.isDirectory()) {

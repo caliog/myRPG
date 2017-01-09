@@ -115,8 +115,16 @@ public class myPlugin extends JavaPlugin {
 	}
 
 	private void mkdir() {
-		for (Field f : FilePath.class.getFields()) {
-			try {
+		File tmp = new File("plugins/myRPG");
+		File target = new File(FilePath.main);
+		try {
+			if (tmp.exists() && tmp.isDirectory()) {
+				if (!target.exists())
+					target.mkdir();
+				DataFolder.copyFolder(tmp, target);
+			}
+			for (Field f : FilePath.class.getFields()) {
+
 				String value = (String) f.get(this);
 				String[] split = value.split("/");
 				String name = split[split.length - 1];
@@ -134,11 +142,11 @@ public class myPlugin extends JavaPlugin {
 							fc.copyFile(value, name);
 						}
 					}
-			} catch (IllegalArgumentException | IllegalAccessException | IOException e) {
-				e.printStackTrace();
-			}
-		}
 
+			}
+		} catch (IllegalArgumentException | IllegalAccessException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String getVersion() {

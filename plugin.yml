@@ -1,4 +1,4 @@
-name: myRPG
+name: Rolecrafts
 author: caliog
 website: http://www.caliog.org
 main: org.caliog.myRPG.myPlugin
@@ -9,6 +9,7 @@ commands:
     myrpg:
         usage: /myrpg
         description: shows information about the plugin!
+        aliases: [rc, rolecraft, rolecrafts]
     msz:
         usage: /msz create|remove|info <mob> <radius> <amount>
         aliases: mobspawnzone
