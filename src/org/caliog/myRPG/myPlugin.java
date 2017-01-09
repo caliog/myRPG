@@ -119,9 +119,10 @@ public class myPlugin extends JavaPlugin {
 		File target = new File(FilePath.main);
 		try {
 			if (tmp.exists() && tmp.isDirectory()) {
-				if (!target.exists())
+				if (!target.exists()) {
 					target.mkdir();
-				DataFolder.copyFolder(tmp, target);
+					DataFolder.copyFolder(tmp, target);
+				}
 			}
 			for (Field f : FilePath.class.getFields()) {
 
@@ -212,8 +213,8 @@ public class myPlugin extends JavaPlugin {
 				@Override
 				public void onFinish(Updater updater) {
 					if (updater.getResult().equals(Updater.UpdateResult.UPDATE_AVAILABLE))
-						getLogger().info(
-								"There is a new version (" + updater.getLatestName().replace("myRPG", "").trim() + ") of myRPG available!");
+						getLogger().info("There is a new version (" + updater.getLatestName().replace("Rolecrafts", "").trim()
+								+ ") of Rolecrafts available!");
 
 				}
 			});
