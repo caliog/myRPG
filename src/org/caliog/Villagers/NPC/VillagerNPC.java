@@ -64,15 +64,12 @@ public class VillagerNPC extends CPMoveable {
 			profession = Profession.PRIEST;
 			break;
 		case PRIEST:
-			profession = Profession.HUSK;
+			profession = Profession.NITWIT;
 			break;
-		case HUSK:
-			profession = Profession.NORMAL;
-			break;
-		case NORMAL:
+		case NITWIT:
 			profession = Profession.BLACKSMITH;
-			break;
 		default:
+			profession = Profession.BLACKSMITH;
 			break;
 		}
 
