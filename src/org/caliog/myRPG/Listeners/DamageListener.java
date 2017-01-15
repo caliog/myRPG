@@ -112,7 +112,7 @@ public class DamageListener implements Listener {
 
 		onEntityDamageByEntity(event);
 		onMobDamageByPlayer(event);
-		event.setDamage(0.0D);
+		// event.setDamage(0.0D);
 	}
 
 	public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
