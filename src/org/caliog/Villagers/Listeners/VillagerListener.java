@@ -203,7 +203,8 @@ public class VillagerListener implements Listener {
 	public void inventoryClick(final InventoryClickEvent event) {
 		if (event.getView() instanceof QuestInventory) {
 			boolean cancel = ((QuestInventory) event.getView()).inventoryClick(event);
-			event.setCancelled(cancel);
+			if (cancel)
+				event.setCancelled(cancel);
 		}
 	}
 }
