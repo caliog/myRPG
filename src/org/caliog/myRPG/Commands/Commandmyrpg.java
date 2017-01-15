@@ -3,6 +3,7 @@ package org.caliog.myRPG.Commands;
 import java.io.IOException;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.caliog.myRPG.Manager;
@@ -12,6 +13,8 @@ import org.caliog.myRPG.Commands.Utils.CommandExecutable;
 import org.caliog.myRPG.Commands.Utils.CommandField;
 import org.caliog.myRPG.Commands.Utils.CommandField.FieldProperty;
 import org.caliog.myRPG.Commands.Utils.Commands;
+import org.caliog.myRPG.Entities.ClazzLoader;
+import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 
@@ -116,6 +119,33 @@ public class Commandmyrpg extends Commands {
 
 			}
 		}, new CommandField("backup", FieldProperty.IDENTIFIER)));
+
+		/*
+		 * Name: myrpg
+		 * 
+		 * Permission: myrpg.class
+		 * 
+		 * Usage: /myrpg backup
+		 */
+		cmds.add(new Command("myrpg", "myrpg.class", new CommandExecutable() {
+
+			@Override
+			public void execute(String[] args, Player player) {
+				Player p = player;
+				if (args.length >= 3)
+					p = Bukkit.getPlayer(args[2]);
+				if (p == null) {
+					player.sendMessage(ChatColor.RED + "This player is not online!");
+					return;
+				}
+				if (!ClazzLoader.isClass(args[1])) {
+					player.sendMessage(ChatColor.RED + "Could not find this class!");
+					return;
+				}
+				PlayerManager.changeClass(p, args[1]);
+			}
+		}, new CommandField("class", FieldProperty.IDENTIFIER), new CommandField("class-name", FieldProperty.REQUIRED),
+				new CommandField("player", FieldProperty.OPTIONAL)));
 
 		return cmds;
 	}
