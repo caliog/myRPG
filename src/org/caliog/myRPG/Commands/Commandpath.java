@@ -18,11 +18,11 @@ public class Commandpath extends Commands {
 		/*
 		 * Name: path SubName: create
 		 * 
-		 * Permission: myrpg.path.create
+		 * Permission: rc.path.create
 		 * 
 		 * Usage: /path create <name> <initdelay> [CPdelay]
 		 */
-		cmds.add(new Command("path", "myrpg.path.create", new CommandExecutable() {
+		cmds.add(new Command("path", "rc.path.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -39,11 +39,11 @@ public class Commandpath extends Commands {
 		/*
 		 * Name: path SubName: set
 		 * 
-		 * Permission: myrpg.path.set
+		 * Permission: rc.path.set
 		 * 
 		 * Usage: /path set <name> <checkpoint>
 		 */
-		cmds.add(new Command("path", "myrpg.path.set", new CommandExecutable() {
+		cmds.add(new Command("path", "rc.path.set", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -56,11 +56,11 @@ public class Commandpath extends Commands {
 		/*
 		 * Name: path SubName: delete
 		 * 
-		 * Permission: myrpg.path.delete
+		 * Permission: rc.path.delete
 		 * 
 		 * Usage: /path delete <name>
 		 */
-		cmds.add(new Command("path", "myrpg.path.delete", new CommandExecutable() {
+		cmds.add(new Command("path", "rc.path.delete", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

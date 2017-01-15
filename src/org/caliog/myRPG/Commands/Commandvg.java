@@ -24,11 +24,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: create
 		 * 
-		 * Permission: myrpg.villager.create
+		 * Permission: rc.villager.create
 		 * 
 		 * Usage: /vg create <name..>
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.create", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -40,11 +40,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: remove
 		 * 
-		 * Permission: myrpg.villager.remove
+		 * Permission: rc.villager.remove
 		 * 
 		 * Usage: /vg remove
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.remove", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.remove", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -61,11 +61,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: talk
 		 * 
-		 * Permission: myrpg.villager.talk
+		 * Permission: rc.villager.talk
 		 * 
 		 * Usage: /vg talk <id> <message> <type> <target>
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.talk", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -95,11 +95,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: deltalk
 		 * 
-		 * Permission: myrpg.villager.talk
+		 * Permission: rc.villager.talk
 		 * 
 		 * Usage: /vg deltalk [id]
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.talk", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.talk", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -121,11 +121,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: quest
 		 * 
-		 * Permission: myrpg.villager.quest
+		 * Permission: rc.villager.quest
 		 * 
 		 * Usage: /vg quest <name>
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.quest", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -144,11 +144,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: delquest
 		 * 
-		 * Permission: myrpg.villager.quest
+		 * Permission: rc.villager.quest
 		 * 
 		 * Usage: /vg delquest <name>
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.quest", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.quest", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -167,11 +167,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: toggle
 		 * 
-		 * Permission: myrpg.villager.toggle
+		 * Permission: rc.villager.toggle
 		 * 
 		 * Usage: /vg toggle
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.toggle", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.toggle", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -187,11 +187,11 @@ public class Commandvg extends Commands {
 		/*
 		 * Name: vg SubName: path
 		 * 
-		 * Permission: myrpg.villager.path
+		 * Permission: rc.villager.path
 		 * 
 		 * Usage: /vg path <name>
 		 */
-		cmds.add(new Command("vg", "myrpg.villager.path", new CommandExecutable() {
+		cmds.add(new Command("vg", "rc.villager.path", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

@@ -20,11 +20,11 @@ public class Commandpriest extends Commands {
 		/*
 		 * Name: priest SubName: create
 		 * 
-		 * Permission: myrpg.priest.create
+		 * Permission: rc.priest.create
 		 * 
 		 * Usage: /priest create <name>
 		 */
-		cmds.add(new Command("priest", "myrpg.priest.create", new CommandExecutable() {
+		cmds.add(new Command("priest", "rc.priest.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

@@ -21,11 +21,11 @@ public class Commandtrader extends Commands {
 		/*
 		 * Name: trader SubName: create
 		 * 
-		 * Permission: myrpg.trader.create
+		 * Permission: rc.trader.create
 		 * 
 		 * Usage: /trader create <name..>
 		 */
-		cmds.add(new Command("trader", "myrpg.trader.create", new CommandExecutable() {
+		cmds.add(new Command("trader", "rc.trader.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -37,11 +37,11 @@ public class Commandtrader extends Commands {
 		/*
 		 * Name: trader SubName: add
 		 * 
-		 * Permission: myrpg.trader.recipe
+		 * Permission: rc.trader.recipe
 		 * 
 		 * Usage: /trader add [price]
 		 */
-		cmds.add(new Command("trader", "myrpg.trader.recipe", new CommandExecutable() {
+		cmds.add(new Command("trader", "rc.trader.recipe", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -81,11 +81,11 @@ public class Commandtrader extends Commands {
 		/*
 		 * Name: trader SubName: del
 		 * 
-		 * Permission: myrpg.trader.recipe
+		 * Permission: rc.trader.recipe
 		 * 
 		 * Usage: /trader del
 		 */
-		cmds.add(new Command("trader", "myrpg.trader.recipe", new CommandExecutable() {
+		cmds.add(new Command("trader", "rc.trader.recipe", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

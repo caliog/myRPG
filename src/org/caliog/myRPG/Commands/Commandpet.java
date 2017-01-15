@@ -22,11 +22,11 @@ public class Commandpet extends Commands {
 		 * 
 		 * SubName: create
 		 * 
-		 * Permission: myrpg.pet.create
+		 * Permission: rc.pet.create
 		 * 
 		 * Usage: /pet create <mob> <name>
 		 */
-		cmds.add(new Command("pet", "myrpg.pet.create", new CommandExecutable() {
+		cmds.add(new Command("pet", "rc.pet.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

@@ -18,34 +18,34 @@ import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Utils.DataFolder;
 import org.caliog.myRPG.Utils.FilePath;
 
-public class Commandmyrpg extends Commands {
+public class Commandrc extends Commands {
 
 	@Override
 	public List<Command> getCommands() {
 		/*
-		 * Name: myrpg
+		 * Name: rc
 		 * 
 		 * Permission: null
 		 * 
-		 * Usage: /myrpg
+		 * Usage: /rc
 		 */
-		cmds.add(new Command("myrpg", null, new CommandExecutable() {
+		cmds.add(new Command("rc", null, new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
 				player.sendMessage(Manager.plugin.getDescription().getFullName());
-				player.sendMessage("Type /myrpg help [page] for commands!");
+				player.sendMessage("Type /rc help [page] for commands!");
 			}
 		}));
 
 		/*
-		 * Name: myrpg SubName: reload
+		 * Name: rc SubName: reload
 		 * 
-		 * Permission: myrpg.reload
+		 * Permission: rc.reload
 		 * 
-		 * Usage: /myrpg reload
+		 * Usage: /rc reload
 		 */
-		cmds.add(new Command("myrpg", "myrpg.reload", new CommandExecutable() {
+		cmds.add(new Command("rc", "rc.reload", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -55,13 +55,13 @@ public class Commandmyrpg extends Commands {
 		}, new CommandField("reload", FieldProperty.IDENTIFIER)));
 
 		/*
-		 * Name: myrpg SubName: help
+		 * Name: rc SubName: help
 		 * 
-		 * Permission: myrpg.help
+		 * Permission: rc.help
 		 * 
-		 * Usage: /myrpg help [page]
+		 * Usage: /rc help [page]
 		 */
-		cmds.add(new Command("myrpg", null, new CommandExecutable() {
+		cmds.add(new Command("rc", "rc.help", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -80,13 +80,13 @@ public class Commandmyrpg extends Commands {
 			}
 		}, new CommandField("help", FieldProperty.IDENTIFIER), new CommandField("page", "positve integer", FieldProperty.OPTIONAL)));
 		/*
-		 * Name: myrpg
+		 * Name: rc
 		 * 
-		 * Permission: myrpg.mic
+		 * Permission: rc.mic
 		 * 
-		 * Usage: /myrpg mic
+		 * Usage: /rc mic
 		 */
-		cmds.add(new Command("myrpg", "myrpg.mic", new CommandExecutable() {
+		cmds.add(new Command("rc", "rc.mic", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -100,13 +100,13 @@ public class Commandmyrpg extends Commands {
 		}, new CommandField("mic", FieldProperty.IDENTIFIER)));
 
 		/*
-		 * Name: myrpg
+		 * Name: rc
 		 * 
-		 * Permission: myrpg.backup
+		 * Permission: rc.backup
 		 * 
-		 * Usage: /myrpg backup
+		 * Usage: /rc backup
 		 */
-		cmds.add(new Command("myrpg", "myrpg.backup", new CommandExecutable() {
+		cmds.add(new Command("rc", "rc.backup", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -121,13 +121,13 @@ public class Commandmyrpg extends Commands {
 		}, new CommandField("backup", FieldProperty.IDENTIFIER)));
 
 		/*
-		 * Name: myrpg
+		 * Name: rc
 		 * 
-		 * Permission: myrpg.class
+		 * Permission: rc.class
 		 * 
-		 * Usage: /myrpg backup
+		 * Usage: /rc backup
 		 */
-		cmds.add(new Command("myrpg", "myrpg.class", new CommandExecutable() {
+		cmds.add(new Command("rc", "rc.class", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -143,6 +143,8 @@ public class Commandmyrpg extends Commands {
 					return;
 				}
 				PlayerManager.changeClass(p, args[1]);
+				player.sendMessage(ChatColor.GOLD + "Changed the class of " + p.getName() + " to " + args[1]);
+
 			}
 		}, new CommandField("class", FieldProperty.IDENTIFIER), new CommandField("class-name", FieldProperty.REQUIRED),
 				new CommandField("player", FieldProperty.OPTIONAL)));

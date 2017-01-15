@@ -17,11 +17,11 @@ public class Commandquest extends Commands {
 		/*
 		 * Name: quest SubName: create
 		 * 
-		 * Permission: myrpg.quest.create
+		 * Permission: rc.quest.create
 		 * 
 		 * Usage: /quest create
 		 */
-		cmds.add(new Command("quest", "myrpg.quest.create", new CommandExecutable() {
+		cmds.add(new Command("quest", "rc.quest.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

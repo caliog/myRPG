@@ -19,11 +19,11 @@ public class Commandlevel extends Commands {
 		/*
 		 * Name: level SubName: set
 		 * 
-		 * Permission: myrpg.level
+		 * Permission: rc.level
 		 * 
 		 * Usage: /level set <player> <level>
 		 */
-		cmds.add(new Command("level", "myrpg.level", new CommandExecutable() {
+		cmds.add(new Command("level", "rc.level", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -41,11 +41,11 @@ public class Commandlevel extends Commands {
 		/*
 		 * Name: level SubName: reset
 		 * 
-		 * Permission: myrpg.level
+		 * Permission: rc.level
 		 * 
 		 * Usage: /level reset <player>
 		 */
-		cmds.add(new Command("level", "myrpg.level", new CommandExecutable() {
+		cmds.add(new Command("level", "rc.level", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

@@ -23,11 +23,11 @@ public class Commandgroup extends Commands {
 		/*
 		 * Name: group SubName: create
 		 * 
-		 * Permission: myrpg.group.create
+		 * Permission: rc.group.create
 		 * 
 		 * Usage: /group create
 		 */
-		cmds.add(new Command("group", "myrpg.group.create", new CommandExecutable() {
+		cmds.add(new Command("group", "rc.group.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -44,11 +44,11 @@ public class Commandgroup extends Commands {
 		/*
 		 * Name: group SubName: invite
 		 * 
-		 * Permission: myrpg.group.invite
+		 * Permission: rc.group.invite
 		 * 
 		 * Usage: /group invite <player>
 		 */
-		cmds.add(new Command("group", "myrpg.group.invite", new CommandExecutable() {
+		cmds.add(new Command("group", "rc.group.invite", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -72,11 +72,11 @@ public class Commandgroup extends Commands {
 		/*
 		 * Name: group SubName: join
 		 * 
-		 * Permission: myrpg.group.join
+		 * Permission: rc.group.join
 		 * 
 		 * Usage: /group join
 		 */
-		cmds.add(new Command("group", "myrpg.group.join", new CommandExecutable() {
+		cmds.add(new Command("group", "rc.group.join", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

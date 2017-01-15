@@ -24,11 +24,11 @@ public class Commandmsz extends Commands {
 		/*
 		 * Name: msz SubName: create
 		 * 
-		 * Permission: myrpg.msz.create
+		 * Permission: rc.msz.create
 		 * 
 		 * Usage: /msz create <mob> <radius> <amount>
 		 */
-		cmds.add(new Command("msz", "myrpg.msz.create", new CommandExecutable() {
+		cmds.add(new Command("msz", "rc.msz.create", new CommandExecutable() {
 
 			@Override
 			public void execute(final String[] args, final Player player) {
@@ -52,11 +52,11 @@ public class Commandmsz extends Commands {
 		/*
 		 * Name: msz SubName: remove
 		 * 
-		 * Permission: myrpg.msz.remove
+		 * Permission: rc.msz.remove
 		 * 
 		 * Usage: /msz remove
 		 */
-		cmds.add(new Command("msz", "myrpg.msz.remove", new CommandExecutable() {
+		cmds.add(new Command("msz", "rc.msz.remove", new CommandExecutable() {
 
 			@Override
 			public void execute(final String[] args, final Player player) {
@@ -79,11 +79,11 @@ public class Commandmsz extends Commands {
 		/*
 		 * Name: msz SubName: reset
 		 * 
-		 * Permission: myrpg.msz.reset
+		 * Permission: rc.msz.reset
 		 * 
 		 * Usage: /msz reset
 		 */
-		cmds.add(new Command("msz", "myrpg.msz.reset", new CommandExecutable() {
+		cmds.add(new Command("msz", "rc.msz.reset", new CommandExecutable() {
 
 			@Override
 			public void execute(final String[] args, final Player player) {
@@ -95,11 +95,11 @@ public class Commandmsz extends Commands {
 		/*
 		 * Name: msz SubName: info
 		 * 
-		 * Permission: myrpg.msz.info
+		 * Permission: rc.msz.info
 		 * 
 		 * Usage: /msz info
 		 */
-		cmds.add(new Command("msz", "myrpg.msz.info", new CommandExecutable() {
+		cmds.add(new Command("msz", "rc.msz.info", new CommandExecutable() {
 
 			@Override
 			public void execute(final String[] args, final Player player) {
@@ -118,11 +118,11 @@ public class Commandmsz extends Commands {
 		/*
 		 * Name: msz SubName: next
 		 * 
-		 * Permission: myrpg.msz.next
+		 * Permission: rc.msz.next
 		 * 
 		 * Usage: /msz next
 		 */
-		cmds.add(new Command("msz", "myrpg.msz.next", new CommandExecutable() {
+		cmds.add(new Command("msz", "rc.msz.next", new CommandExecutable() {
 
 			@Override
 			public void execute(final String[] args, final Player player) {

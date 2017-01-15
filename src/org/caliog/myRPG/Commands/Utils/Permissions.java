@@ -11,7 +11,7 @@ public class Permissions {
 	public static Set<String> getPermissions(Player player) {
 		Set<String> list = new HashSet<String>();
 
-		if (player.isOp() || player.hasPermission("myrpg.admin") || player.hasPermission("myrpg.*") || player.hasPermission("*")
+		if (player.isOp() || player.hasPermission("rc.admin") || player.hasPermission("rc.*") || player.hasPermission("*")
 				|| player.hasPermission("'*'")) {
 			return permissions;
 		} else {

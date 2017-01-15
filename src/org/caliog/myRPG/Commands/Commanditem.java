@@ -19,11 +19,11 @@ public class Commanditem extends Commands {
 		/*
 		 * Name: item
 		 * 
-		 * Permission: myrpg.item
+		 * Permission: rc.item
 		 * 
 		 * Usage: /item <name> [level|amount] [tradeable]
 		 */
-		cmds.add(new Command("item", "myrpg.item", new CommandExecutable() {
+		cmds.add(new Command("item", "rc.item", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {

@@ -23,11 +23,11 @@ public class Commandguard extends Commands {
 		/*
 		 * Name: guard SubName: create
 		 * 
-		 * Permission: myrpg.guard.create
+		 * Permission: rc.guard.create
 		 * 
 		 * Usage: /guard create <name>
 		 */
-		cmds.add(new Command("guard", "myrpg.guard.create", new CommandExecutable() {
+		cmds.add(new Command("guard", "rc.guard.create", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -40,11 +40,11 @@ public class Commandguard extends Commands {
 		/*
 		 * Name: guard SubName: path
 		 * 
-		 * Permission: myrpg.guard.path
+		 * Permission: rc.guard.path
 		 * 
 		 * Usage: /guard path <path>
 		 */
-		cmds.add(new Command("guard", "myrpg.guard.path", new CommandExecutable() {
+		cmds.add(new Command("guard", "rc.guard.path", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -69,11 +69,11 @@ public class Commandguard extends Commands {
 		/*
 		 * Name: guard SubName: attack
 		 * 
-		 * Permission: myrpg.guard.attack
+		 * Permission: rc.guard.attack
 		 * 
 		 * Usage: /guard attack <attackOptions>
 		 */
-		cmds.add(new Command("guard", "myrpg.guard.attack", new CommandExecutable() {
+		cmds.add(new Command("guard", "rc.guard.attack", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -95,11 +95,11 @@ public class Commandguard extends Commands {
 		/*
 		 * Name: guard SubName: equip
 		 * 
-		 * Permission: myrpg.guard.equip
+		 * Permission: rc.guard.equip
 		 * 
 		 * Usage: /guard equip
 		 */
-		cmds.add(new Command("guard", "myrpg.guard.equip", new CommandExecutable() {
+		cmds.add(new Command("guard", "rc.guard.equip", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
@@ -120,11 +120,11 @@ public class Commandguard extends Commands {
 		/*
 		 * Name: guard SubName: remove
 		 * 
-		 * Permission: myrpg.guard.remove
+		 * Permission: rc.guard.remove
 		 * 
 		 * Usage: /guard remove
 		 */
-		cmds.add(new Command("guard", "myrpg.guard.remove", new CommandExecutable() {
+		cmds.add(new Command("guard", "rc.guard.remove", new CommandExecutable() {
 
 			@Override
 			public void execute(String[] args, Player player) {
