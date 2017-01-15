@@ -40,6 +40,7 @@ import org.caliog.myRPG.Entities.PlayerManager;
 import org.caliog.myRPG.Entities.Playerface;
 import org.caliog.myRPG.Entities.VolatileEntities;
 import org.caliog.myRPG.Entities.myClass;
+import org.caliog.myRPG.Items.CustomItem;
 import org.caliog.myRPG.Items.ItemUtils;
 import org.caliog.myRPG.Items.Weapon;
 import org.caliog.myRPG.Messages.Msg;
@@ -100,16 +101,16 @@ public class DamageListener implements Listener {
 			} else {
 				final Player p = (Player) event.getDamager();
 				final short d = p.getInventory().getItemInMainHand().getDurability();
+				if (CustomItem.isCustomItem(p.getInventory().getItemInMainHand())) {
 
-				Manager.scheduleTask(new Runnable() {
-					public void run() {
-						p.getInventory().getItemInMainHand().setDurability(d);
-					}
-				});
-
+					Manager.scheduleTask(new Runnable() {
+						public void run() {
+							p.getInventory().getItemInMainHand().setDurability(d);
+						}
+					});
+				}
 			}
 		}
-
 		onEntityDamageByEntity(event);
 		onMobDamageByPlayer(event);
 		// event.setDamage(0.0D);
@@ -161,14 +162,13 @@ public class DamageListener implements Listener {
 				}
 			}, 2L);
 			damager.fight();
-			boolean b = event.getCause().equals(EntityDamageEvent.DamageCause.CUSTOM);
-			if (b)
-				damage = event.getDamage();
-			else
+			// b = true, if player bears usual minecraft weapon
+			boolean b = (event.getDamager() instanceof Player)
+					&& !CustomItem.isCustomItem(((Player) event.getDamager()).getInventory().getItemInMainHand());
+			if (!b)
 				damage = damager.getDamage();
 
 		}
-
 		Mob mob;
 		if ((mob = VolatileEntities.getMob(event.getEntity().getUniqueId())) != null) {
 			// mob damaged by entity
