@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.caliog.Villagers.Listeners.VillagerListener;
 import org.caliog.myRPG.Commands.Utils.CommandRegister;
@@ -66,7 +67,7 @@ public class myPlugin extends JavaPlugin {
 		Manager.save();
 
 		Manager.cancelAllTasks();
-
+		HandlerList.unregisterAll(this);
 		getLogger().info(getDescription().getFullName() + " disabled!");
 	}
 
